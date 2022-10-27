@@ -8,7 +8,11 @@ function Header() {
           <div className="col-12">
             <nav className="main-nav">
               <Link className="logo" to={{ pathname: "/" }}>
-                blackadam
+                <img
+                  src="assets/images/logo-no-background.png"
+                  style={{ width: 250, height: 69 }}
+                  alt=""
+                />
               </Link>
 
               <ul className="nav">
@@ -27,7 +31,7 @@ function Header() {
                   <a href="#kids">Kid's</a>
                 </li>
                 <li className="submenu">
-                  <a href="javascript:;">Pages</a>
+                  <a href="">Pages</a>
                   <ul>
                     <li>
                       <Link to={{ pathname: "/about" }}>About Us</Link>
@@ -60,7 +64,7 @@ function Header() {
                     <li>
                       <a
                         rel="nofollow"
-                        href="https://therichpost.com/page/4"
+                        href="https://black-adam.com/page/4"
                         target="_blank"
                       >
                         Template Page 4

@@ -1,11 +1,13 @@
+import ENVS from "common/ENVS";
+
 function Contact() {
   return (
     <div className="contact-main">
-      <div class="page-heading about-page-heading" id="top">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="inner-content">
+      <div className="page-heading about-page-heading" id="top">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="inner-content">
                 <h2>Contact Us</h2>
                 <span>Awesome, clean &amp; creative HTML5 Template</span>
               </div>
@@ -14,10 +16,10 @@ function Contact() {
         </div>
       </div>
 
-      <div class="contact-us">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-6">
+      <div className="contact-us">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-6">
               <div id="map">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90186.37207676383!2d-80.13495239500924!3d25.9317678710111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9ad1877e4a82d%3A0xa891714787d1fb5e!2sPier%20Park!5e1!3m2!1sen!2sth!4v1637512439384!5m2!1sen!2sth"
@@ -29,17 +31,17 @@ function Contact() {
                 ></iframe>
               </div>
             </div>
-            <div class="col-lg-6">
-              <div class="section-heading">
+            <div className="col-lg-6">
+              <div className="section-heading">
                 <h2>Say Hello. Don't Be Shy!</h2>
                 <span>
-                  Details to details is what makes Therichpost different from
-                  the other themes.
+                  Details to details is what makes {ENVS.COMPANY_NAME} different
+                  from the other themes.
                 </span>
               </div>
               <form id="contact" action="" method="post">
-                <div class="row">
-                  <div class="col-lg-6">
+                <div className="row">
+                  <div className="col-lg-6">
                     <fieldset>
                       <input
                         name="name"
@@ -50,7 +52,7 @@ function Contact() {
                       />
                     </fieldset>
                   </div>
-                  <div class="col-lg-6">
+                  <div className="col-lg-6">
                     <fieldset>
                       <input
                         name="email"
@@ -61,7 +63,7 @@ function Contact() {
                       />
                     </fieldset>
                   </div>
-                  <div class="col-lg-12">
+                  <div className="col-lg-12">
                     <fieldset>
                       <textarea
                         name="message"
@@ -72,14 +74,14 @@ function Contact() {
                       ></textarea>
                     </fieldset>
                   </div>
-                  <div class="col-lg-12">
+                  <div className="col-lg-12">
                     <fieldset>
                       <button
                         type="submit"
                         id="form-submit"
-                        class="main-dark-button"
+                        className="main-dark-button"
                       >
-                        <i class="fa fa-paper-plane"></i>
+                        <i className="fa fa-paper-plane"></i>
                       </button>
                     </fieldset>
                   </div>
@@ -90,20 +92,20 @@ function Contact() {
         </div>
       </div>
 
-      <div class="subscribe">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-8">
-              <div class="section-heading">
+      <div className="subscribe">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-8">
+              <div className="section-heading">
                 <h2>By Subscribing To Our Newsletter You Can Get 30% Off</h2>
                 <span>
-                  Details to details is what makes Therichpost different from
-                  the other themes.
+                  Details to details is what makes {ENVS.COMPANY_NAME} different
+                  from the other themes.
                 </span>
               </div>
               <form id="subscribe" action="" method="get">
-                <div class="row">
-                  <div class="col-lg-5">
+                <div className="row">
+                  <div className="col-lg-5">
                     <fieldset>
                       <input
                         name="name"
@@ -114,7 +116,7 @@ function Contact() {
                       />
                     </fieldset>
                   </div>
-                  <div class="col-lg-5">
+                  <div className="col-lg-5">
                     <fieldset>
                       <input
                         name="email"
@@ -126,59 +128,59 @@ function Contact() {
                       />
                     </fieldset>
                   </div>
-                  <div class="col-lg-2">
+                  <div className="col-lg-2">
                     <fieldset>
                       <button
                         type="submit"
                         id="form-submit"
-                        class="main-dark-button"
+                        className="main-dark-button"
                       >
-                        <i class="fa fa-paper-plane"></i>
+                        <i className="fa fa-paper-plane"></i>
                       </button>
                     </fieldset>
                   </div>
                 </div>
               </form>
             </div>
-            <div class="col-lg-4">
-              <div class="row">
-                <div class="col-6">
+            <div className="col-lg-4">
+              <div className="row">
+                <div className="col-6">
                   <ul>
                     <li>
                       Store Location:
                       <br />
-                      <span>Ludhiana Punjab</span>
+                      <span>{ENVS.STORE_LOCATION}</span>
                     </li>
                     <li>
                       Phone:
                       <br />
-                      <span>12345678910</span>
+                      <span>{ENVS.COMPANY_PHONE}</span>
                     </li>
                     <li>
                       Office Location:
                       <br />
-                      <span>North Ludhiana</span>
+                      <span>{ENVS.OFFICE_LOCATION}</span>
                     </li>
                   </ul>
                 </div>
-                <div class="col-6">
+                <div className="col-6">
                   <ul>
                     <li>
                       Work Hours:
                       <br />
-                      <span>07:30 AM - 9:30 PM Daily</span>
+                      <span>{ENVS.WORK_HOURS}</span>
                     </li>
                     <li>
                       Email:
                       <br />
-                      <span>info@company.com</span>
+                      <span>{ENVS.COMPANY_EMAIL}</span>
                     </li>
                     <li>
                       Social Media:
                       <br />
                       <span>
-                        <a href="#">Facebook</a>, <a href="#">Instagram</a>,{" "}
-                        <a href="#">Behance</a>, <a href="#">Linkedin</a>
+                        <a href={ENVS.FACEBOOK_URL}>Facebook</a>,{" "}
+                        <a href={ENVS.INSTAGRAM_URL}>Instagram</a>
                       </span>
                     </li>
                   </ul>

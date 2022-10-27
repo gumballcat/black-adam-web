@@ -1,3 +1,5 @@
+import ENVS from "common/ENVS";
+
 function Footer() {
   return (
     <footer>
@@ -5,16 +7,22 @@ function Footer() {
         <div class="row">
           <div class="col-lg-3">
             <div class="first-item">
-              <div class="logo">therichpost</div>
+              <div class="logo">
+                <img
+                  src="assets/images/logo-no-background.png"
+                  style={{ width: 150, height: 41 }}
+                  alt=""
+                />
+              </div>
               <ul>
                 <li>
-                  <a href="#">Ludhiana Punjab India</a>
+                  <a href="#">{ENVS.OFFICE_LOCATION}</a>
                 </li>
                 <li>
-                  <a href="#">Therichpost@company.com</a>
+                  <a href="#">{ENVS.COMPANY_EMAIL}</a>
                 </li>
                 <li>
-                  <a href="#">12345678910</a>
+                  <a href="#">{ENVS.COMPANY_PHONE_NUMBER}</a>
                 </li>
               </ul>
             </div>
@@ -70,7 +78,8 @@ function Footer() {
           <div class="col-lg-12">
             <div class="under-footer">
               <p>
-                Copyright © 2022 Therichpost Co., Ltd. All Rights Reserved.
+                Copyright © 2022 {ENVS.COMPANY_NAME} Co., Ltd. All Rights
+                Reserved.
                 <br />
                 Design:{" "}
                 <a
@@ -83,23 +92,13 @@ function Footer() {
               </p>
               <ul>
                 <li>
-                  <a href="#">
+                  <a href={ENVS.FACEBOOK_URL}>
                     <i class="fa fa-facebook"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="#">
-                    <i class="fa fa-twitter"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-linkedin"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-behance"></i>
+                  <a href={ENVS.INSTAGRAM_URL}>
+                    <i class="fa fa-instagram"></i>
                   </a>
                 </li>
               </ul>

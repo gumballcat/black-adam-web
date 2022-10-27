@@ -1,3 +1,5 @@
+import ENVS from "common/ENVS";
+
 function About() {
   return (
     <div className="about-main">
@@ -77,8 +79,8 @@ function About() {
               <div class="section-heading">
                 <h2>Our Amazing Team</h2>
                 <span>
-                  Details to details is what makes Therichpost different from
-                  the other themes.
+                  Details to details is what makes {ENVS.COMPANY_NAME} different
+                  from the other themes.
                 </span>
               </div>
             </div>
@@ -114,7 +116,7 @@ function About() {
                   <img src="assets/images/team-member-01.jpg" />
                 </div>
                 <div class="down-content">
-                  <h4>Ragnar Lodbrok</h4>
+                  <h4>John Doe</h4>
                   <span>Product Caretaker</span>
                 </div>
               </div>
@@ -151,7 +153,7 @@ function About() {
                   <img src="assets/images/team-member-02.jpg" />
                 </div>
                 <div class="down-content">
-                  <h4>Ragnar Lodbrok</h4>
+                  <h4>John Doe</h4>
                   <span>Product Caretaker</span>
                 </div>
               </div>
@@ -188,7 +190,7 @@ function About() {
                   <img src="assets/images/team-member-03.jpg" />
                 </div>
                 <div class="down-content">
-                  <h4>Ragnar Lodbrok</h4>
+                  <h4>John Doe</h4>
                   <span>Product Caretaker</span>
                 </div>
               </div>
@@ -204,8 +206,8 @@ function About() {
               <div class="section-heading">
                 <h2>Our Services</h2>
                 <span>
-                  Details to details is what makes Therichpost different from
-                  the other themes.
+                  Details to details is what makes {ENVS.COMPANY_NAME} different
+                  from the other themes.
                 </span>
               </div>
             </div>
@@ -253,8 +255,8 @@ function About() {
               <div class="section-heading">
                 <h2>By Subscribing To Our Newsletter You Can Get 30% Off</h2>
                 <span>
-                  Details to details is what makes Therichpost different from
-                  the other themes.
+                  Details to details is what makes {ENVS.COMPANY_NAME} different
+                  from the other themes.
                 </span>
               </div>
               <form id="subscribe" action="" method="get">
@@ -303,7 +305,7 @@ function About() {
                     <li>
                       Store Location:
                       <br />
-                      <span>Sunny Isles Beach, FL 33160, United States</span>
+                      <span>HCMC Vietnam</span>
                     </li>
                     <li>
                       Phone:
@@ -313,7 +315,7 @@ function About() {
                     <li>
                       Office Location:
                       <br />
-                      <span>North Miami Beach</span>
+                      <span>HCMC Vietnam</span>
                     </li>
                   </ul>
                 </div>
@@ -327,14 +329,14 @@ function About() {
                     <li>
                       Email:
                       <br />
-                      <span>info@company.com</span>
+                      <span>{ENVS.COMPANY_EMAIL}</span>
                     </li>
                     <li>
                       Social Media:
                       <br />
                       <span>
                         <a href="#">Facebook</a>, <a href="#">Instagram</a>,{" "}
-                        <a href="#">Behance</a>, <a href="#">Linkedin</a>
+                        <a href="#">Twitter</a>, <a href="#">Linkedin</a>
                       </span>
                     </li>
                   </ul>

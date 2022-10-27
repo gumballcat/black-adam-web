@@ -1,3 +1,5 @@
+import ENVS from "common/ENVS";
+
 function Home() {
   return (
     <div className="home-main">
@@ -8,7 +10,7 @@ function Home() {
               <div class="left-content">
                 <div class="thumb">
                   <div class="inner-content">
-                    <h4>We Are Therichpost</h4>
+                    <h4>We Are {ENVS.COMPANY_NAME}</h4>
                     <span>Awesome, clean &amp; creative HTML5 Template</span>
                     <div class="main-border-button">
                       <a href="#">Purchase Now!</a>
@@ -127,8 +129,8 @@ function Home() {
               <div class="section-heading">
                 <h2>Men's Latest</h2>
                 <span>
-                  Details to details is what makes Therichpost different from
-                  the other themes.
+                  Details to details is what makes {ENVS.COMPANY_NAME} different
+                  from the other themes.
                 </span>
               </div>
             </div>
@@ -333,8 +335,8 @@ function Home() {
               <div class="section-heading">
                 <h2>Women's Latest</h2>
                 <span>
-                  Details to details is what makes Therichpost different from
-                  the other themes.
+                  Details to details is what makes {ENVS.COMPANY_NAME} different
+                  from the other themes.
                 </span>
               </div>
             </div>
@@ -539,8 +541,8 @@ function Home() {
               <div class="section-heading">
                 <h2>Kid's Latest</h2>
                 <span>
-                  Details to details is what makes Therichpost different from
-                  the other themes.
+                  Details to details is what makes {ENVS.COMPANY_NAME} different
+                  from the other themes.
                 </span>
               </div>
             </div>
@@ -744,11 +746,6 @@ function Home() {
             <div class="col-lg-6">
               <div class="left-content">
                 <h2>Explore Our Products</h2>
-                <span>
-                  You are allowed to use this Therichpost HTML CSS template. You
-                  can feel free to modify or edit this layout. You can convert
-                  this template as any kind of ecommerce CMS theme as you wish.
-                </span>
                 <div class="quote">
                   <i class="fa fa-quote-left"></i>
                   <p>
@@ -756,24 +753,6 @@ function Home() {
                     on any other website.
                   </p>
                 </div>
-                <p>
-                  There are 5 pages included in this Therichpost Template and we
-                  are providing it to you for absolutely free of charge at our
-                  therichpost website. There are web development costs for us.
-                </p>
-                <p>
-                  If this template is beneficial for your website or business,
-                  please kindly{" "}
-                  <a
-                    rel="nofollow"
-                    href="https://paypal.me/therichpost"
-                    target="_blank"
-                  >
-                    support us
-                  </a>{" "}
-                  a little via PayPal. Please also tell your friends about our
-                  great website. Thank you.
-                </p>
                 <div class="main-border-button">
                   <a href="products.html">Discover More</a>
                 </div>
@@ -818,8 +797,8 @@ function Home() {
               <div class="section-heading">
                 <h2>Social Media</h2>
                 <span>
-                  Details to details is what makes Therichpost different from
-                  the other themes.
+                  Details to details is what makes {ENVS.COMPANY_NAME} different
+                  from the other themes.
                 </span>
               </div>
             </div>
@@ -904,8 +883,8 @@ function Home() {
               <div class="section-heading">
                 <h2>By Subscribing To Our Newsletter You Can Get 30% Off</h2>
                 <span>
-                  Details to details is what makes Therichpost different from
-                  the other themes.
+                  Details to details is what makes {ENVS.COMPANY_NAME} different
+                  from the other themes.
                 </span>
               </div>
               <form id="subscribe" action="" method="get">
@@ -954,17 +933,17 @@ function Home() {
                     <li>
                       Store Location:
                       <br />
-                      <span>Ludhiana Punjab</span>
+                      <span>{ENVS.STORE_LOCATION}</span>
                     </li>
                     <li>
                       Phone:
                       <br />
-                      <span>12345678910</span>
+                      <span>{ENVS.COMPANY_PHONE_NUMBER}</span>
                     </li>
                     <li>
                       Office Location:
                       <br />
-                      <span>North Miami Beach</span>
+                      <span>{ENVS.OFFICE_LOCATION}</span>
                     </li>
                   </ul>
                 </div>
@@ -973,19 +952,19 @@ function Home() {
                     <li>
                       Work Hours:
                       <br />
-                      <span>07:30 AM - 9:30 PM Daily</span>
+                      <span>{ENVS.WORK_HOURS}</span>
                     </li>
                     <li>
                       Email:
                       <br />
-                      <span>info@company.com</span>
+                      <span>{ENVS.COMPANY_EMAIL}</span>
                     </li>
                     <li>
                       Social Media:
                       <br />
                       <span>
-                        <a href="#">Facebook</a>, <a href="#">Instagram</a>,{" "}
-                        <a href="#">Behance</a>, <a href="#">Linkedin</a>
+                        <a href={ENVS.FACEBOOK_URL}>Facebook</a>,{" "}
+                        <a href={ENVS.INSTAGRAM_URL}>Instagram</a>
                       </span>
                     </li>
                   </ul>
