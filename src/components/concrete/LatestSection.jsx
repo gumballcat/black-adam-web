@@ -25,6 +25,7 @@ const LatestSection = ({ id, data = {} }) => {
           <div className="col-lg-12">
             <Glider
               draggable={true}
+              dragVelocity={0.75}
               hasArrows={true}
               slidesToShow={3}
               slidesToScroll={1}

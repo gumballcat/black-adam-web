@@ -1,0 +1,16 @@
+{
+  "code": 200,
+  "timestamp": 1667031377000,
+  "items": [
+    {
+      "meta": {
+        "id": 15783,
+        "type": 1
+      },
+      "main": {
+        "name": "Richard",
+        "age": 12
+      }
+    }
+  ]
+}
