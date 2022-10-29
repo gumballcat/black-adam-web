@@ -1,0 +1,201 @@
+{
+  "timestamp": 1667031377000,
+  "items": [
+    {
+      "meta": {
+        "id": "banner",
+        "sectionType": 1
+      },
+      "main": {
+        "primaryBanner": {
+          "imageURL": "assets/images/left-banner-image.jpg",
+          "text": "We Are the Black Adams",
+          "subtitle": "A Better Life Starts Here",
+          "ctaText": "Shop Now",
+          "ctaURL": "#"
+        },
+        "categoryBanners": [
+          {
+            "imageURL": "assets/images/baner-right-image-01.jpg",
+            "text": "Women",
+            "subtitle": "When appearance matters just as much as personality",
+            "description": "Every size is accounted for",
+            "ctaText": "Discover More",
+            "ctaURL": "#"
+          },
+          {
+            "imageURL": "assets/images/baner-right-image-02.jpg",
+            "text": "Men",
+            "subtitle": "No point in looking ripped when you dress like a hobo",
+            "description": "From Kangol hats to Cambodian flip-flops",
+            "ctaText": "Discover More",
+            "ctaURL": "#"
+          },
+          {
+            "imageURL": "assets/images/baner-right-image-03.jpg",
+            "text": "Men",
+            "subtitle": "The little rascals deserve to look cool too",
+            "description": "Kid's clothes aren't necessarily cheaper so think twice before blowing that load inside",
+            "ctaText": "Discover More",
+            "ctaURL": "#"
+          },
+          {
+            "imageURL": "assets/images/baner-right-image-04.jpg",
+            "text": "Accessories",
+            "subtitle": "When a $4000 suit just doesn't cut it",
+            "description": "Diamonds, rubies, sapphires and everything a magpie could ever dream of",
+            "ctaText": "Discover More",
+            "ctaURL": "#"
+          }
+        ]
+      }
+    },
+    {
+      "meta": {
+        "id": "men",
+        "sectionType": 2
+      },
+      "main": {
+        "heading": "Men's Latest",
+        "subheading": "Men's latest latest",
+        "description": "",
+        "items": [
+          {
+            "name": "Men 1",
+            "imageURL": "assets/images/men-01.jpg",
+            "price": {
+              "quantity": "190",
+              "unit": "$"
+            },
+            "rating": "5"
+          },
+          {
+            "name": "Men 2",
+            "imageURL": "assets/images/men-02.jpg",
+            "price": {
+              "quantity": "210",
+              "unit": "$"
+            },
+            "rating": "4"
+          },
+          {
+            "name": "Men 3",
+            "imageURL": "assets/images/men-03.jpg",
+            "price": {
+              "quantity": "150",
+              "unit": "$"
+            },
+            "rating": "4"
+          },
+          {
+            "name": "Men 4",
+            "imageURL": "assets/images/men-01.jpg",
+            "price": {
+              "quantity": "230",
+              "unit": "$"
+            },
+            "rating": "5"
+          }
+        ]
+      }
+    },
+    {
+      "meta": {
+        "id": "women",
+        "sectionType": 2
+      },
+      "main": {
+        "heading": "Women's Latest",
+        "subheading": "Women's latest latest",
+        "description": "",
+        "items": [
+          {
+            "name": "Women 1",
+            "imageURL": "assets/images/women-01.jpg",
+            "price": {
+              "quantity": "190",
+              "unit": "$"
+            },
+            "rating": "5"
+          },
+          {
+            "name": "Women 2",
+            "imageURL": "assets/images/women-02.jpg",
+            "price": {
+              "quantity": "210",
+              "unit": "$"
+            },
+            "rating": "4"
+          },
+          {
+            "name": "Women 3",
+            "imageURL": "assets/images/women-03.jpg",
+            "price": {
+              "quantity": "150",
+              "unit": "$"
+            },
+            "rating": "4"
+          },
+          {
+            "name": "Women 4",
+            "imageURL": "assets/images/women-01.jpg",
+            "price": {
+              "quantity": "230",
+              "unit": "$"
+            },
+            "rating": "5"
+          }
+        ]
+      }
+    },
+    {
+      "meta": {
+        "id": "kids",
+        "sectionType": 2
+      },
+      "main": {
+        "heading": "Kids' Latest",
+        "subheading": "Kids' latest latest",
+        "description": "",
+        "items": [
+          {
+            "name": "Kids 1",
+            "imageURL": "assets/images/kid-01.jpg",
+            "price": {
+              "quantity": "190",
+              "unit": "$"
+            },
+            "rating": "5"
+          },
+          {
+            "name": "Kids 2",
+            "imageURL": "assets/images/kid-02.jpg",
+            "price": {
+              "quantity": "210",
+              "unit": "$"
+            },
+            "rating": "4"
+          },
+          {
+            "name": "Kids 3",
+            "imageURL": "assets/images/kid-03.jpg",
+            "price": {
+              "quantity": "150",
+              "unit": "$"
+            },
+            "rating": "4"
+          },
+          {
+            "name": "Kids 4",
+            "imageURL": "assets/images/kid-01.jpg",
+            "price": {
+              "quantity": "230",
+              "unit": "$"
+            },
+            "rating": "5"
+          }
+        ]
+      }
+    }
+  ]
+}
