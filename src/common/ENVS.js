@@ -7,6 +7,7 @@ const ENVS = {
   WORK_HOURS: process.env.REACT_APP_WORK_HOURS,
   FACEBOOK_URL: process.env.REACT_APP_FACEBOOK_URL,
   INSTAGRAM_URL: process.env.REACT_APP_INSTAGRAM_URL,
+  GENERIC_SLOGAN: process.env.REACT_APP_GENERIC_SLOGAN,
 };
 
 export default ENVS;

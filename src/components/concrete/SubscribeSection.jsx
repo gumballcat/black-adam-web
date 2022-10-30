@@ -12,8 +12,7 @@ const SubscribeSection = () => {
             <div class="section-heading">
               <TextWithSubtitle
                 text="By Subscribing To Our Newsletter You Can Get 30% Off"
-                subtitle={`Details to details is what makes ${ENVS.COMPANY_NAME} different
-                from the other themes.`}
+                subtitle={ENVS.GENERIC_SLOGAN}
               />
             </div>
             <BasicForm

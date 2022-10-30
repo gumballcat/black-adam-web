@@ -1,16 +1,21 @@
-{
-  "code": 200,
-  "timestamp": 1667031377000,
-  "items": [
-    {
-      "meta": {
-        "id": 15783,
-        "type": 1
-      },
-      "main": {
-        "name": "Richard",
-        "age": 12
-      }
-    }
-  ]
-}
+[
+  {
+    "status": 200,
+    "error": {},
+    "header": "",
+    "timestamp": 1667031377000,
+    "isContentArray": true,
+    "content": [
+      { "id": 131, "isActive": true },
+      { "id": 992, "isActive": false, "lastActive": 1667031377000 }
+    ]
+  },
+  {
+    "status": 429,
+    "error": { "-30": "No username", "-31": "No password" },
+    "header": { "retryAfter": 10000 },
+    "timestamp": 1667031377000,
+    "isContentArray": false,
+    "content": {}
+  }
+]

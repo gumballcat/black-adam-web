@@ -31,7 +31,7 @@ function Header() {
                   <a href="#kids">Kid's</a>
                 </li>
                 <li className="submenu">
-                  <a href="">Pages</a>
+                  <a href="#">Pages</a>
                   <ul>
                     <li>
                       <Link to={{ pathname: "/about" }}>About Us</Link>
@@ -49,7 +49,7 @@ function Header() {
                     </li>
                   </ul>
                 </li>
-                <li className="submenu">
+                {/* <li className="submenu">
                   <a href="javascript:;">Features</a>
                   <ul>
                     <li>
@@ -71,10 +71,10 @@ function Header() {
                       </a>
                     </li>
                   </ul>
-                </li>
-                <li className="scroll-to-section">
+                </li> */}
+                {/* <li className="scroll-to-section">
                   <a href="#explore">Explore</a>
-                </li>
+                </li> */}
               </ul>
               <a className="menu-trigger">
                 <span>Menu</span>

@@ -1,9 +1,9 @@
-import About from "components/About";
-import Contact from "components/Contact";
-import Footer from "components/Footer";
-import Header from "components/Header"; //Include Header
+import Footer from "components/concrete/Footer";
+import Header from "components/concrete/Header"; //Include Header
 import Products from "components/Products";
 import SingleProduct from "components/SingleProduct";
+import About from "pages/About";
+import Contact from "pages/Contact";
 import Home from "pages/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 

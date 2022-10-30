@@ -3,24 +3,27 @@ const BasicForm = ({ id, action, method, fields = [] }) => {
     <form id={id} action={action} method={method}>
       <div className="row">
         {fields.map((field) => {
-          let fieldProps = {
-            name: field.name,
-            type: field.type,
-            id: field.id,
-            placeholder: field.placeholder,
-          };
-
-          if (field.rules.pattern) {
-            fieldProps["pattern"] = field.rules.pattern;
-          }
-          if (field.rules.required) {
-            fieldProps["required"] = field.rules.required;
-          }
-
-          return (
+          return field.type === "textarea" ? (
+            <div className="col-lg-12">
+              <textarea
+                name={field.name}
+                id={field.id}
+                placeholder={field.placeholder}
+                {...field.styles}
+                {...field.rules}
+              ></textarea>
+            </div>
+          ) : (
             <div className="col-lg-5">
               <fieldset>
-                <input {...fieldProps} />
+                <input
+                  name={field.name}
+                  type={field.type}
+                  id={field.id}
+                  placeholder={field.placeholder}
+                  {...field.styles}
+                  {...field.rules}
+                />
               </fieldset>
             </div>
           );

@@ -1,3 +1,5 @@
+import TextWithSubtitle from "./basic/TextWithSubtitle";
+
 function Products() {
   return (
     <div className="products-main">
@@ -6,10 +8,10 @@ function Products() {
           <div class="row">
             <div class="col-lg-12">
               <div class="inner-content">
-                <h2>Check Our Products</h2>
-                <span>
-                  Awesome &amp; Creative HTML CSS layout by therichpost
-                </span>
+                <TextWithSubtitle
+                  text="Check Our Products"
+                  subtitle="Up And Coming Items"
+                />
               </div>
             </div>
           </div>
@@ -21,8 +23,10 @@ function Products() {
           <div class="row">
             <div class="col-lg-12">
               <div class="section-heading">
-                <h2>Our Latest Products</h2>
-                <span>Check out all of our products.</span>
+                <TextWithSubtitle
+                  text="Our Latest Products"
+                  subtitle="Check out all of our latest products"
+                />
               </div>
             </div>
           </div>
