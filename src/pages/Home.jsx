@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     HELPER.HTTP.executeGet(ENDPOINTS.GET_HOME_SECTIONS).then((response) => {
-      setHomeSections(response.items);
+      setHomeSections(response.content);
       setIsLoading(false);
     });
   }, []);

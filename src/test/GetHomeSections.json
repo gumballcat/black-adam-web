@@ -1,6 +1,10 @@
 {
+  "status": 200,
+  "errorCode": 0,
+  "errorMessage": "",
   "timestamp": 1667031377000,
-  "items": [
+  "isContentArray": true,
+  "content": [
     {
       "meta": {
         "id": "banner",
