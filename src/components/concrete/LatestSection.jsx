@@ -1,9 +1,7 @@
 import TextWithSubtitle from "components/basic/TextWithSubtitle";
+import Item from "components/composite/Item";
 import "glider-js/glider.min.css";
 import Glider from "react-glider";
-import ProductButtonRow from "../basic/ProductButtonRow";
-import RatingStars from "../basic/RatingStars";
-import Thumb from "../basic/Thumb";
 
 const LatestSection = ({ id, data = {} }) => {
   return (
@@ -31,21 +29,7 @@ const LatestSection = ({ id, data = {} }) => {
               slidesToScroll={1}
             >
               {data.items.map((item) => {
-                return (
-                  <div className="item">
-                    <Thumb
-                      imageURL={item.imageURL}
-                      hoverContent={<ProductButtonRow />}
-                    />
-                    <div className="down-content">
-                      <TextWithSubtitle
-                        text={item.name}
-                        subtitle={`${item.price.unit} ${item.price.quantity}`}
-                      />
-                      <RatingStars quantity={item.rating} />
-                    </div>
-                  </div>
-                );
+                return <Item data={item} />;
               })}
             </Glider>
           </div>

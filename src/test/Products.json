@@ -1,0 +1,102 @@
+{
+  "status": 200,
+  "error": {},
+  "header": "",
+  "timestamp": 1667031377000,
+  "isContentArray": false,
+  "content": {
+    "total": 36,
+    "items": [
+      {
+        "id": "28",
+        "imageURL": "http://loremflickr.com/640/480",
+        "name": "dolores velit nostrum",
+        "price": {
+          "quantity": 91849,
+          "unit": "$"
+        },
+        "rating": 4
+      },
+      {
+        "id": "29",
+        "imageURL": "http://loremflickr.com/640/480",
+        "name": "atque quasi dolores",
+        "price": {
+          "quantity": 95081,
+          "unit": "$"
+        },
+        "rating": 4
+      },
+      {
+        "id": "30",
+        "imageURL": "http://loremflickr.com/640/480",
+        "name": "sit ut error",
+        "price": {
+          "quantity": 29433,
+          "unit": "$"
+        },
+        "rating": 4
+      },
+      {
+        "id": "31",
+        "imageURL": "http://loremflickr.com/640/480",
+        "name": "non odit ut",
+        "price": {
+          "quantity": 47346,
+          "unit": "$"
+        },
+        "rating": 4
+      },
+      {
+        "id": "32",
+        "imageURL": "http://loremflickr.com/640/480",
+        "name": "et quasi amet",
+        "price": {
+          "quantity": 50261,
+          "unit": "$"
+        },
+        "rating": 4
+      },
+      {
+        "id": "33",
+        "imageURL": "http://loremflickr.com/640/480",
+        "name": "ut amet corporis",
+        "price": {
+          "quantity": 49442,
+          "unit": "$"
+        },
+        "rating": 4
+      },
+      {
+        "id": "34",
+        "imageURL": "http://loremflickr.com/640/480",
+        "name": "beatae ipsa veritatis",
+        "price": {
+          "quantity": 25095,
+          "unit": "$"
+        },
+        "rating": 4
+      },
+      {
+        "id": "35",
+        "imageURL": "http://loremflickr.com/640/480",
+        "name": "exercitationem corrupti quia",
+        "price": {
+          "quantity": 81243,
+          "unit": "$"
+        },
+        "rating": 4
+      },
+      {
+        "id": "36",
+        "imageURL": "http://loremflickr.com/640/480",
+        "name": "et quas est",
+        "price": {
+          "quantity": 78246,
+          "unit": "$"
+        },
+        "rating": 4
+      }
+    ]
+  }
+}

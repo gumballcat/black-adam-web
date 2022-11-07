@@ -1,9 +1,9 @@
 import axios from "axios";
 
-async function executeGet(url) {
+async function executeGet(url, params) {
   return new Promise((fulfill, reject) => {
     axios
-      .get(url)
+      .get(url, { params: { ...params } })
       .then((response) => {
         fulfill(response.data);
       })

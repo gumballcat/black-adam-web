@@ -1757,7 +1757,7 @@ Products Page
   margin: 0px 5px;
 }
 
-#products .pagination ul li a {
+#products .pagination ul li button {
   width: 44px;
   height: 44px;
   border: 1px solid #2a2a2a;
@@ -1767,10 +1767,15 @@ Products Page
   font-size: 14px;
   font-weight: 500;
   color: #2a2a2a;
+  background-color: #ffffff;
 }
 
-#products .pagination ul li a:hover,
-#products .pagination ul li.active a {
+#products .pagination ul li button:hover {
+  background-color: #888888;
+  color: #fff;
+}
+
+#products .pagination ul li.active button {
   background-color: #2a2a2a;
   color: #fff;
 }
