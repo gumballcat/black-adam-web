@@ -1,15 +1,12 @@
-const ProductButtonRow = () => {
+import { Link } from "react-router-dom";
+
+const ProductButtonRow = ({ id }) => {
   return (
     <ul>
       <li>
-        <a href="single-product.html">
+        <Link to="/single-product" state={{ id: id }}>
           <i class="fa fa-eye"></i>
-        </a>
-      </li>
-      <li>
-        <a href="single-product.html">
-          <i class="fa fa-star"></i>
-        </a>
+        </Link>
       </li>
       <li>
         <a href="single-product.html">

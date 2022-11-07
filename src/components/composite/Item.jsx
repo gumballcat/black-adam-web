@@ -6,7 +6,10 @@ import Thumb from "components/basic/Thumb";
 const Item = ({ data }) => {
   return (
     <div className="item">
-      <Thumb imageURL={data.imageURL} hoverContent={<ProductButtonRow />} />
+      <Thumb
+        imageURL={data.imageURL}
+        hoverContent={<ProductButtonRow id={data.id} />}
+      />
       <div className="down-content">
         <TextWithSubtitle
           text={data.name}

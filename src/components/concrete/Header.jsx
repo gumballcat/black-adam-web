@@ -17,9 +17,7 @@ function Header() {
 
               <ul className="nav">
                 <li className="scroll-to-section">
-                  <a href="#top" className="active">
-                    Home
-                  </a>
+                  <Link to="/">Home</Link>
                 </li>
                 <li className="scroll-to-section">
                   <a href="#men">Men's</a>
@@ -37,11 +35,8 @@ function Header() {
                       <Link to={{ pathname: "/about" }}>About Us</Link>
                     </li>
                     <li>
-                      <Link to={{ pathname: "/products" }}>Products</Link>
-                    </li>
-                    <li>
-                      <Link to={{ pathname: "/single-product" }}>
-                        Single Product
+                      <Link to={{ pathname: "/products" }}>
+                        Latest Products
                       </Link>
                     </li>
                     <li>

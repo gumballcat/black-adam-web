@@ -4,7 +4,8 @@ import HELPER from "common/HELPER";
 import Pagination from "components/basic/Pagination";
 import TextWithSubtitle from "components/basic/TextWithSubtitle";
 import { useEffect, useRef, useState } from "react";
-import Item from "./composite/Item";
+import Item from "../components/composite/Item";
+import PageHeading from "../components/composite/PageHeading";
 
 function Products() {
   const [page, setPage] = useState(1);
@@ -25,20 +26,11 @@ function Products() {
 
   return (
     <div className="products-main">
-      <div class="page-heading" id="top">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="inner-content">
-                <TextWithSubtitle
-                  text="Check Our Products"
-                  subtitle="Up And Coming Items"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <PageHeading
+        id="top"
+        text="Check Our Products"
+        subtitle="Up And Coming Items"
+      />
 
       <section class="section" id="products" ref={ref}>
         <div class="container">

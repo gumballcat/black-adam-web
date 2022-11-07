@@ -1,0 +1,61 @@
+$block: ".quantity-input";
+$border: 0 solid #dbdbdb;
+$border-radius: 3px;
+$color--primary: #f3f3f3;
+
+#{$block} {
+  text-align: left;
+  position: relative;
+  white-space: nowrap;
+  vertical-align: top;
+  display: inline-block;
+}
+
+#{$block} .minus,
+#{$block} .plus {
+  padding: 7px 10px 8px;
+  height: 39px;
+  background-color: #ffffff;
+  border: 1px solid #efefef;
+  cursor: pointer;
+}
+
+#{$block} .minus:hover,
+#{$block} .plus:hover {
+  background: #eeeeee;
+}
+
+#{$block} input::-webkit-outer-spin-button,
+#{$block} input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  margin: 0;
+}
+
+#{$block} .minus {
+  border-right: 0;
+}
+
+#{$block} .plus {
+  border-left: 0;
+}
+
+#{$block} input {
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+  box-shadow: none;
+}
+
+#{$block}__screen {
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+  box-shadow: none;
+  width: 35px;
+  height: 39px;
+  padding: 0 5px;
+  text-align: center;
+  background-color: transparent;
+  border: 1px solid #efefef;
+}
