@@ -1,5 +1,6 @@
 import ENDPOINTS from "common/ENDPOINTS";
 import HELPER from "common/HELPER";
+import Preloader from "components/basic/Preloader";
 import LatestSection from "components/concrete/LatestSection";
 import MainBannerSection from "components/concrete/MainBannerSection";
 import SocialSection from "components/concrete/SocialSection";
@@ -19,25 +20,28 @@ const Home = () => {
 
   return (
     <div className="home-main">
-      {isLoading
-        ? "Loading, please wait"
-        : homeSections.map((homeSection) => {
-            const meta = homeSection.meta;
-            const data = homeSection.main;
+      {isLoading ? (
+        <Preloader />
+      ) : (
+        homeSections.map((homeSection) => {
+          const meta = homeSection.meta;
+          const data = homeSection.main;
 
-            let ret;
-            if (meta.sectionType === 1) {
-              ret = (
-                <MainBannerSection
-                  leftBanner={data.primaryBanner}
-                  rightBanners={data.categoryBanners}
-                />
-              );
-            } else if (meta.sectionType === 2) {
-              ret = <LatestSection id={meta.id} data={data} />;
-            }
-            return ret;
-          })}
+          let ret;
+          if (meta.sectionType === 1) {
+            ret = (
+              <MainBannerSection
+                leftBanner={data.primaryBanner}
+                rightBanners={data.categoryBanners}
+              />
+            );
+          } else if (meta.sectionType === 2) {
+            ret = <LatestSection id={meta.id} data={data} />;
+          }
+
+          return ret;
+        })
+      )}
       <SocialSection />
       <SubscribeSection />
     </div>

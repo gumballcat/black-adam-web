@@ -16,7 +16,7 @@ function Header() {
               </Link>
 
               <ul className="nav">
-                <li className="scroll-to-section">
+                <li>
                   <Link to="/">Home</Link>
                 </li>
                 <li className="scroll-to-section">
@@ -44,32 +44,6 @@ function Header() {
                     </li>
                   </ul>
                 </li>
-                {/* <li className="submenu">
-                  <a href="javascript:;">Features</a>
-                  <ul>
-                    <li>
-                      <a href="#">Features Page 1</a>
-                    </li>
-                    <li>
-                      <a href="#">Features Page 2</a>
-                    </li>
-                    <li>
-                      <a href="#">Features Page 3</a>
-                    </li>
-                    <li>
-                      <a
-                        rel="nofollow"
-                        href="https://black-adam.com/page/4"
-                        target="_blank"
-                      >
-                        Template Page 4
-                      </a>
-                    </li>
-                  </ul>
-                </li> */}
-                {/* <li className="scroll-to-section">
-                  <a href="#explore">Explore</a>
-                </li> */}
               </ul>
               <a className="menu-trigger">
                 <span>Menu</span>
