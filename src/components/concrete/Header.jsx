@@ -1,3 +1,4 @@
+import ROUTES from "common/ROUTES";
 import { Link } from "react-router-dom";
 
 function Header() {
@@ -17,37 +18,32 @@ function Header() {
 
               <ul className="nav">
                 <li>
-                  <Link to="/">Home</Link>
+                  <Link to={ROUTES.HOME}>Home</Link>
                 </li>
                 <li className="scroll-to-section">
-                  <a href="#men">Men's</a>
+                  <Link to={ROUTES.MEN_PRODUCTS}>Men's</Link>
                 </li>
                 <li className="scroll-to-section">
-                  <a href="#women">Women's</a>
+                  <Link to={ROUTES.WOMEN_PRODUCTS}>Women's</Link>
                 </li>
                 <li className="scroll-to-section">
-                  <a href="#kids">Kid's</a>
+                  <Link to={ROUTES.KIDS_PRODUCTS}>Kid's</Link>
                 </li>
                 <li className="submenu">
-                  <a href="#">Pages</a>
+                  <span>Pages</span>
                   <ul>
                     <li>
-                      <Link to={{ pathname: "/about" }}>About Us</Link>
+                      <Link to={ROUTES.ABOUT}>About Us</Link>
                     </li>
                     <li>
-                      <Link to={{ pathname: "/products" }}>
-                        Latest Products
-                      </Link>
+                      <Link to={ROUTES.LATEST_PRODUCTS}>Latest Products</Link>
                     </li>
                     <li>
-                      <Link to={{ pathname: "/contact-us" }}>Contact Us</Link>
+                      <Link to={ROUTES.CONTACT}>Contact Us</Link>
                     </li>
                   </ul>
                 </li>
               </ul>
-              <a className="menu-trigger">
-                <span>Menu</span>
-              </a>
             </nav>
           </div>
         </div>

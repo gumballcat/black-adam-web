@@ -1,4 +1,6 @@
 import ENVS from "common/ENVS";
+import ROUTES from "common/ROUTES";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -16,13 +18,13 @@ function Footer() {
               </div>
               <ul>
                 <li>
-                  <a href="#">{ENVS.OFFICE_LOCATION}</a>
+                  <span>{ENVS.OFFICE_LOCATION}</span>
                 </li>
                 <li>
-                  <a href="#">{ENVS.COMPANY_EMAIL}</a>
+                  <span>{ENVS.COMPANY_EMAIL}</span>
                 </li>
                 <li>
-                  <a href="#">{ENVS.COMPANY_PHONE_NUMBER}</a>
+                  <span>{ENVS.COMPANY_PHONE_NUMBER}</span>
                 </li>
               </ul>
             </div>
@@ -31,13 +33,13 @@ function Footer() {
             <h4>Shopping &amp; Categories</h4>
             <ul>
               <li>
-                <a href="#">Men’s Shopping</a>
+                <Link to={ROUTES.MEN_PRODUCTS}>Men's Shopping</Link>
               </li>
               <li>
-                <a href="#">Women’s Shopping</a>
+                <Link to={ROUTES.WOMEN_PRODUCTS}>Women's Shopping</Link>
               </li>
               <li>
-                <a href="#">Kid's Shopping</a>
+                <Link to={ROUTES.KIDS_PRODUCTS}>Kids' Shopping</Link>
               </li>
             </ul>
           </div>
@@ -45,20 +47,17 @@ function Footer() {
             <h4>Useful Links</h4>
             <ul>
               <li>
-                <a href="#">Homepage</a>
+                <Link to={ROUTES.HOME}>Homepage</Link>
               </li>
               <li>
-                <a href="#">About Us</a>
+                <Link to={ROUTES.ABOUT}>About us</Link>
               </li>
               <li>
-                <a href="#">Help</a>
-              </li>
-              <li>
-                <a href="#">Contact Us</a>
+                <Link to={ROUTES.CONTACT}>Contact Us</Link>
               </li>
             </ul>
           </div>
-          <div class="col-lg-3">
+          {/* <div class="col-lg-3">
             <h4>Help &amp; Information</h4>
             <ul>
               <li>
@@ -74,7 +73,7 @@ function Footer() {
                 <a href="#">Tracking ID</a>
               </li>
             </ul>
-          </div>
+          </div> */}
           <div class="col-lg-12">
             <div class="under-footer">
               <p>

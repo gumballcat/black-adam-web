@@ -1,0 +1,59 @@
+.quantity-input {
+  text-align: left;
+  position: relative;
+  white-space: nowrap;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.quantity-input .minus,
+.quantity-input .plus {
+  padding: 7px 10px 8px;
+  height: 39px;
+  background-color: #ffffff;
+  border: 1px solid #efefef;
+  cursor: pointer;
+}
+
+.quantity-input .minus:hover,
+.quantity-input .plus:hover {
+  background: #eeeeee;
+}
+
+.quantity-input input::-webkit-outer-spin-button,
+.quantity-input input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  margin: 0;
+}
+
+.quantity-input .minus {
+  border-right: 0;
+}
+
+.quantity-input .plus {
+  border-left: 0;
+}
+
+.quantity-input input {
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.quantity-input__screen {
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  width: 35px;
+  height: 39px;
+  padding: 0 5px;
+  text-align: center;
+  background-color: transparent;
+  border: 1px solid #efefef;
+}
+/*# sourceMappingURL=Quantity.css.map */

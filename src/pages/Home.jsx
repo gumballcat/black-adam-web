@@ -29,12 +29,7 @@ const Home = () => {
 
           let ret;
           if (meta.sectionType === 1) {
-            ret = (
-              <MainBannerSection
-                leftBanner={data.primaryBanner}
-                rightBanners={data.categoryBanners}
-              />
-            );
+            ret = <MainBannerSection />;
           } else if (meta.sectionType === 2) {
             ret = <LatestSection id={meta.id} data={data} />;
           }
