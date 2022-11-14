@@ -57,23 +57,6 @@ function Footer() {
               </li>
             </ul>
           </div>
-          {/* <div class="col-lg-3">
-            <h4>Help &amp; Information</h4>
-            <ul>
-              <li>
-                <a href="#">Help</a>
-              </li>
-              <li>
-                <a href="#">FAQ's</a>
-              </li>
-              <li>
-                <a href="#">Shipping</a>
-              </li>
-              <li>
-                <a href="#">Tracking ID</a>
-              </li>
-            </ul>
-          </div> */}
           <div class="col-lg-12">
             <div class="under-footer">
               <p>

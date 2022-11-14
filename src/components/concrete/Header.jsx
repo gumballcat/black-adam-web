@@ -1,7 +1,17 @@
 import ROUTES from "common/ROUTES";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 function Header() {
+  const account = useSelector((state) => state);
+  const [auth, setAuth] = useState(account.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setAuth(account.auth);
+  }, [account]);
+
   return (
     <header className="header-area header-sticky">
       <div className="container">
@@ -40,6 +50,26 @@ function Header() {
                     </li>
                     <li>
                       <Link to={ROUTES.CONTACT}>Contact Us</Link>
+                    </li>
+                  </ul>
+                </li>
+                <li className="submenu">
+                  <span>Account</span>
+                  <ul>
+                    <li>
+                      {auth === 1 ? (
+                        <span
+                          onClick={() => dispatch({ type: 2, payload: {} })}
+                        >
+                          Logout
+                        </span>
+                      ) : (
+                        <span
+                          onClick={() => dispatch({ type: 1, payload: {} })}
+                        >
+                          Login
+                        </span>
+                      )}
                     </li>
                   </ul>
                 </li>
