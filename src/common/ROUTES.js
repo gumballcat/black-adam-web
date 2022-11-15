@@ -8,6 +8,8 @@ const ROUTES = {
   ACCESSORIES_PRODUCTS: "/products/accessories",
   PRODUCT: "/single-product",
   CONTACT: "/contact-us",
+  ADMIN_ACCOUNT: "/admin",
+  REGULAR_ACCOUNT: "/regular"
 };
 
 export default ROUTES;

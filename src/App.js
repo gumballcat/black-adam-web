@@ -9,7 +9,10 @@ import KidsProducts from "pages/KidsProducts";
 import LatestProducts from "pages/LatestProducts";
 import MenProducts from "pages/MenProducts";
 import SingleProduct from "pages/SingleProduct";
+import Admin from "pages/Admin";
+import Regular from "pages/Regular";
 import WomenProducts from "pages/WomenProducts";
+import 'antd/dist/antd.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const App = () => {
@@ -26,7 +29,9 @@ const App = () => {
           <Route path={ROUTES.WOMEN_PRODUCTS} element={<WomenProducts />} />
           <Route path={ROUTES.KIDS_PRODUCTS} element={<KidsProducts />} />
           <Route path={ROUTES.CONTACT} element={<Contact />} />
-          <Route path={ROUTES.SingleProduct} element={<SingleProduct />} />
+          <Route path={ROUTES.PRODUCT} element={<SingleProduct />} />
+          <Route path={ROUTES.ADMIN_ACCOUNT} element={<Admin />} />
+          <Route path={ROUTES.REGULAR_ACCOUNT} element={<Regular />} />
         </Routes>
         <Footer></Footer>
       </BrowserRouter>

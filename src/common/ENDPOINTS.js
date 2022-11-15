@@ -1,4 +1,4 @@
-const BASE_ENDPOINT = "http://0.0.0.0:3001/api/v1/";
+const BASE_ENDPOINT = "http://localhost:3001/api/v1/";
 
 const ENDPOINTS = {
   GET_HOME_SECTIONS: BASE_ENDPOINT + "home-sections",

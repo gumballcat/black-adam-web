@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
-const MakeshiftButton = ({ buttonURL, buttonText }) => {
+const MakeshiftButton = ({ buttonURL, buttonText, onClick }) => {
   return (
     <div className="main-border-button">
-      <Link to={buttonURL}>{buttonText}</Link>
+      <Link to={buttonURL} onClick={onClick}>{buttonText}</Link>
     </div>
   );
 };

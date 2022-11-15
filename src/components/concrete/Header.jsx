@@ -3,8 +3,9 @@ import LoginModal from "components/basic/LoginModal";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import AccountAction from "redux/actions/AccountAction";
 import AuthenticationService from "services/AuthenticationService";
+import React from "react";
+import AccountAction from "redux/actions/AccountAction";
 
 function Header() {
   const account = useSelector((state) => state.account);
@@ -81,9 +82,12 @@ function Header() {
                       <li>
                         {account.auth === 1 ? (
                           <>
-                            <Link>{`Hello, ${account.info.name}`}</Link>
+                            <Link to={account.info.type === 'admin' ? ROUTES.ADMIN_ACCOUNT : ROUTES.REGULAR_ACCOUNT}>{`Hello, ${account.info.name}`}</Link>
                             <Link
-                              onClick={() => dispatch(AccountAction.logout())}
+                              onClick={() => {
+                                dispatch(AccountAction.logout());
+                                window.location.pathname = ROUTES.HOME;
+                              }}
                             >
                               Logout
                             </Link>
