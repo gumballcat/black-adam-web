@@ -61,7 +61,7 @@ const SocialSection = () => {
         <div className="row images">
           {platforms.map((platform) => {
             return (
-              <div className="col-2">
+              <div className="col-2" key={platform.title}>
                 <Thumb
                   imageURL={platform.imageURL}
                   icon={

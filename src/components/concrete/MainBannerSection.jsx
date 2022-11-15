@@ -41,11 +41,11 @@ const MainBannerSection = () => {
   ];
 
   return (
-    <div class="main-banner" id="top">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="left-content">
+    <div className="main-banner" id="top">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-lg-6">
+            <div className="left-content">
               {
                 <Thumb
                   imageURL="assets/images/left-banner-image.jpg"
@@ -65,13 +65,13 @@ const MainBannerSection = () => {
               }
             </div>
           </div>
-          <div class="col-lg-6">
-            <div class="right-content">
-              <div class="row">
+          <div className="col-lg-6">
+            <div className="right-content">
+              <div className="row">
                 {banners.map((rightBanner) => {
                   return (
-                    <div class="col-lg-6">
-                      <div class="right-first-image">
+                    <div className="col-lg-6" key={rightBanner.text}>
+                      <div className="right-first-image">
                         <Thumb
                           imageURL={rightBanner.imageURL}
                           innerContent={

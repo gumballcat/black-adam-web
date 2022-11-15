@@ -29,7 +29,7 @@ const LatestSection = ({ id, data = {} }) => {
               slidesToScroll={1}
             >
               {data.items.map((item) => {
-                return <Item data={item} />;
+                return <Item key={item.id} data={item} />;
               })}
             </Glider>
           </div>

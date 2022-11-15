@@ -2,9 +2,9 @@ import ENVS from "common/ENVS";
 
 const InfoGrid = () => {
   return (
-    <div class="col-lg-4">
-      <div class="row">
-        <div class="col-6">
+    <div className="col-lg-4">
+      <div className="row">
+        <div className="col-6">
           <ul>
             <li>
               Store Location:
@@ -23,7 +23,7 @@ const InfoGrid = () => {
             </li>
           </ul>
         </div>
-        <div class="col-6">
+        <div className="col-6">
           <ul>
             <li>
               Work Hours:

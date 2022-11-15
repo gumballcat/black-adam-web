@@ -1,4 +1,4 @@
-const AccountReducer = (state = { auth: 0, info: {} }, action) => {
+const AccountReducer = (state = { auth: 2, info: {} }, action) => {
   switch (action.type) {
     case 1: // Login
       console.log(1);

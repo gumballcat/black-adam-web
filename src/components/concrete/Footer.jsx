@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 function Footer() {
   return (
     <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-3">
-            <div class="first-item">
-              <div class="logo">
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-3">
+            <div className="first-item">
+              <div className="logo">
                 <img
                   src="assets/images/logo-no-background.png"
                   style={{ width: 150, height: 41 }}
@@ -29,7 +29,7 @@ function Footer() {
               </ul>
             </div>
           </div>
-          <div class="col-lg-3">
+          <div className="col-lg-3">
             <h4>Shopping &amp; Categories</h4>
             <ul>
               <li>
@@ -43,7 +43,7 @@ function Footer() {
               </li>
             </ul>
           </div>
-          <div class="col-lg-3">
+          <div className="col-lg-3">
             <h4>Useful Links</h4>
             <ul>
               <li>
@@ -57,8 +57,8 @@ function Footer() {
               </li>
             </ul>
           </div>
-          <div class="col-lg-12">
-            <div class="under-footer">
+          <div className="col-lg-12">
+            <div className="under-footer">
               <p>
                 Copyright © 2022 {ENVS.COMPANY_NAME} Co., Ltd. All Rights
                 Reserved.
@@ -75,12 +75,12 @@ function Footer() {
               <ul>
                 <li>
                   <a href={ENVS.FACEBOOK_URL}>
-                    <i class="fa fa-facebook"></i>
+                    <i className="fa fa-facebook"></i>
                   </a>
                 </li>
                 <li>
                   <a href={ENVS.INSTAGRAM_URL}>
-                    <i class="fa fa-instagram"></i>
+                    <i className="fa fa-instagram"></i>
                   </a>
                 </li>
               </ul>

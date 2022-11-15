@@ -5,11 +5,11 @@ import TextWithSubtitle from "components/basic/TextWithSubtitle";
 
 const SubscribeSection = () => {
   return (
-    <div class="subscribe">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8">
-            <div class="section-heading">
+    <div className="subscribe">
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-8">
+            <div className="section-heading">
               <TextWithSubtitle
                 text="By Subscribing To Our Newsletter You Can Get 30% Off"
                 subtitle={ENVS.GENERIC_SLOGAN}

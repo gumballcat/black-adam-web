@@ -4,7 +4,7 @@ const BasicForm = ({ id, action, method, fields = [] }) => {
       <div className="row">
         {fields.map((field) => {
           return field.type === "textarea" ? (
-            <div className="col-lg-12">
+            <div className="col-lg-12" key={field.id}>
               <textarea
                 name={field.name}
                 id={field.id}
@@ -14,7 +14,7 @@ const BasicForm = ({ id, action, method, fields = [] }) => {
               ></textarea>
             </div>
           ) : (
-            <div className="col-lg-5">
+            <div className="col-lg-5" key={field.id}>
               <fieldset>
                 <input
                   name={field.name}
