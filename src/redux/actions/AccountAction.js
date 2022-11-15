@@ -1,13 +1,13 @@
 const AccountAction = {
   login: (profile) => {
     return {
-      type: 1,
+      type: "LOGIN",
       payload: profile,
     };
   },
   logout: () => {
     return {
-      type: 2,
+      type: "LOGOUT",
     };
   },
 };

@@ -1,16 +1,11 @@
 import ROUTES from "common/ROUTES";
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import AccountAction from "redux/actions/AccountAction";
 
 function Header() {
-  const account = useSelector((state) => state);
-  const [auth, setAuth] = useState(account.auth);
+  const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setAuth(account.auth);
-  }, [account]);
 
   return (
     <header className="header-area header-sticky">
@@ -57,18 +52,14 @@ function Header() {
                   <span>Account</span>
                   <ul>
                     <li>
-                      {auth === 1 ? (
-                        <span
-                          onClick={() => dispatch({ type: 2, payload: {} })}
-                        >
+                      {account.auth === 1 ? (
+                        <Link onClick={() => dispatch(AccountAction.logout())}>
                           Logout
-                        </span>
+                        </Link>
                       ) : (
-                        <span
-                          onClick={() => dispatch({ type: 1, payload: {} })}
-                        >
+                        <Link onClick={() => dispatch(AccountAction.login({}))}>
                           Login
-                        </span>
+                        </Link>
                       )}
                     </li>
                   </ul>
