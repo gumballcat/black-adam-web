@@ -14,7 +14,20 @@ async function executeGet(url, params) {
   });
 }
 
-const HTTP = { executeGet };
+async function executePostForm(url, formData) {
+  return new Promise((fulfill, reject) => {
+    axios
+      .post(url, formData, { withCredentials: true })
+      .then((response) => {
+        fulfill(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+const HTTP = { executeGet, executePostForm };
 
 const HELPER = { HTTP };
 

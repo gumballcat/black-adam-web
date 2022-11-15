@@ -1,6 +1,13 @@
-const BasicForm = ({ id, action, method, fields = [] }) => {
+const BasicForm = ({ id, onSubmit, method, fields = [] }) => {
   return (
-    <form id={id} action={action} method={method}>
+    <form
+      id={id}
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit(e);
+      }}
+      method={method}
+    >
       <div className="row">
         {fields.map((field) => {
           return field.type === "textarea" ? (

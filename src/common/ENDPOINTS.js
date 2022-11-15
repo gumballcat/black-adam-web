@@ -1,5 +1,4 @@
-const BASE_ENDPOINT = "http://127.0.0.1:3000/api/v1/";
-// "https://f89bd0ed-bf57-4580-a103-a961fd10f3c2.mock.pstmn.io/api/v1/";
+const BASE_ENDPOINT = "http://0.0.0.0:3001/api/v1/";
 
 const ENDPOINTS = {
   GET_HOME_SECTIONS: BASE_ENDPOINT + "home-sections",
@@ -9,6 +8,7 @@ const ENDPOINTS = {
   GET_KIDS_PRODUCTS: BASE_ENDPOINT + "products/kids",
   GET_ACCESSORIES_PRODUCTS: BASE_ENDPOINT + "products/accessories",
   GET_PRODUCT: BASE_ENDPOINT + "product",
+  LOGIN: BASE_ENDPOINT + "login",
 };
 
 export default ENDPOINTS;
