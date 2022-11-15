@@ -19,7 +19,11 @@ async function executePostForm(url, formData) {
     axios
       .post(url, formData, { withCredentials: true })
       .then((response) => {
-        fulfill(response.data);
+        if (!response.data.error || !response.data.error.errorCode) {
+          fulfill(response.data);
+        } else {
+          reject(response.data.error);
+        }
       })
       .catch((error) => {
         reject(error);

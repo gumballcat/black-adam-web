@@ -1,7 +1,6 @@
 import ROUTES from "common/ROUTES";
-import BasicForm from "components/basic/BasicForm";
+import LoginModal from "components/basic/LoginModal";
 import { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AccountAction from "redux/actions/AccountAction";
@@ -11,19 +10,27 @@ function Header() {
   const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState({});
 
   const handleShow = () => setShowLoginModal(true);
-  const handleClose = () => setShowLoginModal(false);
 
   const onSubmit = (e) => {
     const username = e.target.username.value;
     const password = e.target.password.value;
 
-    AuthenticationService.login(username, password).then((response) => {
-      console.log(response);
-      dispatch(AccountAction.login(response.content));
-      setShowLoginModal(false);
-    });
+    AuthenticationService.login(username, password)
+      .then((response) => {
+        console.log(response);
+        dispatch(AccountAction.login(response.content));
+        setShowLoginModal(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setModalMessage({
+          type: "error",
+          text: error.errorMessage,
+        });
+      });
   };
 
   return (
@@ -94,37 +101,13 @@ function Header() {
         </div>
       </header>
 
-      <Modal show={showLoginModal} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Sign In</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <BasicForm
-            id="login"
-            method="post"
-            onSubmit={onSubmit}
-            fields={[
-              {
-                name: "username",
-                type: "text",
-                id: "username",
-                placeholder: "Username",
-              },
-              {
-                name: "password",
-                type: "password",
-                id: "password",
-                placeholder: "Password",
-              },
-            ]}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <LoginModal
+        signal={showLoginModal}
+        setSignal={setShowLoginModal}
+        onSubmit={onSubmit}
+        message={modalMessage}
+        setMessage={setModalMessage}
+      />
     </>
   );
 }
