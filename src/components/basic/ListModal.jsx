@@ -1,87 +1,82 @@
-import { Button, Form, Input, Popconfirm, Table } from "antd";
+import {
+  Modal,
+  Button,
+  Form,
+  Input,
+  Popconfirm,
+  Table,
+  InputNumber,
+} from "antd";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-const EditableContext = React.createContext(null);
-
-const EditableRow = ({ index, ...props }) => {
-  const [form] = Form.useForm();
+const EditableCell = ({
+  editing,
+  dataIndex,
+  title,
+  inputType,
+  record,
+  index,
+  children,
+  ...restProps
+}) => {
+  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
   return (
-    <Form form={form} component={false}>
-      <EditableContext.Provider value={form}>
-        <tr {...props} />
-      </EditableContext.Provider>
-    </Form>
+    <td {...restProps}>
+      {editing ? (
+        <Form.Item
+          name={dataIndex}
+          style={{
+            margin: 0,
+          }}
+          rules={[
+            {
+              required: true,
+              message: `Please Input ${title}!`,
+            },
+          ]}
+        >
+          {inputNode}
+        </Form.Item>
+      ) : (
+        children
+      )}
+    </td>
   );
 };
 
-const EditableCell = ({
-  title,
-  editable,
-  children,
-  dataIndex,
-  record,
-  handleSave,
-  ...restProps
-}) => {
-  const [editing, setEditing] = useState(false);
-  const inputRef = useRef(null);
-  const form = useContext(EditableContext);
-  useEffect(() => {
-    if (editing) {
-      inputRef.current.focus();
-    }
-  }, [editing]);
-  const toggleEdit = () => {
-    setEditing(!editing);
-    form.setFieldsValue({
-      [dataIndex]: record[dataIndex],
-    });
-  };
-  const save = async () => {
-    try {
-      const values = await form.validateFields();
-      toggleEdit();
-      handleSave({
-        ...record,
-        ...values,
-      });
-    } catch (errInfo) {
-      console.log("Save failed:", errInfo);
-    }
-  };
-  let childNode = children;
-  if (editable) {
-    childNode = editing ? (
-      <Form.Item
-        style={{
-          margin: 0,
-        }}
-        name={dataIndex}
-        rules={[
-          {
-            required: true,
-            message: `${title} is required.`,
-          },
-        ]}
-      >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
-      </Form.Item>
-    ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{
-          paddingRight: 24,
-        }}
-        onClick={toggleEdit}
-      >
-        {children}
-      </div>
-    );
-  }
-  return <td {...restProps}>{childNode}</td>;
-};
+const ListModal = ({ title, columns, originalData, open, setOpen, expandable }) => {
+  const [form] = Form.useForm();
+  const [data, setData] = useState(originalData);
+  const [editingKey, setEditingKey] = useState("");
+  const isEditing = (record) => record.key === editingKey;
 
-const ListModal = ({ title, columns, data, open, setOpen, expandable }) => {
+  const edit = (record) => {
+    form.setFieldValue({
+      ...record
+    });
+    setEditingKey(record.key);
+  };
+  const cancelEdit = () => {
+    setEditingKey("");
+  }
+  const saveEdit = async (key) => {
+      const row = await form.validateFields();
+      const newData = [...data];
+      const index = newData.findIndex((item) => key === item.key);
+      if(index >= 0){
+        const item = newData[index];
+        newData.splice(index, 1, {...item, ...row});
+      }
+  }
+
+  columns.append({
+    key: "x",
+    title: "Action",
+    dataIndex: "",
+    render: (_, record) => <>
+
+    </>,
+  });
   return (
     <Modal
       open={open}
@@ -107,7 +102,7 @@ const ListModal = ({ title, columns, data, open, setOpen, expandable }) => {
               }
             : {}
         }
-        dataSource={data}
+        dataSource={originalData}
       />
     </Modal>
   );
