@@ -9,6 +9,7 @@ const ENDPOINTS = {
   GET_ACCESSORIES_PRODUCTS: BASE_ENDPOINT + "products/accessories",
   GET_PRODUCT: BASE_ENDPOINT + "product",
   LOGIN: BASE_ENDPOINT + "login",
+  UPDATE_PRODUCT: BASE_ENDPOINT + "product",
 };
 
 export default ENDPOINTS;
