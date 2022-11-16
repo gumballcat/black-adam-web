@@ -49,10 +49,12 @@ const ListModal = ({ title, columns, source, open, setOpen, onSaveEdit }) => {
   const [addingKey, setAddingKey] = useState("");
 
   useEffect(() => {
-    HELPER.HTTP.executeGet(source.endpoint).then((response) => {
-      setData(source.dataTransform(response));
-    });
-  }, [source]);
+    if (open) {
+      HELPER.HTTP.executeGet(source.endpoint).then((response) => {
+        setData(source.dataTransform(response));
+      });
+    }
+  }, [open, source]);
 
   const isBusy = () => editingKey !== "" || addingKey !== "";
   const isEditing = (record) => record.key === editingKey;
@@ -65,40 +67,41 @@ const ListModal = ({ title, columns, source, open, setOpen, onSaveEdit }) => {
   const saveEdit = async (key) => {
     const row = await form.validateFields();
     const newData = [...data];
+
     const index = newData.findIndex((item) => key === item.key);
     if (index > -1) {
-      const item = newData[index];
+      const item = { ...newData[index], ...row };
       newData.splice(index, 1, {
         ...item,
         ...row,
       });
-      setData(newData);
-      setEditingKey("");
-      setAddingKey("");
       onSaveEdit(item);
     } else {
       newData.push(row);
-      setData(newData);
-      setEditingKey("");
     }
+
+    setData(newData);
+    form.resetFields();
+    setEditingKey("");
+    setAddingKey("");
   };
   const cancelEdit = () => {
     if (editingKey === addingKey) {
       const newData = data.filter((item) => item.key !== addingKey);
       setData(newData);
     }
+
+    form.resetFields();
     setEditingKey("");
     setAddingKey("");
   };
 
   const add = () => {
-    if (editingKey === "") {
-      let newKey = Math.random();
-      let newItem = { key: newKey };
-      setData([newItem, ...data]);
-      setEditingKey(newKey);
-      setAddingKey(newKey);
-    }
+    let newKey = Math.random();
+    let newItem = { key: newKey };
+    setData([newItem, ...data]);
+    setEditingKey(newKey);
+    setAddingKey(newKey);
   };
 
   const handleDelete = (key) => {
@@ -168,7 +171,7 @@ const ListModal = ({ title, columns, source, open, setOpen, onSaveEdit }) => {
       title={title}
       onOk={() => setOpen(false)}
       onCancel={() => setOpen(false)}
-      width={1000}
+      width={800}
       mask={false}
       centered
     >

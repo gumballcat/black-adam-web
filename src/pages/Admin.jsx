@@ -5,9 +5,16 @@ import MakeshiftButton from "components/basic/MakeshiftButton";
 import TextWithSubtitle from "components/basic/TextWithSubtitle";
 import Thumb from "components/basic/Thumb";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import FourOhFour from "./404";
 
 const Admin = () => {
   const [showProductListingModal, setShowProductListingModal] = useState(false);
+  const account = useSelector((state) => state.account);
+
+  if (account.auth === 0 || account.info.type !== "admin") {
+    return <FourOhFour />;
+  }
 
   const handleProductCheck = () => {
     setShowProductListingModal(true);
