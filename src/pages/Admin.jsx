@@ -4,9 +4,9 @@ import ListModal from "components/basic/ListModal";
 import MakeshiftButton from "components/basic/MakeshiftButton";
 import TextWithSubtitle from "components/basic/TextWithSubtitle";
 import Thumb from "components/basic/Thumb";
+import FourOhFour from "pages/404";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import FourOhFour from "./404";
 
 const Admin = () => {
   const [showProductListingModal, setShowProductListingModal] = useState(false);

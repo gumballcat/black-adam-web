@@ -12,7 +12,6 @@
 
 #tsparticles {
   position: fixed !important;
-  z-index: 101;
   opacity: 0.23;
 }
 
