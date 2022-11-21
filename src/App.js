@@ -1,8 +1,7 @@
-import "antd/dist/antd.css";
 import ROUTES from "common/ROUTES";
 import ScrollToTop from "components/basic/ScrollToTop";
 import Footer from "components/concrete/Footer";
-import Header from "components/concrete/Header"; //Include Header
+import Header from "components/concrete/Header";
 import FourOhFour from "pages/404";
 import About from "pages/About";
 import Admin from "pages/Admin";
@@ -14,19 +13,33 @@ import MenProducts from "pages/MenProducts";
 import Regular from "pages/Regular";
 import SingleProduct from "pages/SingleProduct";
 import WomenProducts from "pages/WomenProducts";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { Particles } from "react-particles";
+import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AccountAction from "redux/actions/AccountAction";
+import AuthenticationService from "services/AuthenticationService";
 import { loadFull } from "tsparticles";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    AuthenticationService.getProfile().then((response) => {
+      if (response.error && response.error.errorCode) {
+        console.log(response.error);
+      } else {
+        dispatch(AccountAction.login(response.content));
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const particlesInit = useCallback(async (engine) => {
     await loadFull(engine);
   }, []);
 
-  const particlesLoaded = useCallback(async (container) => {
-    await console.log(container);
-  }, []);
+  const particlesLoaded = useCallback(async (container) => {}, []);
 
   return (
     <div className="App">

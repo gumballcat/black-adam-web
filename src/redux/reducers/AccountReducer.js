@@ -4,6 +4,7 @@ const AccountReducer = (state = { auth: 0, info: {} }, action) => {
       return {
         info: action.payload,
         auth: 1,
+        cart: [{ a: "1" }, { a: "2" }],
       };
     case "LOGOUT": // Logout
       return {

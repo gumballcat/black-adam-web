@@ -1,3 +1,4 @@
+import { Badge, Menu, Space } from "antd";
 import ROUTES from "common/ROUTES";
 import LoginModal from "components/basic/LoginModal";
 import React, { useState } from "react";
@@ -5,14 +6,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AccountAction from "redux/actions/AccountAction";
 import AuthenticationService from "services/AuthenticationService";
+import "styles/css/Header.css";
+import ListModal from "../basic/ListModal";
 
 function Header() {
   const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showCartModal, setShowCartModal] = useState(false);
   const [modalMessage, setModalMessage] = useState({});
 
   const handleShow = () => setShowLoginModal(true);
+
+  const handleCart = () => setShowCartModal(true);
+
+  const handleLogout = () => {
+    AuthenticationService.logout();
+    dispatch(AccountAction.logout());
+  };
 
   const onSubmit = (e) => {
     const username = e.target.username.value;
@@ -20,7 +31,6 @@ function Header() {
 
     AuthenticationService.login(username, password)
       .then((response) => {
-        console.log(response);
         dispatch(AccountAction.login(response.content));
         setShowLoginModal(false);
       })
@@ -32,6 +42,68 @@ function Header() {
         });
       });
   };
+
+  const menuItems = [
+    { label: <Link to={ROUTES.HOME}>Home</Link>, key: "home" },
+    { label: <Link to={ROUTES.MEN_PRODUCTS}>Men's</Link>, key: "men" },
+    { label: <Link to={ROUTES.WOMEN_PRODUCTS}>Women's</Link>, key: "women" },
+    { label: <Link to={ROUTES.KIDS_PRODUCTS}>Kid's</Link>, key: "kids" },
+    {
+      label: "Pages",
+      key: "pages",
+      children: [
+        { label: <Link to={ROUTES.ABOUT}>About Us</Link>, key: "aboutUs" },
+        {
+          label: <Link to={ROUTES.LATEST_PRODUCTS}>Latest Products</Link>,
+          key: "latestProducts",
+        },
+        {
+          label: <Link to={ROUTES.CONTACT}>Contact Us</Link>,
+          key: "contactUs",
+        },
+      ],
+    },
+    {
+      label:
+        account.auth === 0 ? (
+          <Link onClick={handleShow}>Login</Link>
+        ) : (
+          "Account"
+        ),
+      key: "account",
+      children:
+        account.auth === 1
+          ? [
+              {
+                label: (
+                  <Link
+                    to={
+                      account.info.type === "admin" ? ROUTES.ADMIN_ACCOUNT : ""
+                    }
+                  >{`Hello, ${account.info.name}`}</Link>
+                ),
+                key: "greetings",
+              },
+              {
+                label: <Link onClick={handleLogout}>Logout</Link>,
+                key: "logout",
+              },
+            ]
+          : [],
+    },
+  ];
+  if (account.info.type === "regular") {
+    menuItems.push({
+      label: (
+        <Space>
+          <Badge size="small" count={account.cart.length} offset={[10, -5]}>
+            <Link onClick={handleCart}>Cart</Link>
+          </Badge>
+        </Space>
+      ),
+      key: "cart",
+    });
+  }
 
   return (
     <>
@@ -48,62 +120,11 @@ function Header() {
                   />
                 </Link>
 
-                <ul className="nav">
-                  <li>
-                    <Link to={ROUTES.HOME}>Home</Link>
-                  </li>
-                  <li className="scroll-to-section">
-                    <Link to={ROUTES.MEN_PRODUCTS}>Men's</Link>
-                  </li>
-                  <li className="scroll-to-section">
-                    <Link to={ROUTES.WOMEN_PRODUCTS}>Women's</Link>
-                  </li>
-                  <li className="scroll-to-section">
-                    <Link to={ROUTES.KIDS_PRODUCTS}>Kid's</Link>
-                  </li>
-                  <li className="submenu">
-                    <span>Pages</span>
-                    <ul>
-                      <li>
-                        <Link to={ROUTES.ABOUT}>About Us</Link>
-                      </li>
-                      <li>
-                        <Link to={ROUTES.LATEST_PRODUCTS}>Latest Products</Link>
-                      </li>
-                      <li>
-                        <Link to={ROUTES.CONTACT}>Contact Us</Link>
-                      </li>
-                    </ul>
-                  </li>
-                  <li className="submenu">
-                    <span>Account</span>
-                    <ul>
-                      <li>
-                        {account.auth === 1 ? (
-                          <>
-                            <Link
-                              to={
-                                account.info.type === "admin"
-                                  ? ROUTES.ADMIN_ACCOUNT
-                                  : ROUTES.REGULAR_ACCOUNT
-                              }
-                            >{`Hello, ${account.info.name}`}</Link>
-                            <Link
-                              onClick={() => {
-                                dispatch(AccountAction.logout());
-                                window.location.pathname = ROUTES.HOME;
-                              }}
-                            >
-                              Logout
-                            </Link>
-                          </>
-                        ) : (
-                          <Link onClick={handleShow}>Login</Link>
-                        )}
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
+                <Menu
+                  mode="horizontal"
+                  forceSubMenuRender={true}
+                  items={menuItems}
+                />
               </nav>
             </div>
           </div>
@@ -116,6 +137,28 @@ function Header() {
         onSubmit={onSubmit}
         message={modalMessage}
         setMessage={setModalMessage}
+      />
+      <ListModal
+        open={showCartModal}
+        setOpen={setShowCartModal}
+        title="Your Shopping Cart"
+        columns={columns}
+        source={{
+          endpoint: ENDPOINTS.GET_LATEST_PRODUCTS,
+          dataTransform: (response) => {
+            return response.content.items.map((item) => {
+              return {
+                key: item.id,
+                id: item.id,
+                name: item.name,
+                price: item.price.quantity,
+                rating: item.rating,
+                description: item.description,
+              };
+            });
+          },
+        }}
+        onSaveEdit={onSaveEdit}
       />
     </>
   );

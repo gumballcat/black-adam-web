@@ -1,0 +1,34 @@
+.header-area .main-nav li.ant-menu-item {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.header-area .main-nav li.ant-menu-item:last-child {
+  padding-right: 0px;
+}
+
+.header-area .main-nav .ant-menu-item a,
+.header-area .main-nav .ant-menu-submenu span {
+  color: #c8c8c8;
+  display: block;
+  font-weight: 600;
+  font-size: 15px;
+  height: 40px;
+  border: transparent;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  transition: all 0.3s ease 0s;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+}
+
+.header-area .main-nav .ant-menu {
+  background: none;
+  border-right: none;
+  border-bottom: none;
+  display: "flex";
+  float: right;
+  margin-top: 30px;
+  margin-right: 0px;
+}

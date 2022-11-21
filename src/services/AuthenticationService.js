@@ -9,8 +9,18 @@ async function login(username, password) {
   return HELPER.HTTP.executePostForm(ENDPOINTS.LOGIN, params);
 }
 
+async function logout() {
+  return HELPER.HTTP.executePost(ENDPOINTS.LOGOUT);
+}
+
+async function getProfile() {
+  return HELPER.HTTP.executeGet(ENDPOINTS.GET_PROFILE);
+}
+
 const AuthenticationService = {
   login,
+  logout,
+  getProfile,
 };
 
 export default AuthenticationService;

@@ -3,7 +3,7 @@ import axios from "axios";
 async function executeGet(url, params) {
   return new Promise((fulfill, reject) => {
     axios
-      .get(url, { params: { ...params } })
+      .get(url, { params: { ...params }, withCredentials: true })
       .then((response) => {
         fulfill(response.data);
       })
