@@ -42,7 +42,15 @@ const EditableCell = ({
   );
 };
 
-const ListModal = ({ title, columns, source, open, setOpen, onSaveEdit }) => {
+const ListModal = ({
+  title,
+  columns,
+  source,
+  open,
+  setOpen,
+  actions = [],
+  onSaveEdit,
+}) => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
@@ -124,46 +132,52 @@ const ListModal = ({ title, columns, source, open, setOpen, onSaveEdit }) => {
       }),
     };
   });
-  mergedColumns.push({
-    title: "Action",
-    dataIndex: "operation",
-    render: (_, record) => {
-      const editable = isEditing(record);
-      return editable ? (
-        <span>
-          <Typography.Link
-            onClick={() => saveEdit(record.key)}
-            style={{
-              marginRight: 8,
-            }}
-          >
-            Save
-          </Typography.Link>
-          <Popconfirm title="Sure to cancel?" onConfirm={cancelEdit}>
-            <a>Cancel</a>
-          </Popconfirm>
-        </span>
-      ) : (
-        <>
-          <Button
-            type="primary"
-            shape="round"
-            icon={<EditOutlined />}
-            disabled={isBusy()}
-            onClick={() => edit(record)}
-          />
-          <Button
-            danger
-            type="primary"
-            shape="round"
-            icon={<DeleteOutlined />}
-            disabled={isBusy()}
-            onClick={() => handleDelete(record.key)}
-          />
-        </>
-      );
-    },
-  });
+  if (actions.includes("edit") || actions.includes("delete")) {
+    mergedColumns.push({
+      title: "Action",
+      dataIndex: "operation",
+      render: (_, record) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <span>
+            <Typography.Link
+              onClick={() => saveEdit(record.key)}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              Save
+            </Typography.Link>
+            <Popconfirm title="Sure to cancel?" onConfirm={cancelEdit}>
+              <a>Cancel</a>
+            </Popconfirm>
+          </span>
+        ) : (
+          <>
+            {actions.includes("edit") ? (
+              <Button
+                type="primary"
+                shape="round"
+                icon={<EditOutlined />}
+                disabled={isBusy()}
+                onClick={() => edit(record)}
+              />
+            ) : null}
+            {actions.includes("delete") ? (
+              <Button
+                danger
+                type="primary"
+                shape="round"
+                icon={<DeleteOutlined />}
+                disabled={isBusy()}
+                onClick={() => handleDelete(record.key)}
+              />
+            ) : null}
+          </>
+        );
+      },
+    });
+  }
 
   return (
     <Modal
@@ -176,14 +190,16 @@ const ListModal = ({ title, columns, source, open, setOpen, onSaveEdit }) => {
       centered
     >
       <Form form={form} component={false}>
-        <Button
-          onClick={add}
-          disabled={editingKey !== ""}
-          type="primary"
-          style={{ marginBotton: 16 }}
-        >
-          Add
-        </Button>
+        {actions.includes("add") ? (
+          <Button
+            onClick={add}
+            disabled={editingKey !== ""}
+            type="primary"
+            style={{ marginBotton: 16 }}
+          >
+            Add
+          </Button>
+        ) : null}
         <Table
           columns={mergedColumns}
           dataSource={data}

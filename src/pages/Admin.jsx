@@ -10,21 +10,36 @@ import { useSelector } from "react-redux";
 
 const Admin = () => {
   const [showProductListingModal, setShowProductListingModal] = useState(false);
+  const [showOrderArrangementModal, setShowOrderArrangementModal] =
+    useState(false);
   const account = useSelector((state) => state.account);
 
   if (account.auth === 0 || account.info.type !== "admin") {
     return <FourOhFour />;
   }
 
-  const handleProductCheck = () => {
+  const handleProducts = () => {
     setShowProductListingModal(true);
+  };
+
+  const handleOrders = () => {
+    setShowOrderArrangementModal(true);
   };
 
   const onSaveEdit = (record) => {
     HELPER.HTTP.executePost(ENDPOINTS.UPDATE_PRODUCT, record);
   };
 
-  const columns = [
+  const sections = [
+    {
+      imageURL: "assets/images/baner-right-image-01.jpg",
+      text: "Orders",
+      buttonText: "Arrange Orders",
+      cta: handleOrders,
+    },
+  ];
+
+  const productListingColumns = [
     {
       title: "Name",
       dataIndex: "name",
@@ -47,6 +62,59 @@ const Admin = () => {
       editable: true,
     },
   ];
+  const productListingActions = ["add", "edit", "delete"];
+
+  const orderArrangementColumns = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      dataType: "text",
+      editable: false,
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      dataType: "text",
+      editable: false,
+    },
+    {
+      title: "Product Name",
+      dataIndex: "productName",
+      key: "productName",
+      dataType: "text",
+      editable: false,
+    },
+    {
+      title: "Product Quantity",
+      dataIndex: "productQuantity",
+      key: "productQuantity",
+      dataType: "number",
+      editable: false,
+    },
+    {
+      title: "Total",
+      dataIndex: "total",
+      key: "total",
+      dataType: "number",
+      editable: false,
+    },
+    {
+      title: "User ID",
+      dataIndex: "userID",
+      key: "userID",
+      dataType: "text",
+      editable: false,
+    },
+    {
+      title: "Username",
+      dataIndex: "username",
+      key: "username",
+      dataType: "text",
+      editable: false,
+    },
+  ];
 
   return (
     <>
@@ -56,20 +124,44 @@ const Admin = () => {
             <div className="row">
               <div className="col-lg-6">
                 <div className="left-content">
-                  {
-                    <Thumb
-                      imageURL="assets/images/left-banner-image.jpg"
-                      innerContent={
-                        <>
-                          <TextWithSubtitle text="Inventory Management" />
-                          <MakeshiftButton
-                            buttonText="See Product Listing"
-                            onClick={handleProductCheck}
-                          />
-                        </>
-                      }
-                    />
-                  }
+                  <Thumb
+                    imageURL="assets/images/left-banner-image.jpg"
+                    innerContent={
+                      <>
+                        <TextWithSubtitle text="Inventory Management" />
+                        <MakeshiftButton
+                          buttonText="See Product Listing"
+                          onClick={handleProducts}
+                        />
+                      </>
+                    }
+                  />
+                </div>
+              </div>
+              <div className="col-lg-6">
+                <div className="right-content">
+                  <div className="row">
+                    {sections.map((section) => {
+                      return (
+                        <div className="col-lg-6" key={section.text}>
+                          <div className="right-first-image">
+                            <Thumb
+                              imageURL={section.imageURL}
+                              innerContent={
+                                <>
+                                  <TextWithSubtitle text={section.text} />
+                                  <MakeshiftButton
+                                    buttonText={section.buttonText}
+                                    onClick={section.cta}
+                                  />
+                                </>
+                              }
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
@@ -81,7 +173,7 @@ const Admin = () => {
         open={showProductListingModal}
         setOpen={setShowProductListingModal}
         title="Product Listing"
-        columns={columns}
+        columns={productListingColumns}
         source={{
           endpoint: ENDPOINTS.GET_LATEST_PRODUCTS,
           dataTransform: (response) => {
@@ -97,7 +189,31 @@ const Admin = () => {
             });
           },
         }}
+        actions={productListingActions}
         onSaveEdit={onSaveEdit}
+      />
+      <ListModal
+        open={showOrderArrangementModal}
+        setOpen={setShowOrderArrangementModal}
+        title="Order Arrangement"
+        columns={orderArrangementColumns}
+        source={{
+          endpoint: ENDPOINTS.GET_ORDERS,
+          dataTransform: (response) => {
+            return response.content.items.map((item) => {
+              return {
+                key: item.id,
+                id: item.id,
+                date: item.date,
+                productName: item.productName,
+                productQuantity: item.productQuantity,
+                total: item.total,
+                userID: item.userID,
+                username: item.username,
+              };
+            });
+          },
+        }}
       />
     </>
   );

@@ -11,6 +11,7 @@ const ENDPOINTS = {
   LOGIN: BASE_ENDPOINT + "login",
   LOGOUT: BASE_ENDPOINT + "logout",
   UPDATE_PRODUCT: BASE_ENDPOINT + "product",
+  GET_ORDERS: BASE_ENDPOINT + "orders",
   GET_PROFILE: BASE_ENDPOINT + "get-profile",
 };
 
