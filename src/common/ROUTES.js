@@ -9,7 +9,8 @@ const ROUTES = {
   PRODUCT: "/single-product",
   CONTACT: "/contact-us",
   ADMIN_ACCOUNT: "/admin",
-  REGULAR_ACCOUNT: "/regular"
+  REGULAR_ACCOUNT: "/regular",
+  CHECKOUT: "/checkout"
 };
 
 export default ROUTES;

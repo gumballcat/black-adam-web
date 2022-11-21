@@ -5,6 +5,7 @@ import Header from "components/concrete/Header";
 import FourOhFour from "pages/404";
 import About from "pages/About";
 import Admin from "pages/Admin";
+import Checkout from "pages/Checkout";
 import Contact from "pages/Contact";
 import Home from "pages/Home";
 import KidsProducts from "pages/KidsProducts";
@@ -117,6 +118,7 @@ const App = () => {
           <Route path={ROUTES.PRODUCT} element={<SingleProduct />} />
           <Route path={ROUTES.ADMIN_ACCOUNT} element={<Admin />} />
           <Route path={ROUTES.REGULAR_ACCOUNT} element={<Regular />} />
+          <Route path={ROUTES.CHECKOUT} element={<Checkout />} />
           <Route path="*" element={<FourOhFour />} />
         </Routes>
         <Footer></Footer>

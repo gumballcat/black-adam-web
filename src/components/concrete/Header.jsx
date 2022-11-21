@@ -7,18 +7,14 @@ import { Link } from "react-router-dom";
 import AccountAction from "redux/actions/AccountAction";
 import AuthenticationService from "services/AuthenticationService";
 import "styles/css/Header.css";
-import ListModal from "../basic/ListModal";
 
 function Header() {
   const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showCartModal, setShowCartModal] = useState(false);
   const [modalMessage, setModalMessage] = useState({});
 
   const handleShow = () => setShowLoginModal(true);
-
-  const handleCart = () => setShowCartModal(true);
 
   const handleLogout = () => {
     AuthenticationService.logout();
@@ -97,7 +93,7 @@ function Header() {
       label: (
         <Space>
           <Badge size="small" count={account.cart.length} offset={[10, -5]}>
-            <Link onClick={handleCart}>Cart</Link>
+            <Link to={ROUTES.CHECKOUT}>Cart</Link>
           </Badge>
         </Space>
       ),
@@ -137,28 +133,6 @@ function Header() {
         onSubmit={onSubmit}
         message={modalMessage}
         setMessage={setModalMessage}
-      />
-      <ListModal
-        open={showCartModal}
-        setOpen={setShowCartModal}
-        title="Your Shopping Cart"
-        columns={columns}
-        source={{
-          endpoint: ENDPOINTS.GET_LATEST_PRODUCTS,
-          dataTransform: (response) => {
-            return response.content.items.map((item) => {
-              return {
-                key: item.id,
-                id: item.id,
-                name: item.name,
-                price: item.price.quantity,
-                rating: item.rating,
-                description: item.description,
-              };
-            });
-          },
-        }}
-        onSaveEdit={onSaveEdit}
       />
     </>
   );
