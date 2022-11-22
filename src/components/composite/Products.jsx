@@ -1,4 +1,3 @@
-import CONSTANTS from "common/CONSTANTS";
 import HELPER from "common/HELPER";
 import Pagination from "components/basic/Pagination";
 import Preloader from "components/basic/Preloader";
@@ -16,12 +15,10 @@ function Products({ getEndpoint, heading, subheading, title, subtitle }) {
   const ref = useRef(null);
 
   useEffect(() => {
-    HELPER.HTTP.executeGet(getEndpoint, {
-      start: (page - 1) * CONSTANTS.PAGE_SIZE,
-      count: CONSTANTS.PAGE_SIZE,
-    }).then((response) => {
-      setProducts(response.content.items);
-      setTotalPages(Math.ceil(response.content.total / CONSTANTS.PAGE_SIZE));
+    HELPER.HTTP.executeGet(getEndpoint).then((response) => {
+      setProducts(response.content);
+      setTotalPages(1);
+      // setTotalPages(Math.ceil(response.content.total / CONSTANTS.PAGE_SIZE));
       setIsLoading(false);
     });
   }, [getEndpoint, page]);

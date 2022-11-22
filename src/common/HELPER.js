@@ -28,6 +28,20 @@ async function executePost(url, data) {
   });
 }
 
+async function executeDelete(url, data) {
+  return new Promise((fulfill, reject) => {
+    axios
+      .delete(url, { params: { ...data } }, { withCredentials: true })
+      .then((response) => {
+        fulfill(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}
+
 async function executePostForm(url, formData) {
   return new Promise((fulfill, reject) => {
     axios
@@ -45,7 +59,7 @@ async function executePostForm(url, formData) {
   });
 }
 
-const HTTP = { executeGet, executePost, executePostForm };
+const HTTP = { executeGet, executePost, executeDelete, executePostForm };
 
 const HELPER = { HTTP };
 

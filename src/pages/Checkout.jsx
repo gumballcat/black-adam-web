@@ -1,38 +1,48 @@
+import { CreditCardOutlined, DeleteOutlined } from "@ant-design/icons";
 import {
+  Button,
+  Col,
+  Divider,
   Layout,
   Row,
-  Col,
-  Table,
   Space,
-  Divider,
   Statistic,
-  Button,
+  Table,
 } from "antd";
-import { CreditCardOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import { connect, useDispatch } from "react-redux";
+import CartAction from "redux/actions/CartAction";
 import "styles/css/Checkout.css";
-import { useSelector } from "react-redux";
 
 const { Content } = Layout;
 
-const Checkout = () => {
-  const account = useSelector((state) => state.account);
+const Checkout = ({ cartItems, totalItems, totalPrice }) => {
+  const dispatch = useDispatch();
+  const [data, setData] = useState(cartItems);
+
+  const handleDelete = (removedItem) => {
+    dispatch(CartAction.remove(removedItem));
+    setData([...cartItems]);
+  };
 
   const columns = [
     {
       title: "ID",
       dataIndex: "id",
+      rowKey: "itemID",
       key: "itemID",
       render: (text) => <span>{text}</span>,
     },
     {
       title: "Name",
       dataIndex: "name",
+      rowKey: "name",
       key: "name",
     },
-
     {
       title: "Price",
       key: "price",
+      rowKey: "price",
       dataIndex: "price",
       render: (_, record) => (
         <Space size="middle">
@@ -40,20 +50,39 @@ const Checkout = () => {
         </Space>
       ),
     },
+    {
+      title: "Quantity",
+      key: "quantity",
+      rowKey: "quantity",
+      dataIndex: "quantity",
+      render: (text) => <span>{text}</span>,
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (_, record) => {
+        return (
+          <Button
+            danger
+            type="primary"
+            shape="round"
+            icon={<DeleteOutlined />}
+            onClick={() => handleDelete(record)}
+          />
+        );
+      },
+    },
   ];
-
-  let total = 0;
-  account.cart.forEach((item) => (total += item.price));
 
   return (
     <div>
       <Layout>
         <Content className="site-layout-background">
           <h2>
-            Total Items <strong>({account.cart.length})</strong>
+            Total Items <strong>({totalItems})</strong>
           </h2>
           <br></br>
-          <Table columns={columns} dataSource={account.cart} pagination={false} />
+          <Table columns={columns} dataSource={data} pagination={false} />
           <Divider orientation="right"></Divider>
           <Row justify="start">
             <Col md={12}>
@@ -78,7 +107,7 @@ const Checkout = () => {
             <Col>
               <Statistic
                 title="Total (tax incl)."
-                value={`$ ${Math.round(total).toFixed(2)}`}
+                value={`$ ${Math.round(totalPrice).toFixed(2)}`}
                 precision={2}
               />
               <Button style={{ marginTop: 16 }} type="primary">
@@ -92,4 +121,12 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+function mapStateToProps(state, ownProps) {
+  return {
+    cartItems: state.cart.items,
+    totalItems: state.cart.totalItems,
+    totalPrice: state.cart.totalPrice,
+  };
+}
+
+export default connect(mapStateToProps)(Checkout);

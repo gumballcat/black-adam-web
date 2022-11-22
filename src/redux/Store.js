@@ -1,24 +1,25 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import thunk from "redux-thunk";
 import AccountReducer from "redux/reducers/AccountReducer";
-import { persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import thunk from 'redux-thunk';
-
+import CartReducer from "./reducers/CartReducer";
 
 const persistConfig = {
-  key: 'root',
-  storage
-}
+  key: "root",
+  storage,
+};
 
 const reducers = combineReducers({
-  account: AccountReducer
+  account: AccountReducer,
+  cart: CartReducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, reducers)
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const Store = configureStore({
   reducer: persistedReducer,
-  middleware: [thunk]
+  middleware: [thunk],
 });
 
 export const Persistor = persistStore(Store);
