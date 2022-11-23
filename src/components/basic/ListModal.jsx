@@ -6,6 +6,7 @@ import {
   InputNumber,
   Modal,
   Popconfirm,
+  Select,
   Table,
   Typography,
 } from "antd";
@@ -118,18 +119,34 @@ const ListModal = ({
   };
 
   const mergedColumns = columns.map((column) => {
-    if (!column.editable) {
-      return column;
+    if (column.dataType !== "select") {
+      return column.editable
+        ? {
+            ...column,
+            onCell: (record) => ({
+              record,
+              inputType: column.dataType,
+              dataIndex: column.dataIndex,
+              title: column.title,
+              editing: isEditing(record),
+            }),
+          }
+        : column;
     }
     return {
       ...column,
-      onCell: (record) => ({
-        record,
-        inputType: column.dataType,
-        dataIndex: column.dataIndex,
-        title: column.title,
-        editing: isEditing(record),
-      }),
+      render: (_, record) => {
+        const editable = column.editable && isEditing(record);
+        return editable ? (
+          <Select style={{ width: 120 }} options={column.options} />
+        ) : (
+          <Select
+            disabled={true}
+            style={{ width: 120 }}
+            defaultValue={column.currentOption(record, column.options).label}
+          />
+        );
+      },
     };
   });
   if (actions.includes("edit") || actions.includes("delete")) {
@@ -137,8 +154,8 @@ const ListModal = ({
       title: "Action",
       dataIndex: "operation",
       render: (_, record) => {
-        const editable = isEditing(record);
-        return editable ? (
+        const editing = isEditing(record);
+        return editing ? (
           <span>
             <Typography.Link
               onClick={() => saveEdit(record.key)}
@@ -185,7 +202,7 @@ const ListModal = ({
       title={title}
       onOk={() => setOpen(false)}
       onCancel={() => setOpen(false)}
-      width={800}
+      width={1000}
       mask={false}
       centered
     >

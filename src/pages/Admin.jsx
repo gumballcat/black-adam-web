@@ -1,4 +1,5 @@
 import ENDPOINTS from "common/ENDPOINTS";
+import ENUMS from "common/ENUMS";
 import HELPER from "common/HELPER";
 import ListModal from "components/basic/ListModal";
 import MakeshiftButton from "components/basic/MakeshiftButton";
@@ -6,15 +7,13 @@ import TextWithSubtitle from "components/basic/TextWithSubtitle";
 import Thumb from "components/basic/Thumb";
 import FourOhFour from "pages/404";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { connect } from "react-redux";
 
-const Admin = () => {
+const Admin = ({ isAdmin }) => {
   const [showProductListingModal, setShowProductListingModal] = useState(false);
   const [showOrderArrangementModal, setShowOrderArrangementModal] =
     useState(false);
-  const account = useSelector((state) => state.account);
-
-  if (account.auth === 0 || account.info.type !== "admin") {
+  if (!isAdmin) {
     return <FourOhFour />;
   }
 
@@ -27,7 +26,7 @@ const Admin = () => {
   };
 
   const onSaveEdit = (record) => {
-    HELPER.HTTP.executePost(ENDPOINTS.UPDATE_PRODUCT, record);
+    HELPER.HTTP.executePost(ENDPOINTS.UPDATE_PRODUCT, { body: record });
   };
 
   const sections = [
@@ -39,11 +38,15 @@ const Admin = () => {
     },
   ];
 
+  const categorySelectOptions = ENUMS.CATEGORY.map((category) => {
+    return { value: category.id, label: category.title };
+  });
+
   const productListingColumns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
       dataType: "text",
       editable: true,
     },
@@ -55,11 +58,32 @@ const Admin = () => {
       editable: true,
     },
     {
-      title: "Rating",
-      dataIndex: "rating",
-      key: "rating",
+      title: "Stock",
+      dataIndex: "stock",
+      key: "stock",
       dataType: "number",
       editable: true,
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      dataType: "text",
+      editable: true,
+    },
+    {
+      title: "Category",
+      dataIndex: "categoryIds",
+      key: "categoryIDs",
+      editable: true,
+      dataType: "select",
+      options: categorySelectOptions,
+      currentOption: (record, options) => {
+        const currentOption = options.filter(
+          (option) => option.value === record.categoryIDs[0]
+        );
+        return currentOption ? currentOption[0] : {};
+      },
     },
   ];
   const productListingActions = ["add", "edit", "delete"];
@@ -177,13 +201,14 @@ const Admin = () => {
         source={{
           endpoint: ENDPOINTS.GET_LATEST_PRODUCTS,
           dataTransform: (response) => {
-            return response.content.items.map((item) => {
+            return response.content.map((item) => {
               return {
                 key: item.id,
                 id: item.id,
-                name: item.name,
-                price: item.price.quantity,
-                rating: item.rating,
+                title: item.title,
+                price: item.price,
+                stock: item.stock,
+                categoryIDs: item.categoryIds,
                 description: item.description,
               };
             });
@@ -219,4 +244,10 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+function mapStateToProps(state, ownProps) {
+  return {
+    isAdmin: state.account.auth === 1 && state.account.profile.name === "Admin",
+  };
+}
+
+export default connect(mapStateToProps)(Admin);
