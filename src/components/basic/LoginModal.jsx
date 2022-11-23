@@ -25,7 +25,21 @@ const LoginModal = ({ signal, setSignal }) => {
     const username = e.target.username.value;
     const password = e.target.password.value;
 
-    const { token, profile } = AuthenticationService.login(username, password);
+    AuthenticationService.login(username, password)
+      .then((loginResponse) => {
+        let token = loginResponse.headers.authorization;
+
+        AuthenticationService.getProfile(token).then((getProfileResponse) => {
+          dispatch(AccountAction.login(getProfileResponse.content, token));
+        });
+
+        setSignal(false);
+        setMessage({});
+      })
+      .catch((error) => {
+        console.log(error);
+        setMessage({ type: "error", text: error.errorMessage });
+      });
   };
 
   const onSignUpSubmit = (e) => {

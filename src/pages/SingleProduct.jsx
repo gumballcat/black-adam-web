@@ -18,7 +18,7 @@ function SingleProduct(props) {
     let id = location.state.id;
     if (id > 0) {
       HELPER.HTTP.executeGet(ENDPOINTS.GET_PRODUCT, {
-        id: id,
+        params: { id: id },
       }).then((response) => {
         setData(response.content);
         setIsLoading(false);

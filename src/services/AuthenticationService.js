@@ -2,14 +2,9 @@ import ENDPOINTS from "common/ENDPOINTS";
 import HELPER from "common/HELPER";
 
 async function login(username, password) {
-  HELPER.HTTP.executePost(ENDPOINTS.LOGIN, {
+  return HELPER.HTTP.executePost(ENDPOINTS.LOGIN, {
     username: username,
     password: password,
-  }).then((response) => {
-    return {
-      token: response.header.authorization,
-      profile: response.data.content,
-    };
   });
 }
 
@@ -27,8 +22,10 @@ async function signUp(username, password, email) {
   });
 }
 
-async function getProfile() {
-  return HELPER.HTTP.executeGet(ENDPOINTS.GET_PROFILE);
+async function getProfile(token) {
+  return HELPER.HTTP.executeGet(ENDPOINTS.GET_PROFILE, {
+    headers: { Authorization: "Bearer " + token },
+  });
 }
 
 const AuthenticationService = {

@@ -1,8 +1,8 @@
 const AccountAction = {
-  login: (profile) => {
+  login: (profile, token) => {
     return {
       type: "LOGIN",
-      payload: profile,
+      payload: { profile: profile, token: token },
     };
   },
   logout: () => {

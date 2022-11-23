@@ -1,13 +1,18 @@
-const AccountReducer = (state = { auth: 0, info: {} }, action) => {
+const AccountReducer = (
+  state = { auth: 0, profile: {}, token: "" },
+  action
+) => {
   switch (action.type) {
     case "LOGIN": // Login
       return {
-        info: action.payload,
+        profile: action.payload.profile,
+        token: action.payload.token,
         auth: 1,
       };
     case "LOGOUT": // Logout
       return {
-        info: {},
+        profile: {},
+        token: "",
         auth: 0,
       };
     default:

@@ -1,14 +1,17 @@
 import axios from "axios";
 
-async function executeGet(url, params) {
+async function executeGet(url, { params, headers }) {
   return new Promise((fulfill, reject) => {
     axios
-      .get(url, { params: { ...params }, withCredentials: true })
+      .get(url, {
+        params: { ...params },
+        headers: { ...headers },
+        withCredentials: true,
+      })
       .then((response) => {
         fulfill(response.data);
       })
       .catch((error) => {
-        console.log(error);
         reject(error);
       });
   });
@@ -21,9 +24,8 @@ async function executePost(url, data) {
       .then((response) => {
         fulfill(response);
       })
-      .catch((error) => {
-        console.log(error);
-        reject(error);
+      .catch((exception) => {
+        reject(exception.response.data.errors[0]);
       });
   });
 }
@@ -35,9 +37,8 @@ async function executeDelete(url, data) {
       .then((response) => {
         fulfill(response);
       })
-      .catch((error) => {
-        console.log(error);
-        reject(error);
+      .catch((exception) => {
+        reject(exception.response.data.errors[0]);
       });
   });
 }
@@ -53,8 +54,8 @@ async function executePostForm(url, formData) {
           reject(response.data.error);
         }
       })
-      .catch((error) => {
-        reject(error);
+      .catch((exception) => {
+        reject(exception.response.data.errors[0]);
       });
   });
 }

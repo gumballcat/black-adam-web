@@ -14,7 +14,7 @@ const ENDPOINTS = {
   LOGOUT: BASE_ENDPOINT + "logout",
   UPDATE_PRODUCT: BASE_ENDPOINT + "product",
   GET_ORDERS: BASE_ENDPOINT + "orders",
-  GET_PROFILE: BASE_ENDPOINT + "get-profile",
+  GET_PROFILE: BASE + "users/current-login-user",
   ADD_CART_ITEM: BASE + "cart",
   REMOVE_CART_ITEM: BASE + "cart",
 };

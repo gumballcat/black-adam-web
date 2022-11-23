@@ -16,23 +16,22 @@ import SingleProduct from "pages/SingleProduct";
 import WomenProducts from "pages/WomenProducts";
 import { useCallback, useEffect } from "react";
 import { Particles } from "react-particles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AccountAction from "redux/actions/AccountAction";
 import AuthenticationService from "services/AuthenticationService";
 import { loadFull } from "tsparticles";
 
 const App = () => {
+  const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    AuthenticationService.getProfile().then((response) => {
-      if (response.error && response.error.errorCode) {
-        console.log(response.error);
-      } else {
+    AuthenticationService.getProfile(account.token)
+      .then((response) => {
         dispatch(AccountAction.login(response.content));
-      }
-    });
+      })
+      .catch((error) => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
