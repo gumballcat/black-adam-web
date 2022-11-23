@@ -1,18 +1,51 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import CartService from "services/CartService";
 import CartAction from "../../redux/actions/CartAction";
 
 const ProductButtonRow = ({ data }) => {
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+  const account = useSelector((state) => state.account);
 
   const handleAddItem = () => {
+    const itemsInCart = [...cart.items];
+    let totalPrice = cart.totalPrice;
+    let totalItems = cart.totalItems;
+    const newItem = { id: data.id, title: data.title, price: data.price };
+
+    let quantity = 1;
+    let newItemIsInCart = false;
+    let itemInCart;
+
+    for (const item of itemsInCart) {
+      if (item.id === newItem.id) {
+        quantity += item.quantity;
+        newItemIsInCart = true;
+        itemInCart = item;
+
+        break;
+      }
+    }
+
+    if (newItemIsInCart) {
+      itemInCart.quantity = quantity;
+    } else {
+      itemsInCart.push({ ...newItem, quantity: 1 });
+    }
+
+    totalItems += 1;
+    totalPrice += newItem.price;
+
     dispatch(
-      CartAction.add({
-        id: data.id,
-        name: data.name,
-        price: data.price,
+      CartAction.set({
+        items: itemsInCart,
+        totalPrice: totalPrice,
+        totalItems: totalItems,
       })
     );
+
+    CartService.setItem(account.token, newItem.id, quantity);
   };
 
   return (
@@ -23,7 +56,12 @@ const ProductButtonRow = ({ data }) => {
         </Link>
       </li>
       <li>
-        <Link onClick={handleAddItem}>
+        <Link
+          onClick={(e) => {
+            e.preventDefault();
+            handleAddItem();
+          }}
+        >
           <i className="fa fa-shopping-cart"></i>
         </Link>
       </li>

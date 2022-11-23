@@ -9,21 +9,57 @@ import {
   Statistic,
   Table,
 } from "antd";
-import { useState } from "react";
-import { connect, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
 import CartAction from "redux/actions/CartAction";
+import CartService from "services/CartService";
 import "styles/css/Checkout.css";
 
 const { Content } = Layout;
 
 const Checkout = ({ cartItems, totalItems, totalPrice }) => {
   const dispatch = useDispatch();
+  const account = useSelector((state) => state.account);
   const [data, setData] = useState(cartItems);
 
   const handleDelete = (removedItem) => {
-    dispatch(CartAction.remove(removedItem));
-    setData([...cartItems]);
+    const itemsInCart = [...cartItems];
+    let iTotalPrice = totalPrice;
+    let iTotalItems = totalItems;
+    let quantity = 0;
+
+    for (const [index, item] of itemsInCart.entries()) {
+      if (item.id === removedItem.id) {
+        if (item.quantity > 1) {
+          item.quantity -= 1;
+          quantity = item.quantity;
+        } else {
+          itemsInCart.splice(index, 1);
+        }
+
+        iTotalItems -= 1;
+        iTotalPrice -= item.price;
+
+        break;
+      }
+    }
+
+    dispatch(
+      CartAction.set({
+        items: itemsInCart,
+        totalPrice: iTotalPrice,
+        totalItems: iTotalItems,
+      })
+    );
+
+    CartService.setItem(account.token, removedItem.id, quantity);
+
+    setData([...itemsInCart]);
   };
+
+  useEffect(() => {
+    setData([...cartItems]);
+  }, [cartItems]);
 
   const columns = [
     {

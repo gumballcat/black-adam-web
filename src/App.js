@@ -19,20 +19,61 @@ import { Particles } from "react-particles";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AccountAction from "redux/actions/AccountAction";
+import CartAction from "redux/actions/CartAction";
 import AuthenticationService from "services/AuthenticationService";
+import CartService from "services/CartService";
 import { loadFull } from "tsparticles";
 
 const App = () => {
   const account = useSelector((state) => state.account);
+  const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    AuthenticationService.getProfile(account.token)
-      .then((response) => {
-        dispatch(AccountAction.login(response.content));
-      })
-      .catch((error) => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    let currentCart = {
+      items: [...cart.items],
+      totalPrice: cart.totalPrice,
+      totalItems: cart.totalItems,
+    };
+
+    if (account.token) {
+      AuthenticationService.getProfile(account.token)
+        .then((response) => {
+          dispatch(AccountAction.login(response.content, account.token));
+        })
+        .catch((error) => {});
+
+      CartService.getCart(account.token, account.profile.id).then(
+        (response) => {
+          if (response.content) {
+            let items = [];
+            let totalPrice = 0;
+            let totalItems = 0;
+            for (const item of response.content) {
+              items.push({
+                id: item.product.id,
+                title: item.product.title,
+                price: item.product.price,
+                quantity: item.quantity,
+              });
+              totalPrice += item.totalPrice;
+              totalItems += item.quantity;
+            }
+
+            dispatch(
+              CartAction.set({
+                items: items,
+                totalPrice: totalPrice,
+                totalItems: totalItems,
+              })
+            );
+          } else {
+            dispatch(CartAction.set(currentCart));
+          }
+        }
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
   }, []);
 
   const particlesInit = useCallback(async (engine) => {

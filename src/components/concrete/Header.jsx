@@ -5,10 +5,10 @@ import React, { useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AccountAction from "redux/actions/AccountAction";
-import AuthenticationService from "services/AuthenticationService";
+import CartAction from "redux/actions/CartAction";
 import "styles/css/Header.css";
 
-function Header({ totalItems = 0 }) {
+function Header({ isLoggedIn, isAdmin, totalItems = 0 }) {
   const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -16,8 +16,9 @@ function Header({ totalItems = 0 }) {
   const handleShow = () => setShowLoginModal(true);
 
   const handleLogout = () => {
-    AuthenticationService.logout();
+    // AuthenticationService.logout();
     dispatch(AccountAction.logout());
+    dispatch(CartAction.set({ items: [], totalPrice: 0, totalItems: 0 }));
   };
 
   const menuItems = [
@@ -41,35 +42,27 @@ function Header({ totalItems = 0 }) {
       ],
     },
     {
-      label:
-        account.auth === 0 ? (
-          <Link onClick={handleShow}>Login</Link>
-        ) : (
-          "Account"
-        ),
+      label: !isLoggedIn ? <Link onClick={handleShow}>Login</Link> : "Account",
       key: "account",
-      children:
-        account.auth === 1
-          ? [
-              {
-                label: (
-                  <Link
-                    to={
-                      account.info.type === "admin" ? ROUTES.ADMIN_ACCOUNT : ""
-                    }
-                  >{`Hello, ${account.info.name}`}</Link>
-                ),
-                key: "greetings",
-              },
-              {
-                label: <Link onClick={handleLogout}>Logout</Link>,
-                key: "logout",
-              },
-            ]
-          : [],
+      children: isLoggedIn
+        ? [
+            {
+              label: (
+                <Link
+                  to={isAdmin ? ROUTES.ADMIN_ACCOUNT : ""}
+                >{`Hello, ${account.profile.name}`}</Link>
+              ),
+              key: "greetings",
+            },
+            {
+              label: <Link onClick={handleLogout}>Logout</Link>,
+              key: "logout",
+            },
+          ]
+        : [],
     },
   ];
-  if (account.info.type === "regular") {
+  if (!isLoggedIn || !isAdmin) {
     menuItems.push({
       label: (
         <Space>
@@ -115,6 +108,8 @@ function Header({ totalItems = 0 }) {
 
 function mapStateToProps(state, ownProps) {
   return {
+    isLoggedIn: state.account.auth === 1,
+    isAdmin: state.account.profile.name === "Admin",
     totalItems: state.cart.totalItems,
   };
 }

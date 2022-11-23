@@ -1,20 +1,25 @@
 import ENDPOINTS from "common/ENDPOINTS";
 import HELPER from "common/HELPER";
 
-const addItem = (itemID, quantity) => {
+const setItem = (token, itemID, quantity) => {
   return HELPER.HTTP.executePost(ENDPOINTS.ADD_CART_ITEM, {
-    productId: itemID,
-    quantity: quantity,
+    body: { productId: itemID, quantity: quantity },
+    headers: {
+      Authorization: "Bearer " + token,
+    },
   });
 };
 
-const removeItem = (itemID) => {
-  return HELPER.HTTP.executeDelete(ENDPOINTS.REMOVE_CART_ITEM, itemID);
+const getCart = (token, userID) => {
+  console.log(token, userID);
+  return HELPER.HTTP.executeGet(ENDPOINTS.GET_CART(userID), {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };
 
 const CartService = {
-  addItem,
-  removeItem,
+  setItem,
+  getCart,
 };
 
 export default CartService;

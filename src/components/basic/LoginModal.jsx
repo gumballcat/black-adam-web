@@ -1,15 +1,18 @@
 import BasicForm from "components/basic/BasicForm";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AccountAction from "redux/actions/AccountAction";
+import CartAction from "redux/actions/CartAction";
 import AuthenticationService from "services/AuthenticationService";
+import CartService from "services/CartService";
 
 const LoginModal = ({ signal, setSignal }) => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [isShown, setIsShown] = useState(signal);
   const [message, setMessage] = useState({});
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
 
   let messageStyle;
   switch (message.type) {
@@ -25,12 +28,48 @@ const LoginModal = ({ signal, setSignal }) => {
     const username = e.target.username.value;
     const password = e.target.password.value;
 
+    let currentCart = {
+      items: [...cart.items],
+      totalPrice: cart.totalPrice,
+      totalItems: cart.totalItems,
+    };
+
     AuthenticationService.login(username, password)
       .then((loginResponse) => {
         let token = loginResponse.headers.authorization;
 
         AuthenticationService.getProfile(token).then((getProfileResponse) => {
           dispatch(AccountAction.login(getProfileResponse.content, token));
+
+          CartService.getCart(token, getProfileResponse.content.id).then(
+            (getCartResponse) => {
+              if (getCartResponse.content) {
+                let items = [];
+                let totalPrice = 0;
+                let totalItems = 0;
+                for (const item of getCartResponse.content) {
+                  items.push({
+                    id: item.product.id,
+                    title: item.product.title,
+                    price: item.product.price,
+                    quantity: item.quantity,
+                  });
+                  totalPrice += item.totalPrice;
+                  totalItems += item.quantity;
+                }
+
+                dispatch(
+                  CartAction.set({
+                    items: items,
+                    totalPrice: totalPrice,
+                    totalItems: totalItems,
+                  })
+                );
+              } else {
+                dispatch(CartAction.set(currentCart));
+              }
+            }
+          );
         });
 
         setSignal(false);

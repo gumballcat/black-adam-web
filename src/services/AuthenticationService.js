@@ -3,8 +3,7 @@ import HELPER from "common/HELPER";
 
 async function login(username, password) {
   return HELPER.HTTP.executePost(ENDPOINTS.LOGIN, {
-    username: username,
-    password: password,
+    body: { username: username, password: password },
   });
 }
 

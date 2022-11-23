@@ -1,14 +1,8 @@
 const CartAction = {
-  add: (item) => {
+  set: (newCart) => {
     return {
-      type: "ADD",
-      payload: item,
-    };
-  },
-  remove: (itemID) => {
-    return {
-      type: "REMOVE",
-      payload: itemID,
+      type: "SET",
+      payload: newCart,
     };
   },
 };

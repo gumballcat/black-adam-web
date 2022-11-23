@@ -1,11 +1,21 @@
 import axios from "axios";
 
-async function executeGet(url, { params, headers }) {
+async function executeGet(url, reqMeta) {
+  let reqParams = {};
+  if (reqMeta && reqMeta.params) {
+    reqParams = { ...reqMeta.params };
+  }
+
+  let reqHeaders = {};
+  if (reqMeta && reqMeta.headers) {
+    reqHeaders = { ...reqMeta.headers };
+  }
+
   return new Promise((fulfill, reject) => {
     axios
       .get(url, {
-        params: { ...params },
-        headers: { ...headers },
+        params: reqParams,
+        headers: reqHeaders,
         withCredentials: true,
       })
       .then((response) => {
@@ -17,10 +27,20 @@ async function executeGet(url, { params, headers }) {
   });
 }
 
-async function executePost(url, data) {
+async function executePost(url, reqMeta) {
+  let body = {};
+  if (reqMeta && reqMeta.body) {
+    body = { ...reqMeta.body };
+  }
+
+  let headers = {};
+  if (reqMeta && reqMeta.headers) {
+    headers = { ...reqMeta.headers };
+  }
+
   return new Promise((fulfill, reject) => {
     axios
-      .post(url, data, { withCredentials: true })
+      .post(url, body, { headers: headers, withCredentials: true })
       .then((response) => {
         fulfill(response);
       })

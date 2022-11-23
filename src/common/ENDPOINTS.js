@@ -17,6 +17,7 @@ const ENDPOINTS = {
   GET_PROFILE: BASE + "users/current-login-user",
   ADD_CART_ITEM: BASE + "cart",
   REMOVE_CART_ITEM: BASE + "cart",
+  GET_CART: (userID) => BASE + `users/${userID}/get-cart`,
 };
 
 export default ENDPOINTS;
