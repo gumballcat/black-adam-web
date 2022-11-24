@@ -11,7 +11,6 @@ const setItem = (token, itemID, quantity) => {
 };
 
 const getCart = (token, userID) => {
-  console.log(token, userID);
   return HELPER.HTTP.executeGet(ENDPOINTS.GET_CART(userID), {
     headers: { Authorization: `Bearer ${token}` },
   });

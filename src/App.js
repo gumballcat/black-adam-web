@@ -50,6 +50,9 @@ const App = () => {
             let totalPrice = 0;
             let totalItems = 0;
             for (const item of response.content) {
+              if (item.quantity <= 0) {
+                continue;
+              }
               items.push({
                 id: item.product.id,
                 title: item.product.title,

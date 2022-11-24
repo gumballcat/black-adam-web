@@ -21,10 +21,24 @@ const EditableCell = ({
   inputType,
   record,
   index,
+  selectOptions,
   children,
   ...restProps
 }) => {
-  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
+  let inputNode;
+  if (inputType === "number") {
+    inputNode = <InputNumber />;
+  } else if (inputType === "select") {
+    inputNode = (
+      <Select
+        style={{ width: 120 }}
+        options={selectOptions}
+        mode={"multiple"}
+      />
+    );
+  } else {
+    inputNode = <Input />;
+  }
 
   return (
     <td {...restProps}>
@@ -51,6 +65,8 @@ const ListModal = ({
   setOpen,
   actions = [],
   onSaveEdit,
+  onAdd,
+  onDelete,
 }) => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
@@ -60,7 +76,7 @@ const ListModal = ({
   useEffect(() => {
     if (open) {
       HELPER.HTTP.executeGet(source.endpoint).then((response) => {
-        setData(source.dataTransform(response));
+        setData(response.content.map((item) => source.dataTransform(item)));
       });
     }
   }, [open, source]);
@@ -80,13 +96,17 @@ const ListModal = ({
     const index = newData.findIndex((item) => key === item.key);
     if (index > -1) {
       const item = { ...newData[index], ...row };
+      console.log(row);
+      console.log(item);
       newData.splice(index, 1, {
         ...item,
         ...row,
       });
-      onSaveEdit(item);
-    } else {
-      newData.push(row);
+      if (item.id) {
+        onSaveEdit(item);
+      } else {
+        onAdd(item);
+      }
     }
 
     setData(newData);
@@ -105,12 +125,14 @@ const ListModal = ({
     setAddingKey("");
   };
 
-  const add = () => {
+  const add = async () => {
+    const row = await form.validateFields();
     let newKey = Math.random();
-    let newItem = { key: newKey };
+    let newItem = { ...source.dataTransform(row), key: newKey };
     setData([newItem, ...data]);
     setEditingKey(newKey);
     setAddingKey(newKey);
+    setOpen(true);
   };
 
   const handleDelete = (key) => {
@@ -119,35 +141,42 @@ const ListModal = ({
   };
 
   const mergedColumns = columns.map((column) => {
-    if (column.dataType !== "select") {
+    if (column.dataType === "select") {
       return column.editable
         ? {
             ...column,
+            render: (_, record) => (
+              <Select
+                disabled={true}
+                style={{ width: 120 }}
+                defaultValue={
+                  column.currentOption(record, column.options).label
+                }
+              />
+            ),
             onCell: (record) => ({
               record,
               inputType: column.dataType,
               dataIndex: column.dataIndex,
               title: column.title,
               editing: isEditing(record),
+              selectOptions: column.dataType === "select" ? column.options : [],
             }),
           }
         : column;
     }
-    return {
-      ...column,
-      render: (_, record) => {
-        const editable = column.editable && isEditing(record);
-        return editable ? (
-          <Select style={{ width: 120 }} options={column.options} />
-        ) : (
-          <Select
-            disabled={true}
-            style={{ width: 120 }}
-            defaultValue={column.currentOption(record, column.options).label}
-          />
-        );
-      },
-    };
+    return column.editable
+      ? {
+          ...column,
+          onCell: (record) => ({
+            record,
+            inputType: column.dataType,
+            dataIndex: column.dataIndex,
+            title: column.title,
+            editing: isEditing(record),
+          }),
+        }
+      : column;
   });
   if (actions.includes("edit") || actions.includes("delete")) {
     mergedColumns.push({

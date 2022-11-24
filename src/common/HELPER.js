@@ -50,6 +50,29 @@ async function executePost(url, reqMeta) {
   });
 }
 
+async function executePut(url, reqMeta) {
+  let body = {};
+  if (reqMeta && reqMeta.body) {
+    body = { ...reqMeta.body };
+  }
+
+  let headers = {};
+  if (reqMeta && reqMeta.headers) {
+    headers = { ...reqMeta.headers };
+  }
+
+  return new Promise((fulfill, reject) => {
+    axios
+      .put(url, body, { headers: headers, withCredentials: true })
+      .then((response) => {
+        fulfill(response);
+      })
+      .catch((exception) => {
+        reject(exception.response.data.errors[0]);
+      });
+  });
+}
+
 async function executeDelete(url, data) {
   return new Promise((fulfill, reject) => {
     axios
@@ -80,7 +103,13 @@ async function executePostForm(url, formData) {
   });
 }
 
-const HTTP = { executeGet, executePost, executeDelete, executePostForm };
+const HTTP = {
+  executeGet,
+  executePost,
+  executePut,
+  executeDelete,
+  executePostForm,
+};
 
 const HELPER = { HTTP };
 

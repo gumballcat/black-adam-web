@@ -26,7 +26,14 @@ const Admin = ({ isAdmin }) => {
   };
 
   const onSaveEdit = (record) => {
-    HELPER.HTTP.executePost(ENDPOINTS.UPDATE_PRODUCT, { body: record });
+    HELPER.HTTP.executePut(ENDPOINTS.UPDATE_PRODUCT(record.id), {
+      body: record,
+    });
+  };
+
+  const onAdd = (record) => {
+    console.log(record);
+    HELPER.HTTP.executePost(ENDPOINTS.ADD_PRODUCT, { body: record });
   };
 
   const sections = [
@@ -79,10 +86,13 @@ const Admin = ({ isAdmin }) => {
       dataType: "select",
       options: categorySelectOptions,
       currentOption: (record, options) => {
-        const currentOption = options.filter(
-          (option) => option.value === record.categoryIDs[0]
+        if (!record.categoryIds) {
+          return [];
+        }
+        const currentOption = options.filter((option) =>
+          record.categoryIds.includes(option.value)
         );
-        return currentOption ? currentOption[0] : {};
+        return currentOption;
       },
     },
   ];
@@ -200,22 +210,23 @@ const Admin = ({ isAdmin }) => {
         columns={productListingColumns}
         source={{
           endpoint: ENDPOINTS.GET_LATEST_PRODUCTS,
-          dataTransform: (response) => {
-            return response.content.map((item) => {
-              return {
-                key: item.id,
-                id: item.id,
-                title: item.title,
-                price: item.price,
-                stock: item.stock,
-                categoryIDs: item.categoryIds,
-                description: item.description,
-              };
-            });
+          dataTransform: (item) => {
+            return {
+              key: item.id,
+              id: item.id,
+              title: item.title,
+              price: item.price,
+              stock: item.stock,
+              categoryIds: item.categoryIds
+                ? item.categoryIds
+                : [ENUMS.CATEGORY[0].id],
+              description: item.description,
+            };
           },
         }}
         actions={productListingActions}
         onSaveEdit={onSaveEdit}
+        onAdd={onAdd}
       />
       <ListModal
         open={showOrderArrangementModal}
@@ -224,19 +235,17 @@ const Admin = ({ isAdmin }) => {
         columns={orderArrangementColumns}
         source={{
           endpoint: ENDPOINTS.GET_ORDERS,
-          dataTransform: (response) => {
-            return response.content.items.map((item) => {
-              return {
-                key: item.id,
-                id: item.id,
-                date: item.date,
-                productName: item.productName,
-                productQuantity: item.productQuantity,
-                total: item.total,
-                userID: item.userID,
-                username: item.username,
-              };
-            });
+          dataTransform: (item) => {
+            return {
+              key: item.id,
+              id: item.id,
+              date: item.date,
+              productName: item.productName,
+              productQuantity: item.productQuantity,
+              total: item.total,
+              userID: item.userID,
+              username: item.username,
+            };
           },
         }}
       />
