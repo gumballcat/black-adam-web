@@ -73,10 +73,10 @@ async function executePut(url, reqMeta) {
   });
 }
 
-async function executeDelete(url, data) {
+async function executeDelete(url) {
   return new Promise((fulfill, reject) => {
     axios
-      .delete(url, { params: { ...data } }, { withCredentials: true })
+      .delete(url, { withCredentials: true })
       .then((response) => {
         fulfill(response);
       })

@@ -109,7 +109,7 @@ function Header({ isLoggedIn, isAdmin, totalItems = 0 }) {
 function mapStateToProps(state, ownProps) {
   return {
     isLoggedIn: state.account.auth === 1,
-    isAdmin: state.account.profile.name === "Admin",
+    isAdmin: state.account.profile ? state.account.profile.name === "Admin" : false,
     totalItems: state.cart.totalItems,
   };
 }

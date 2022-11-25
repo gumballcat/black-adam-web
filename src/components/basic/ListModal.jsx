@@ -16,24 +16,25 @@ import "styles/css/ListModal.css";
 
 const EditableCell = ({
   editing,
-  dataIndex,
-  title,
-  inputType,
   record,
   index,
-  selectOptions,
   children,
+  column,
   ...restProps
 }) => {
+  if (!column) {
+    return <td {...restProps}>{children}</td>;
+  }
+
   let inputNode;
-  if (inputType === "number") {
+  if (column.dataType === "number") {
     inputNode = <InputNumber />;
-  } else if (inputType === "select") {
+  } else if (column.dataType === "select") {
     inputNode = (
       <Select
-        style={{ width: 120 }}
-        options={selectOptions}
+        options={column.options}
         mode={"multiple"}
+        styles={{ ...column.styles }}
       />
     );
   } else {
@@ -44,9 +45,9 @@ const EditableCell = ({
     <td {...restProps}>
       {editing ? (
         <Form.Item
-          name={dataIndex}
+          name={column.dataIndex}
           style={{ margin: 0 }}
-          rules={[{ required: true, message: `${title} goes here` }]}
+          rules={[{ required: true, message: `${column.title} goes here` }]}
         >
           {inputNode}
         </Form.Item>
@@ -96,17 +97,16 @@ const ListModal = ({
     const index = newData.findIndex((item) => key === item.key);
     if (index > -1) {
       const item = { ...newData[index], ...row };
-      console.log(row);
-      console.log(item);
+      if (item.id) {
+        onSaveEdit(item);
+      } else {
+        const addedItem = await onAdd(item);
+        item.id = addedItem.id;
+      }
       newData.splice(index, 1, {
         ...item,
         ...row,
       });
-      if (item.id) {
-        onSaveEdit(item);
-      } else {
-        onAdd(item);
-      }
     }
 
     setData(newData);
@@ -135,9 +135,10 @@ const ListModal = ({
     setOpen(true);
   };
 
-  const handleDelete = (key) => {
-    const newData = data.filter((item) => item.key !== key);
+  const handleDelete = (record) => {
+    const newData = data.filter((item) => item.key !== record.key);
     setData(newData);
+    onDelete(record);
   };
 
   const mergedColumns = columns.map((column) => {
@@ -146,21 +147,14 @@ const ListModal = ({
         ? {
             ...column,
             render: (_, record) => (
-              <Select
-                disabled={true}
-                style={{ width: 120 }}
-                defaultValue={
-                  column.currentOption(record, column.options).label
-                }
-              />
+              <span>
+                {column.currentOption(record, column.options).toString()}
+              </span>
             ),
             onCell: (record) => ({
               record,
-              inputType: column.dataType,
-              dataIndex: column.dataIndex,
-              title: column.title,
               editing: isEditing(record),
-              selectOptions: column.dataType === "select" ? column.options : [],
+              column: { ...column },
             }),
           }
         : column;
@@ -170,10 +164,8 @@ const ListModal = ({
           ...column,
           onCell: (record) => ({
             record,
-            inputType: column.dataType,
-            dataIndex: column.dataIndex,
-            title: column.title,
             editing: isEditing(record),
+            column: { ...column },
           }),
         }
       : column;
@@ -216,7 +208,7 @@ const ListModal = ({
                 shape="round"
                 icon={<DeleteOutlined />}
                 disabled={isBusy()}
-                onClick={() => handleDelete(record.key)}
+                onClick={() => handleDelete(record)}
               />
             ) : null}
           </>

@@ -32,9 +32,14 @@ const Admin = ({ isAdmin }) => {
   };
 
   const onAdd = (record) => {
-    console.log(record);
-    HELPER.HTTP.executePost(ENDPOINTS.ADD_PRODUCT, { body: record });
+    return HELPER.HTTP.executePost(ENDPOINTS.ADD_PRODUCT, { body: record }).then((response) => {
+      return response.data.content;
+    });
   };
+
+  const onDelete = (record) => {
+    HELPER.HTTP.executeDelete(ENDPOINTS.DELETE_PRODUCT(record.id));
+  }
 
   const sections = [
     {
@@ -85,13 +90,14 @@ const Admin = ({ isAdmin }) => {
       editable: true,
       dataType: "select",
       options: categorySelectOptions,
+      styles: {width: 240},
       currentOption: (record, options) => {
         if (!record.categoryIds) {
           return [];
         }
-        const currentOption = options.filter((option) =>
-          record.categoryIds.includes(option.value)
-        );
+        const currentOption = options
+          .filter((option) => record.categoryIds.includes(option.value))
+          .map((option) => option.label);
         return currentOption;
       },
     },
@@ -227,6 +233,7 @@ const Admin = ({ isAdmin }) => {
         actions={productListingActions}
         onSaveEdit={onSaveEdit}
         onAdd={onAdd}
+        onDelete={onDelete}
       />
       <ListModal
         open={showOrderArrangementModal}
