@@ -9,7 +9,7 @@ const ENDPOINTS = {
   GET_WOMEN_PRODUCTS: BASE_ENDPOINT + "products/women",
   GET_KIDS_PRODUCTS: BASE_ENDPOINT + "products/kids",
   GET_ACCESSORIES_PRODUCTS: BASE_ENDPOINT + "products/accessories",
-  GET_PRODUCT: BASE_ENDPOINT + "product",
+  GET_PRODUCT: (productID) => `${BASE}product/${productID}`,
   LOGIN: BASE + "auth/login",
   LOGOUT: BASE_ENDPOINT + "logout",
   ADD_PRODUCT: BASE + `product`,

@@ -2,12 +2,13 @@ import ENDPOINTS from "common/ENDPOINTS";
 import HELPER from "common/HELPER";
 import Preloader from "components/basic/Preloader";
 import { useEffect, useRef, useState } from "react";
+import { connect } from "react-redux";
 import { useLocation } from "react-router-dom";
 import Quantity from "../components/basic/Quantity";
 import RatingStars from "../components/basic/RatingStars";
 import PageHeading from "../components/composite/PageHeading";
 
-function SingleProduct(props) {
+function SingleProduct({ isAdmin }) {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
   const [quantity, setQuantity] = useState(1);
@@ -16,10 +17,8 @@ function SingleProduct(props) {
 
   useEffect(() => {
     let id = location.state.id;
-    if (id > 0) {
-      HELPER.HTTP.executeGet(ENDPOINTS.GET_PRODUCT, {
-        params: { id: id },
-      }).then((response) => {
+    if (id) {
+      HELPER.HTTP.executeGet(ENDPOINTS.GET_PRODUCT(id)).then((response) => {
         setData(response.content);
         setIsLoading(false);
       });
@@ -34,7 +33,7 @@ function SingleProduct(props) {
         <Preloader />
       ) : (
         <>
-          <PageHeading id="top" text={data.name} subtitle={data.description} />
+          <PageHeading id="top" text={data.title} subtitle={data.description} />
 
           <section className="section" id="product">
             <div className="container">
@@ -46,9 +45,8 @@ function SingleProduct(props) {
                 </div>
                 <div className="col-lg-4">
                   <div className="right-content">
-                    <h4>{data.name}</h4>
-                    <span className="price">{`${data.price?.unit} ${data.price?.quantity}`}</span>
-                    <RatingStars quantity={data.rating} />
+                    <h4>{data.title}</h4>
+                    <span className="price">{`$ ${data.price}`}</span>
                     <span>{data.description}</span>
                     <div className="quantity-content">
                       <div className="left-content">
@@ -58,13 +56,15 @@ function SingleProduct(props) {
                         <Quantity callbackWithValue={setQuantity} />
                       </div>
                     </div>
-                    <div class="total">
-                      <h4>{`Total: ${data.price?.unit} ${
-                        quantity * data.price?.quantity
-                      }`}</h4>
-                      <div class="main-border-button">
-                        <a href="#">Add To Cart</a>
-                      </div>
+                    <div className="total">
+                      <h4>{`Total: $ ${quantity * data.price}`}</h4>
+                      {!isAdmin ? (
+                        <div className="main-border-button">
+                          <button>Add To Cart</button>
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -76,4 +76,11 @@ function SingleProduct(props) {
     </div>
   );
 }
-export default SingleProduct;
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    isAdmin: state.account.profile && state.account.profile.name === "Admin",
+  };
+};
+
+export default connect(mapStateToProps)(SingleProduct);

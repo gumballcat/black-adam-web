@@ -28,7 +28,7 @@ const Quantity = ({ callbackWithValue }) => {
           className="quantity-input__screen"
           type="text"
           value={value}
-          readonly
+          readOnly
         />
         <input type="button" value="+" class="plus" onClick={increment} />
       </div>

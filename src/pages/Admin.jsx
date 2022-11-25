@@ -50,9 +50,10 @@ const Admin = ({ isAdmin }) => {
     },
   ];
 
-  const categorySelectOptions = ENUMS.CATEGORY.map((category) => {
-    return { value: category.id, label: category.title };
-  });
+  const categorySelectOptions = [];
+  for(const key in ENUMS.CATEGORY){
+    categorySelectOptions.push({value: ENUMS.CATEGORY[key].id, label: ENUMS.CATEGORY[key].title})
+  }
 
   const productListingColumns = [
     {
@@ -223,9 +224,7 @@ const Admin = ({ isAdmin }) => {
               title: item.title,
               price: item.price,
               stock: item.stock,
-              categoryIds: item.categoryIds
-                ? item.categoryIds
-                : [ENUMS.CATEGORY[0].id],
+              categoryIds: item.categoryIds,
               description: item.description,
             };
           },
@@ -260,7 +259,7 @@ const Admin = ({ isAdmin }) => {
   );
 };
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   return {
     isAdmin: state.account.auth === 1 && state.account.profile.name === "Admin",
   };

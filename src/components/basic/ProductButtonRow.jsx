@@ -1,17 +1,15 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, connect } from "react-redux";
 import { Link } from "react-router-dom";
 import CartService from "services/CartService";
 import CartAction from "../../redux/actions/CartAction";
 
-const ProductButtonRow = ({ data }) => {
+const ProductButtonRow = ({ data, token, isAdmin, cartItems, totalPrice, totalItems }) => {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
-  const account = useSelector((state) => state.account);
 
   const handleAddItem = () => {
-    const itemsInCart = [...cart.items];
-    let totalPrice = cart.totalPrice;
-    let totalItems = cart.totalItems;
+    const itemsInCart = [...cartItems];
+    let iTotalPrice = totalPrice;
+    let iTotalItems = totalItems;
     const newItem = { id: data.id, title: data.title, price: data.price };
 
     let quantity = 1;
@@ -34,18 +32,18 @@ const ProductButtonRow = ({ data }) => {
       itemsInCart.push({ ...newItem, quantity: 1 });
     }
 
-    totalItems += 1;
-    totalPrice += newItem.price;
+    iTotalItems += 1;
+    iTotalPrice += newItem.price;
 
     dispatch(
       CartAction.set({
         items: itemsInCart,
-        totalPrice: totalPrice,
-        totalItems: totalItems,
+        totalPrice: iTotalPrice,
+        totalItems: iTotalItems,
       })
     );
 
-    CartService.setItem(account.token, newItem.id, quantity);
+    CartService.setItem(token, newItem.id, quantity);
   };
 
   return (
@@ -55,18 +53,32 @@ const ProductButtonRow = ({ data }) => {
           <i className="fa fa-eye"></i>
         </Link>
       </li>
-      <li>
-        <Link
-          onClick={(e) => {
-            e.preventDefault();
-            handleAddItem();
-          }}
-        >
-          <i className="fa fa-shopping-cart"></i>
-        </Link>
-      </li>
+      {!isAdmin ? (
+        <li>
+          <Link
+            onClick={(e) => {
+              e.preventDefault();
+              handleAddItem();
+            }}
+          >
+            <i className="fa fa-shopping-cart"></i>
+          </Link>
+        </li>
+      ) : (
+        <></>
+      )}
     </ul>
   );
 };
 
-export default ProductButtonRow;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    token: state.account.token,
+    isAdmin: state.account.profile && state.account.profile.name === "Admin",
+    cartItems: state.cart.items,
+    totalPrice: state.cart.totalPrice,
+    totalItems: state.cart.totalItems,
+  };
+};
+
+export default connect(mapStateToProps)(ProductButtonRow);
