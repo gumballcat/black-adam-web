@@ -15,6 +15,7 @@ const ENDPOINTS = {
   UPDATE_PRODUCT: (productID) => `${BASE}product/${productID}`,
   DELETE_PRODUCT: (productID) => `${BASE}product/${productID}`,
   GET_ORDERS: BASE_ENDPOINT + "orders",
+  ADD_ORDER: `${BASE}order`,
   GET_PROFILE: `${BASE}users/current-login-user`,
   ADD_CART_ITEM: `${BASE}cart`,
   REMOVE_CART_ITEM: `${BASE}cart`,

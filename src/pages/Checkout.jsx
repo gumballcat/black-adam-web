@@ -1,4 +1,4 @@
-import { CreditCardOutlined, DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -70,10 +70,11 @@ const Checkout = ({ cartItems, totalItems, totalPrice }) => {
       render: (text) => <span>{text}</span>,
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      rowKey: "name",
-      key: "name",
+      title: "Title",
+      dataIndex: "title",
+      rowKey: "title",
+      key: "title",
+      render: (text) => <span>{text}</span>
     },
     {
       title: "Price",
@@ -124,17 +125,15 @@ const Checkout = ({ cartItems, totalItems, totalPrice }) => {
             <Col md={12}>
               <Divider orientation="left">Policy</Divider>
               <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book.
+                We accept no returns
               </p>
               <Divider orientation="left">Terms</Divider>
               <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book.
+                1. Submitting orders means you agree to let us store your personal information for order fulfillment purposes
+                <br />
+                2. And cookies and etcetera
+                <br />
+                3. Peace out
               </p>
             </Col>
           </Row>
@@ -147,7 +146,7 @@ const Checkout = ({ cartItems, totalItems, totalPrice }) => {
                 precision={2}
               />
               <Button style={{ marginTop: 16 }} type="primary">
-                Pay now <CreditCardOutlined />
+                Proceed
               </Button>
             </Col>
           </Row>
@@ -157,7 +156,7 @@ const Checkout = ({ cartItems, totalItems, totalPrice }) => {
   );
 };
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   return {
     cartItems: state.cart.items,
     totalItems: state.cart.totalItems,
