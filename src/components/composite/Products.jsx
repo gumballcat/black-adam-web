@@ -1,72 +1,59 @@
-import HELPER from "common/HELPER";
+import CONSTANTS from "common/CONSTANTS";
 import Pagination from "components/basic/Pagination";
-import Preloader from "components/basic/Preloader";
 import TextWithSubtitle from "components/basic/TextWithSubtitle";
 import { useEffect, useRef, useState } from "react";
 import Item from "./Item";
 import PageHeading from "./PageHeading";
 
-function Products({ getEndpoint, heading, subheading, title, subtitle }) {
+function Products({ data, heading, subheading, title, subtitle }) {
+  const totalPages = Math.ceil(data.length / CONSTANTS.PAGE_SIZE);
   const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
-  const [products, setProducts] = useState([]);
-  const [totalPages, setTotalPages] = useState(1);
+  const [products, setProducts] = useState(data);
 
   const ref = useRef(null);
 
   useEffect(() => {
-    HELPER.HTTP.executeGet(getEndpoint).then((response) => {
-      setProducts(response.content);
-      setTotalPages(1);
-      // setTotalPages(Math.ceil(response.content.total / CONSTANTS.PAGE_SIZE));
-      setIsLoading(false);
-    });
-  }, [getEndpoint, page]);
+    setProducts(data.slice((page - 1) * CONSTANTS.PAGE_SIZE, (page - 1) * CONSTANTS.PAGE_SIZE + CONSTANTS.PAGE_SIZE));
+  }, [page, data]);
 
   return (
     <div className="products-main">
-      {isLoading ? (
-        <Preloader />
-      ) : (
-        <>
-          <PageHeading id="top" text={heading} subtitle={subheading} />
+      <PageHeading id="top" text={heading} subtitle={subheading} />
 
-          <section class="section" id="products" ref={ref}>
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="section-heading">
-                    <TextWithSubtitle text={title} subtitle={subtitle} />
-                  </div>
-                </div>
+      <section className="section" id="products" ref={ref}>
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="section-heading">
+                <TextWithSubtitle text={title} subtitle={subtitle} />
               </div>
             </div>
-            <div class="container">
-              <div class="row">
-                {products.map((product) => {
-                  return (
-                    <div className="col-lg-4">
-                      <Item data={product} />
-                    </div>
-                  );
-                })}
-                <div class="col-lg-12">
-                  <Pagination
-                    total={totalPages}
-                    active={1}
-                    setPage={setPage}
-                    onClickCallback={() => {
-                      ref.current?.scrollIntoView({
-                        behavior: "smooth",
-                      });
-                    }}
-                  />
+          </div>
+        </div>
+        <div className="container">
+          <div className="row">
+            {products.map((product) => {
+              return (
+                <div className="col-lg-4">
+                  <Item data={product} />
                 </div>
-              </div>
+              );
+            })}
+            <div className="col-lg-12">
+              <Pagination
+                total={totalPages}
+                active={1}
+                setPage={setPage}
+                onClickCallback={() => {
+                  ref.current?.scrollIntoView({
+                    behavior: "smooth",
+                  });
+                }}
+              />
             </div>
-          </section>
-        </>
-      )}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

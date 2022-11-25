@@ -1,3 +1,4 @@
+import ROUTES from "common/ROUTES";
 import MakeshiftButton from "components/basic/MakeshiftButton";
 import TextWithSubtitle from "components/basic/TextWithSubtitle";
 import Thumb from "components/basic/Thumb";
@@ -10,7 +11,7 @@ const MainBannerSection = () => {
       subtitle: "When appearance matters just as much as personality",
       description: "Every size is accounted for",
       ctaText: "Discover More",
-      ctaURL: "/products/women",
+      ctaURL: ROUTES.WOMEN_PRODUCTS,
     },
     {
       imageURL: "assets/images/baner-right-image-02.jpg",
@@ -18,7 +19,7 @@ const MainBannerSection = () => {
       subtitle: "No point in looking ripped when you dress like a hobo",
       description: "From Kangol hats to Cambodian flip-flops",
       ctaText: "Discover More",
-      ctaURL: "/products/men",
+      ctaURL: ROUTES.MEN_PRODUCTS,
     },
     {
       imageURL: "assets/images/baner-right-image-03.jpg",
@@ -27,7 +28,7 @@ const MainBannerSection = () => {
       description:
         "Kid's clothes aren't necessarily cheaper so think twice before blowing that load inside",
       ctaText: "Discover More",
-      ctaURL: "/products/kids",
+      ctaURL: ROUTES.KIDS_PRODUCTS,
     },
     {
       imageURL: "assets/images/baner-right-image-04.jpg",
@@ -35,8 +36,8 @@ const MainBannerSection = () => {
       subtitle: "When a $4,000 suit just doesn't cut it",
       description:
         "Diamonds, rubies, sapphires and everything a magpie could ever dream of",
-      ctaText: "Discover More",
-      ctaURL: "/products/accessories",
+      ctaText: "Coming Soon",
+      ctaURL: "",
     },
   ];
 

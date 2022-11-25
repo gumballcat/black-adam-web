@@ -20,7 +20,7 @@ const Pagination = ({ total, active, setPage, onClickCallback }) => {
   }
 
   return (
-    <div class="pagination">
+    <div className="pagination">
       <ul>{pages}</ul>
     </div>
   );
