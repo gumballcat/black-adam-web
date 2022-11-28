@@ -1,5 +1,4 @@
 import ENVS from "common/ENVS";
-import BasicForm from "components/basic/BasicForm";
 import InfoGrid from "components/basic/InfoGrid";
 import TextWithSubtitle from "components/basic/TextWithSubtitle";
 
@@ -15,7 +14,7 @@ const SubscribeSection = () => {
                 subtitle={ENVS.GENERIC_SLOGAN}
               />
             </div>
-            <BasicForm
+            {/* <BasicForm
               id="subscribe"
               method="get"
               fields={[
@@ -34,7 +33,7 @@ const SubscribeSection = () => {
                   rules: { pattern: "[^ @]*@[^ @]*" },
                 },
               ]}
-            />
+            /> */}
           </div>
           <InfoGrid />
         </div>

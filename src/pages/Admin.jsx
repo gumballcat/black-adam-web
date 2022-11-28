@@ -1,3 +1,4 @@
+import { Modal, Table } from "antd";
 import ENDPOINTS from "common/ENDPOINTS";
 import ENUMS from "common/ENUMS";
 import HELPER from "common/HELPER";
@@ -11,8 +12,9 @@ import { connect } from "react-redux";
 
 const Admin = ({ isAdmin }) => {
   const [showProductListingModal, setShowProductListingModal] = useState(false);
-  const [showOrderArrangementModal, setShowOrderArrangementModal] =
-    useState(false);
+  const [showOrderListingModal, setShowOrderListingModal] = useState(false);
+  const [orders, setOrders] = useState(false);
+
   if (!isAdmin) {
     return <FourOhFour />;
   }
@@ -22,7 +24,10 @@ const Admin = ({ isAdmin }) => {
   };
 
   const handleOrders = () => {
-    setShowOrderArrangementModal(true);
+    HELPER.HTTP.executeGet(ENDPOINTS.GET_ORDERS).then((response) => {
+      setOrders(response.content);
+      setShowOrderListingModal(true);
+    });
   };
 
   const onSaveEdit = (record) => {
@@ -32,27 +37,32 @@ const Admin = ({ isAdmin }) => {
   };
 
   const onAdd = (record) => {
-    return HELPER.HTTP.executePost(ENDPOINTS.ADD_PRODUCT, { body: record }).then((response) => {
+    return HELPER.HTTP.executePost(ENDPOINTS.ADD_PRODUCT, {
+      body: record,
+    }).then((response) => {
       return response.data.content;
     });
   };
 
   const onDelete = (record) => {
     HELPER.HTTP.executeDelete(ENDPOINTS.DELETE_PRODUCT(record.id));
-  }
+  };
 
   const sections = [
     {
       imageURL: "assets/images/baner-right-image-01.jpg",
       text: "Orders",
-      buttonText: "Arrange Orders",
+      buttonText: "See Order Listing",
       cta: handleOrders,
     },
   ];
 
   const categorySelectOptions = [];
-  for(const key in ENUMS.CATEGORY){
-    categorySelectOptions.push({value: ENUMS.CATEGORY[key].id, label: ENUMS.CATEGORY[key].title})
+  for (const key in ENUMS.CATEGORY) {
+    categorySelectOptions.push({
+      value: ENUMS.CATEGORY[key].id,
+      label: ENUMS.CATEGORY[key].title,
+    });
   }
 
   const productListingColumns = [
@@ -91,7 +101,7 @@ const Admin = ({ isAdmin }) => {
       editable: true,
       dataType: "select",
       options: categorySelectOptions,
-      styles: {width: 240},
+      styles: { width: 240 },
       currentOption: (record, options) => {
         if (!record.categoryIds) {
           return [];
@@ -104,58 +114,6 @@ const Admin = ({ isAdmin }) => {
     },
   ];
   const productListingActions = ["add", "edit", "delete"];
-
-  const orderArrangementColumns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      dataType: "text",
-      editable: false,
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-      dataType: "text",
-      editable: false,
-    },
-    {
-      title: "Product Name",
-      dataIndex: "productName",
-      key: "productName",
-      dataType: "text",
-      editable: false,
-    },
-    {
-      title: "Product Quantity",
-      dataIndex: "productQuantity",
-      key: "productQuantity",
-      dataType: "number",
-      editable: false,
-    },
-    {
-      title: "Total",
-      dataIndex: "total",
-      key: "total",
-      dataType: "number",
-      editable: false,
-    },
-    {
-      title: "User ID",
-      dataIndex: "userID",
-      key: "userID",
-      dataType: "text",
-      editable: false,
-    },
-    {
-      title: "Username",
-      dataIndex: "username",
-      key: "username",
-      dataType: "text",
-      editable: false,
-    },
-  ];
 
   return (
     <>
@@ -234,27 +192,80 @@ const Admin = ({ isAdmin }) => {
         onAdd={onAdd}
         onDelete={onDelete}
       />
-      <ListModal
-        open={showOrderArrangementModal}
-        setOpen={setShowOrderArrangementModal}
-        title="Order Arrangement"
-        columns={orderArrangementColumns}
-        source={{
-          endpoint: ENDPOINTS.GET_ORDERS,
-          dataTransform: (item) => {
-            return {
-              key: item.id,
-              id: item.id,
-              date: item.date,
-              productName: item.productName,
-              productQuantity: item.productQuantity,
-              total: item.total,
-              userID: item.userID,
-              username: item.username,
-            };
-          },
-        }}
-      />
+      <Modal
+        open={showOrderListingModal}
+        title="Your Orders"
+        onOk={() => setShowOrderListingModal(false)}
+        onCancel={() => setShowOrderListingModal(false)}
+        width={1500}
+        mask={false}
+        centered
+      >
+        <Table
+          columns={[
+            {
+              title: "User",
+              dataIndex: "user",
+              key: "user",
+              render: (value) => {
+                return (
+                  <>
+                    {value.id}
+                    <br />
+                    {value.name}
+                  </>
+                );
+              },
+            },
+            {
+              title: "Products",
+              dataIndex: "orderItems",
+              key: "products",
+              render: (value) => {
+                return value.map((item) => (
+                  <>
+                    {`${item.product.title}: ${item.quantity} ($${
+                      item.quantity * item.product.price
+                    })`}
+                    <br />
+                  </>
+                ));
+              },
+            },
+            {
+              title: "Shipping Details",
+              dataIndex: "address",
+              key: "shippingDetails",
+              render: (value, record) => {
+                return (
+                  <>
+                    {record.phone}
+                    <br />
+                    {value.street}
+                    <br />
+                    {value.district}
+                    <br />
+                    {value.province}
+                    <br />
+                    {value.city}
+                    <br />
+                    {value.zipCode}
+                    <br />
+                  </>
+                );
+              },
+            },
+            {
+              title: "Total",
+              dataIndex: "totalCost",
+              key: "total",
+              render: (value) => `$${value}`
+            }
+          ]}
+          dataSource={orders}
+          bordered
+        />
+      </Modal>
     </>
   );
 };
@@ -263,6 +274,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isAdmin: state.account.auth === 1 && state.account.profile.name === "Admin",
   };
-}
+};
 
 export default connect(mapStateToProps)(Admin);

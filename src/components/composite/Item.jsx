@@ -1,5 +1,4 @@
 import ProductButtonRow from "components/basic/ProductButtonRow";
-import RatingStars from "components/basic/RatingStars";
 import TextWithSubtitle from "components/basic/TextWithSubtitle";
 import Thumb from "components/basic/Thumb";
 
@@ -16,7 +15,6 @@ const Item = ({ data }) => {
       />
       <div className="down-content">
         <TextWithSubtitle text={data.title} subtitle={`$ ${data.price}`} />
-        <RatingStars quantity={data.rating ? data.rating : 4} />
       </div>
     </div>
   );

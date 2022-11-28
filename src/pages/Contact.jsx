@@ -1,5 +1,4 @@
 import ENVS from "common/ENVS";
-import BasicForm from "components/basic/BasicForm";
 import Map from "components/basic/Map";
 import TextWithSubtitle from "components/basic/TextWithSubtitle";
 import SubscribeSection from "components/concrete/SubscribeSection";
@@ -39,7 +38,7 @@ const Contact = () => {
                   from the other themes.`}
                 />
               </div>
-              <BasicForm
+              {/* <BasicForm
                 id="contact"
                 method="post"
                 fields={[
@@ -64,7 +63,7 @@ const Contact = () => {
                     styles: { rows: "6" },
                   },
                 ]}
-              />
+              /> */}
             </div>
           </div>
         </div>

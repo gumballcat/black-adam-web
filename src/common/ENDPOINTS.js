@@ -1,25 +1,24 @@
-const BASE_ENDPOINT = "http://localhost:3001/api/v1/";
-const BASE = "http://localhost:8080/api/v1/";
+const BASE_ENDPOINT = "http://localhost:8080/api/v1/";
 
 const ENDPOINTS = {
-  SIGN_UP: `${BASE}users/sign-up`,
-  GET_LATEST_PRODUCTS: `${BASE}product`,
-  GET_MEN_PRODUCTS: `${BASE}product`,
-  GET_WOMEN_PRODUCTS: `${BASE}product`,
-  GET_KIDS_PRODUCTS: `${BASE}product`,
-  GET_ACCESSORIES_PRODUCTS: `${BASE}product`,
-  GET_PRODUCT: (productID) => `${BASE}product/${productID}`,
-  LOGIN: `${BASE}auth/login`,
-  LOGOUT: BASE_ENDPOINT + "logout",
-  ADD_PRODUCT: `${BASE}product`,
-  UPDATE_PRODUCT: (productID) => `${BASE}product/${productID}`,
-  DELETE_PRODUCT: (productID) => `${BASE}product/${productID}`,
-  GET_ORDERS: BASE_ENDPOINT + "orders",
-  ADD_ORDER: `${BASE}order`,
-  GET_PROFILE: `${BASE}users/current-login-user`,
-  ADD_CART_ITEM: `${BASE}cart`,
-  REMOVE_CART_ITEM: `${BASE}cart`,
-  GET_CART: (userID) => `${BASE}users/${userID}/get-cart`,
+  SIGN_UP: `${BASE_ENDPOINT}users/sign-up`,
+  GET_LATEST_PRODUCTS: `${BASE_ENDPOINT}product`,
+  GET_MEN_PRODUCTS: `${BASE_ENDPOINT}product`,
+  GET_WOMEN_PRODUCTS: `${BASE_ENDPOINT}product`,
+  GET_KIDS_PRODUCTS: `${BASE_ENDPOINT}product`,
+  GET_ACCESSORIES_PRODUCTS: `${BASE_ENDPOINT}product`,
+  GET_PRODUCT: (productID) => `${BASE_ENDPOINT}product/${productID}`,
+  LOGIN: `${BASE_ENDPOINT}auth/login`,
+  ADD_PRODUCT: `${BASE_ENDPOINT}product`,
+  UPDATE_PRODUCT: (productID) => `${BASE_ENDPOINT}product/${productID}`,
+  DELETE_PRODUCT: (productID) => `${BASE_ENDPOINT}product/${productID}`,
+  GET_ORDERS: `${BASE_ENDPOINT}order`,
+  GET_USER_ORDERS: (userID) => `${BASE_ENDPOINT}users/${userID}/get-orders`,
+  ADD_ORDER: `${BASE_ENDPOINT}order`,
+  GET_PROFILE: `${BASE_ENDPOINT}users/current-login-user`,
+  ADD_CART_ITEM: `${BASE_ENDPOINT}cart`,
+  REMOVE_CART_ITEM: `${BASE_ENDPOINT}cart`,
+  GET_CART: (userID) => `${BASE_ENDPOINT}users/${userID}/get-cart`,
 };
 
 export default ENDPOINTS;

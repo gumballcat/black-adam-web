@@ -11,13 +11,16 @@ async function logout() {
   return HELPER.HTTP.executePost(ENDPOINTS.LOGOUT);
 }
 
-async function signUp(username, password, email) {
+async function signUp(name, username, password, email) {
   return HELPER.HTTP.executePost(ENDPOINTS.SIGN_UP, {
-    username: username,
-    password: password,
-    email: email,
-    name: "string",
-    address: { city: "string" },
+    body: {
+      name,
+      username,
+      password,
+      email,
+      // name: "string",
+      // address: { city: "string" },
+    },
   });
 }
 

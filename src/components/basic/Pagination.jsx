@@ -7,6 +7,7 @@ const Pagination = ({ total, active, setPage, onClickCallback }) => {
   for (let i = 1; i <= total; i++) {
     pages.push(
       <li
+      key={i}
         className={i === currentPage ? "active" : null}
         onClick={() => {
           setCurrentPage(i);

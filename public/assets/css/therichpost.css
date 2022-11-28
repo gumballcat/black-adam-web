@@ -306,7 +306,7 @@ header
 .header-area {
   /* border-bottom: 3px dotted #eee; */
   box-shadow: none;
-  background-color: #2a2a2a;
+  background-color: #464646;
   /* position: absolute; */
   top: 0px;
   left: 0px;
@@ -1389,44 +1389,6 @@ Subscribe
   line-height: 55px;
 }
 
-form input {
-  width: 100%;
-  height: 44px;
-  line-height: 44px;
-  padding: 0px 15px;
-  font-size: 14px;
-  font-style: italic;
-  font-weight: 500;
-  color: #aaa;
-  border-radius: 0px;
-  border: 1px solid #7a7a7a;
-  box-shadow: none;
-}
-
-form input::focus {
-  border-color: #2a2a2a;
-  border-radius: 0px;
-}
-
-form button {
-  width: 44px;
-  height: 44px;
-  display: inline-block;
-  text-align: center;
-  line-height: 44px;
-  background-color: #2a2a2a;
-  box-shadow: none;
-  border: 1px solid transparent;
-  color: #fff;
-  transition: all 0.3s;
-}
-
-form button:hover {
-  background-color: #fff;
-  border: 1px solid #2a2a2a;
-  color: #2a2a2a;
-}
-
 .subscribe ul li {
   margin-bottom: 30px;
   display: block;
@@ -1458,7 +1420,7 @@ footer
 footer {
   margin-top: 4vh;
   padding: 60px 0px 30px 0px;
-  background-color: #2a2a2a;
+  background-color: #464646;
 }
 
 footer .logo {

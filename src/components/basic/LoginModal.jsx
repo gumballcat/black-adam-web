@@ -1,4 +1,4 @@
-import BasicForm from "components/basic/BasicForm";
+import { Form, Input } from "antd";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import AuthenticationService from "services/AuthenticationService";
 import CartService from "services/CartService";
 
 const LoginModal = ({ signal, setSignal }) => {
+  const [form] = Form.useForm();
   const [isSignUp, setIsSignUp] = useState(false);
   const [isShown, setIsShown] = useState(signal);
   const [message, setMessage] = useState({});
@@ -19,14 +20,17 @@ const LoginModal = ({ signal, setSignal }) => {
     case "error":
       messageStyle = { color: "red" };
       break;
+    case "success":
+      messageStyle = { color: "green" };
+      break;
     default:
       messageStyle = {};
       break;
   }
 
   const onSignInSubmit = (e) => {
-    const username = e.target.username.value;
-    const password = e.target.password.value;
+    const username = form.getFieldValue("username");
+    const password = form.getFieldValue("password");
 
     let currentCart = {
       items: [...cart.items],
@@ -75,6 +79,8 @@ const LoginModal = ({ signal, setSignal }) => {
           );
         });
 
+        form.resetFields();
+
         setSignal(false);
         setMessage({});
       })
@@ -85,15 +91,17 @@ const LoginModal = ({ signal, setSignal }) => {
   };
 
   const onSignUpSubmit = (e) => {
-    const username = e.target.username.value;
-    const password = e.target.password.value;
-    const email = e.target.email.value;
+    const name = form.getFieldValue("name");
+    const username = form.getFieldValue("username");
+    const password = form.getFieldValue("password");
+    const email = form.getFieldValue("email");
 
-    AuthenticationService.signUp(username, password, email)
+    AuthenticationService.signUp(name, username, password, email)
       .then((response) => {
-        console.log(response);
-        dispatch(AccountAction.login(response.content));
-        setSignal(false);
+        setMessage({
+          type: "success",
+          text: "Please check your email for activation URL",
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -102,6 +110,9 @@ const LoginModal = ({ signal, setSignal }) => {
           text: error.errorMessage,
         });
       });
+
+    form.resetFields();
+    setIsSignUp(false);
   };
 
   const handleClose = () => {
@@ -122,29 +133,6 @@ const LoginModal = ({ signal, setSignal }) => {
     setIsShown(signal);
   }, [signal]);
 
-  const formFields = [
-    {
-      name: "username",
-      type: "text",
-      id: "username",
-      placeholder: "Username",
-    },
-    {
-      name: "password",
-      type: "password",
-      id: "password",
-      placeholder: "Password",
-    },
-  ];
-  if (isSignUp) {
-    formFields.push({
-      name: "email",
-      type: "email",
-      id: "email",
-      placeholder: "Email",
-    });
-  }
-
   return (
     <Modal
       show={isShown}
@@ -160,18 +148,81 @@ const LoginModal = ({ signal, setSignal }) => {
         )}
       </Modal.Header>
       <Modal.Body>
-        <BasicForm
-          id="login"
-          method="post"
-          onSubmit={isSignUp ? onSignUpSubmit : onSignInSubmit}
-          fields={formFields}
-        />
+        <Form
+          form={form}
+          layout="horizontal"
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 18 }}
+        >
+          {isSignUp ? (
+            <Form.Item
+              label="Name"
+              name="name"
+              rules={[
+                {
+                  required: true,
+                  message: "Your name",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          ) : (
+            <></>
+          )}
+
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Your username (name you use to login)",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Password must consists of 5 or more characters",
+              },
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+
+          {isSignUp ? (
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Your email",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          ) : (
+            <></>
+          )}
+          <div style={messageStyle}>{message.text}</div>
+        </Form>
       </Modal.Body>
       <Modal.Footer style={{ justifyContent: "space-between" }}>
-        <div style={messageStyle}>{message.text}</div>
+        <Button onClick={isSignUp ? onSignUpSubmit : onSignInSubmit}>
+          Submit
+        </Button>
         {isSignUp ? (
           <Button
-            variant="primary"
+            variant="default"
             onClick={(e) => {
               handleSignIn();
             }}
@@ -180,7 +231,7 @@ const LoginModal = ({ signal, setSignal }) => {
           </Button>
         ) : (
           <Button
-            variant="primary"
+            variant="default"
             onClick={(e) => {
               handleSignUp();
             }}
@@ -188,15 +239,6 @@ const LoginModal = ({ signal, setSignal }) => {
             Sign Up
           </Button>
         )}
-
-        <Button
-          variant="secondary"
-          onClick={(e) => {
-            handleClose();
-          }}
-        >
-          Cancel
-        </Button>
       </Modal.Footer>
     </Modal>
   );
