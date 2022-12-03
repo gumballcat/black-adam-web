@@ -1,4 +1,5 @@
 const BASE_ENDPOINT = "http://localhost:8080/api/v1/";
+const BASE_IMAGE_ENDPOINT = "https://thumbsnap.com/api/upload";
 
 const ENDPOINTS = {
   SIGN_UP: `${BASE_ENDPOINT}users/sign-up`,
@@ -19,6 +20,7 @@ const ENDPOINTS = {
   ADD_CART_ITEM: `${BASE_ENDPOINT}cart`,
   REMOVE_CART_ITEM: `${BASE_ENDPOINT}cart`,
   GET_CART: (userID) => `${BASE_ENDPOINT}users/${userID}/get-cart`,
+  UPLOAD_IMAGE: BASE_IMAGE_ENDPOINT,
 };
 
 export default ENDPOINTS;

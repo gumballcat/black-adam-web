@@ -30,7 +30,7 @@ async function executeGet(url, reqMeta) {
 async function executePost(url, reqMeta) {
   let body = {};
   if (reqMeta && reqMeta.body) {
-    body = { ...reqMeta.body };
+    body = reqMeta.body;
   }
 
   let headers = {};
@@ -63,7 +63,7 @@ async function executePut(url, reqMeta) {
 
   return new Promise((fulfill, reject) => {
     axios
-      .put(url, body, { headers: headers, withCredentials: true })
+      .put(url, body, { headers: headers})
       .then((response) => {
         fulfill(response);
       })
@@ -86,10 +86,10 @@ async function executeDelete(url) {
   });
 }
 
-async function executePostForm(url, formData) {
+async function executePostForm(url, formData, config) {
   return new Promise((fulfill, reject) => {
     axios
-      .post(url, formData, { withCredentials: true })
+      .post(url, formData, config)
       .then((response) => {
         if (!response.data.error || !response.data.error.errorCode) {
           fulfill(response.data);

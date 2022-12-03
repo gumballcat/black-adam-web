@@ -33,7 +33,13 @@ const Admin = ({ isAdmin }) => {
   const onSaveEdit = (record) => {
     HELPER.HTTP.executePut(ENDPOINTS.UPDATE_PRODUCT(record.id), {
       body: record,
-    });
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const onAdd = (record) => {
@@ -112,6 +118,13 @@ const Admin = ({ isAdmin }) => {
         return currentOption;
       },
     },
+    {
+      title: "Thumbnail",
+      dataIndex: "thumbnailUrl",
+      key: "thumbnail",
+      editable: true,
+      dataType: "image",
+    },
   ];
   const productListingActions = ["add", "edit", "delete"];
 
@@ -183,6 +196,7 @@ const Admin = ({ isAdmin }) => {
               price: item.price,
               stock: item.stock,
               categoryIds: item.categoryIds,
+              thumbnailUrl: item.thumbnailUrl,
               description: item.description,
             };
           },
@@ -259,8 +273,8 @@ const Admin = ({ isAdmin }) => {
               title: "Total",
               dataIndex: "totalCost",
               key: "total",
-              render: (value) => `$${value}`
-            }
+              render: (value) => `$${value}`,
+            },
           ]}
           dataSource={orders}
           bordered

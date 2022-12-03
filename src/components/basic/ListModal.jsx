@@ -2,6 +2,7 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import {
   Button,
   Form,
+  Image,
   Input,
   InputNumber,
   Modal,
@@ -10,9 +11,11 @@ import {
   Table,
   Typography,
 } from "antd";
+import { Link } from "react-router-dom";
 import HELPER from "common/HELPER";
 import React, { useEffect, useState } from "react";
 import "styles/css/ListModal.css";
+import ImageUpload from "./ImageUpload";
 
 const EditableCell = ({
   editing,
@@ -37,6 +40,8 @@ const EditableCell = ({
         styles={{ ...column.styles }}
       />
     );
+  } else if (column.dataType === "image") {
+    inputNode = <ImageUpload />;
   } else {
     inputNode = <Input />;
   }
@@ -71,8 +76,10 @@ const ListModal = ({
 }) => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
+  const [imageURL, setImageURL] = useState("");
   const [editingKey, setEditingKey] = useState("");
   const [addingKey, setAddingKey] = useState("");
+  const [showImageModal, setShowImageModal] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -91,7 +98,8 @@ const ListModal = ({
     setEditingKey(record.key);
   };
   const saveEdit = async (key) => {
-    const row = await form.validateFields();
+    const row = form.getFieldsValue(true);
+    console.log(row);
     const newData = [...data];
 
     const index = newData.findIndex((item) => key === item.key);
@@ -141,6 +149,11 @@ const ListModal = ({
     onDelete(record);
   };
 
+  const handlePreview = (record) => {
+    setShowImageModal(true);
+    setImageURL(record.thumbnailUrl);
+  };
+
   const mergedColumns = columns.map((column) => {
     if (column.dataType === "select") {
       return column.editable
@@ -151,6 +164,23 @@ const ListModal = ({
                 {column.currentOption(record, column.options).toString()}
               </span>
             ),
+            onCell: (record) => ({
+              record,
+              editing: isEditing(record),
+              column: { ...column },
+            }),
+          }
+        : column;
+    }
+    if (column.dataType === "image") {
+      return column.editable
+        ? {
+            ...column,
+            render: (_, record) => {
+              return record.thumbnailUrl ? (
+                <Link onClick={() => handlePreview(record)}>Preview</Link>
+              ) : null;
+            },
             onCell: (record) => ({
               record,
               editing: isEditing(record),
@@ -187,7 +217,14 @@ const ListModal = ({
               Save
             </Typography.Link>
             <Popconfirm title="Sure to cancel?" onConfirm={cancelEdit}>
-              <a>Cancel</a>
+              <Typography.Link
+                style={{
+                  color: "red",
+                  marginRight: 8,
+                }}
+              >
+                Cancel
+              </Typography.Link>
             </Popconfirm>
           </span>
         ) : (
@@ -218,38 +255,54 @@ const ListModal = ({
   }
 
   return (
-    <Modal
-      open={open}
-      title={title}
-      onOk={() => setOpen(false)}
-      onCancel={() => setOpen(false)}
-      width={1000}
-      mask={false}
-      centered
-    >
-      <Form form={form} component={false}>
-        {actions.includes("add") ? (
-          <Button
-            onClick={add}
-            disabled={editingKey !== ""}
-            type="primary"
-            style={{ marginBotton: 16 }}
-          >
-            Add
-          </Button>
-        ) : null}
-        <Table
-          columns={mergedColumns}
-          dataSource={data}
-          components={{ body: { cell: EditableCell } }}
-          bordered
-          rowClassName={"editable-row"}
-          pagination={{
-            onChange: cancelEdit,
-          }}
-        />
-      </Form>
-    </Modal>
+    <>
+      <Modal
+        open={open}
+        title={title}
+        onOk={() => setOpen(false)}
+        onCancel={() => setOpen(false)}
+        width={1000}
+        mask={false}
+        centered
+      >
+        <Form form={form} component={false}>
+          {actions.includes("add") ? (
+            <Button
+              onClick={add}
+              disabled={editingKey !== ""}
+              type="primary"
+              style={{ marginBotton: 16 }}
+            >
+              Add
+            </Button>
+          ) : null}
+          <Table
+            columns={mergedColumns}
+            dataSource={data}
+            components={{ body: { cell: EditableCell } }}
+            bordered
+            rowClassName={"editable-row"}
+            pagination={{
+              onChange: cancelEdit,
+            }}
+          />
+        </Form>
+      </Modal>
+
+      <Modal
+        open={showImageModal}
+        onOk={() => {
+          setShowImageModal(false);
+          setImageURL("");
+        }}
+        onCancel={() => {
+          setShowImageModal(false);
+          setImageURL("");
+        }}
+      >
+        <Image src={imageURL} />
+      </Modal>
+    </>
   );
 };
 
