@@ -1,5 +1,7 @@
-const BASE_ENDPOINT = "http://localhost:8080/api/v1/";
-const BASE_IMAGE_ENDPOINT = "https://thumbsnap.com/api/upload";
+import ENVS from "./ENVS";
+
+const BASE_ENDPOINT = ENVS.BASE_ENDPOINT;
+const BASE_IMAGE_ENDPOINT = ENVS.BASE_IMAGE_ENDPOINT;
 
 const ENDPOINTS = {
   SIGN_UP: `${BASE_ENDPOINT}users/sign-up`,
@@ -21,6 +23,7 @@ const ENDPOINTS = {
   REMOVE_CART_ITEM: `${BASE_ENDPOINT}cart`,
   GET_CART: (userID) => `${BASE_ENDPOINT}users/${userID}/get-cart`,
   UPLOAD_IMAGE: BASE_IMAGE_ENDPOINT,
+  CHANGE_PASSWORD: `${BASE_ENDPOINT}users/change-password`,
 };
 
 export default ENDPOINTS;

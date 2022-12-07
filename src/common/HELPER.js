@@ -68,7 +68,7 @@ async function executePut(url, reqMeta) {
         fulfill(response);
       })
       .catch((exception) => {
-        reject(exception.response.data.errors[0]);
+        reject(exception.response.data);
       });
   });
 }

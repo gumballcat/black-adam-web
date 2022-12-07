@@ -18,9 +18,14 @@ async function signUp(name, username, password, email) {
       username,
       password,
       email,
-      // name: "string",
-      // address: { city: "string" },
     },
+  });
+}
+
+async function changePassword(id, token, oldPassword, newPassword) {
+  return HELPER.HTTP.executePut(ENDPOINTS.CHANGE_PASSWORD, {
+    headers: { Authorization: "Bearer " + token },
+    body: { id, oldPassword, password: newPassword },
   });
 }
 
@@ -34,6 +39,7 @@ const AuthenticationService = {
   login,
   logout,
   signUp,
+  changePassword,
   getProfile,
 };
 

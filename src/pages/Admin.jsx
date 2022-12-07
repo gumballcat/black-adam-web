@@ -33,13 +33,7 @@ const Admin = ({ isAdmin }) => {
   const onSaveEdit = (record) => {
     HELPER.HTTP.executePut(ENDPOINTS.UPDATE_PRODUCT(record.id), {
       body: record,
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    });
   };
 
   const onAdd = (record) => {

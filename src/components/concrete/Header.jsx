@@ -9,15 +9,19 @@ import CartAction from "redux/actions/CartAction";
 import "styles/css/Header.css";
 import HELPER from "common/HELPER";
 import ENDPOINTS from "common/ENDPOINTS";
+import ChangePasswordModal from "components/basic/ChangePasswordModal";
 
 function Header({ isLoggedIn, isAdmin, totalItems = 0 }) {
   const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [showOrderModal, setShowOrderModal] = useState(false);
   const [orders, setOrders] = useState(false);
 
   const handleShowLoginModal = () => setShowLoginModal(true);
+
+  const handleShowChangePasswordModal = () => setShowChangePasswordModal(true);
 
   const handleShowOrderModal = () => {
     HELPER.HTTP.executeGet(ENDPOINTS.GET_USER_ORDERS(account.profile.id), {
@@ -54,6 +58,9 @@ function Header({ isLoggedIn, isAdmin, totalItems = 0 }) {
       key: "myOrders",
     });
   }
+  accountSubmenu.splice(1, 0, {
+    label: <Link onClick={handleShowChangePasswordModal}>Change password</Link>,
+  });
 
   const menuItems = [
     { label: <Link to={ROUTES.HOME}>Home</Link>, key: "home" },
@@ -125,6 +132,10 @@ function Header({ isLoggedIn, isAdmin, totalItems = 0 }) {
       </header>
 
       <LoginModal signal={showLoginModal} setSignal={setShowLoginModal} />
+      <ChangePasswordModal
+        signal={showChangePasswordModal}
+        setSignal={setShowChangePasswordModal}
+      />
       <Modal
         open={showOrderModal}
         title="Your Orders"
