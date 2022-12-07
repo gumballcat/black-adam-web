@@ -1,4 +1,3 @@
-import { Modal, Table } from "antd";
 import ENDPOINTS from "common/ENDPOINTS";
 import ENUMS from "common/ENUMS";
 import HELPER from "common/HELPER";
@@ -13,7 +12,6 @@ import { connect } from "react-redux";
 const Admin = ({ isAdmin }) => {
   const [showProductListingModal, setShowProductListingModal] = useState(false);
   const [showOrderListingModal, setShowOrderListingModal] = useState(false);
-  const [orders, setOrders] = useState(false);
 
   if (!isAdmin) {
     return <FourOhFour />;
@@ -25,7 +23,6 @@ const Admin = ({ isAdmin }) => {
 
   const handleOrders = () => {
     HELPER.HTTP.executeGet(ENDPOINTS.GET_ORDERS).then((response) => {
-      setOrders(response.content);
       setShowOrderListingModal(true);
     });
   };
@@ -51,15 +48,6 @@ const Admin = ({ isAdmin }) => {
   const onDelete = (record) => {
     HELPER.HTTP.executeDelete(ENDPOINTS.DELETE_PRODUCT(record.id));
   };
-
-  const sections = [
-    {
-      imageURL: "assets/images/baner-right-image-01.jpg",
-      text: "Orders",
-      buttonText: "See Order Listing",
-      cta: handleOrders,
-    },
-  ];
 
   const categorySelectOptions = [];
   for (const key in ENUMS.CATEGORY) {
@@ -222,12 +210,12 @@ const Admin = ({ isAdmin }) => {
               <div className="col-lg-6">
                 <div className="left-content">
                   <Thumb
-                    imageURL="assets/images/left-banner-image.jpg"
+                    imageURL="assets/images/baner-right-image-04.jpg"
                     innerContent={
                       <>
-                        <TextWithSubtitle text="Inventory Management" />
+                        <TextWithSubtitle text="Inventory" />
                         <MakeshiftButton
-                          buttonText="See Product Listing"
+                          buttonText="Manage Products"
                           onClick={handleProducts}
                         />
                       </>
@@ -236,29 +224,19 @@ const Admin = ({ isAdmin }) => {
                 </div>
               </div>
               <div className="col-lg-6">
-                <div className="right-content">
-                  <div className="row">
-                    {sections.map((section) => {
-                      return (
-                        <div className="col-lg-6" key={section.text}>
-                          <div className="right-first-image">
-                            <Thumb
-                              imageURL={section.imageURL}
-                              innerContent={
-                                <>
-                                  <TextWithSubtitle text={section.text} />
-                                  <MakeshiftButton
-                                    buttonText={section.buttonText}
-                                    onClick={section.cta}
-                                  />
-                                </>
-                              }
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                <div className="right-half-content">
+                  <Thumb
+                    imageURL="assets/images/left-banner-image.jpg"
+                    innerContent={
+                      <>
+                        <TextWithSubtitle text="Orders" />
+                        <MakeshiftButton
+                          buttonText="See Order Listing"
+                          onClick={handleOrders}
+                        />
+                      </>
+                    }
+                  />
                 </div>
               </div>
             </div>
@@ -297,6 +275,7 @@ const Admin = ({ isAdmin }) => {
         setOpen={setShowOrderListingModal}
         title="Order Listing"
         columns={orderListingColumns}
+        pageSize={4}
         source={{
           endpoint: ENDPOINTS.GET_ORDERS,
           dataTransform: (item) => {

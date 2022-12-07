@@ -3,7 +3,7 @@ import ROUTES from "common/ROUTES";
 import LoginModal from "components/basic/LoginModal";
 import React, { useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AccountAction from "redux/actions/AccountAction";
 import CartAction from "redux/actions/CartAction";
 import "styles/css/Header.css";
@@ -14,6 +14,7 @@ import ChangePasswordModal from "components/basic/ChangePasswordModal";
 function Header({ isLoggedIn, isAdmin, totalItems = 0 }) {
   const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [showOrderModal, setShowOrderModal] = useState(false);
@@ -32,9 +33,10 @@ function Header({ isLoggedIn, isAdmin, totalItems = 0 }) {
     });
   };
 
-  const handleLogout = () => {
-    dispatch(AccountAction.logout());
-    dispatch(CartAction.set({ items: [], totalPrice: 0, totalItems: 0 }));
+  const handleLogout = async () => {
+    await dispatch(AccountAction.logout());
+    await dispatch(CartAction.set({ items: [], totalPrice: 0, totalItems: 0 }));
+    navigate("/");
   };
 
   const accountSubmenu = [
@@ -43,7 +45,13 @@ function Header({ isLoggedIn, isAdmin, totalItems = 0 }) {
       key: "greetings",
     },
     {
-      label: <Link onClick={handleLogout}>Logout</Link>,
+      label: (
+        <Link
+          onClick={handleLogout}
+        >
+          Logout
+        </Link>
+      ),
       key: "logout",
     },
   ];
@@ -190,6 +198,12 @@ function Header({ isLoggedIn, isAdmin, totalItems = 0 }) {
               dataIndex: "totalCost",
               key: "total",
               render: (value) => `$${value}`,
+            },
+            {
+              title: "Status",
+              dataIndex: "status",
+              key: "status",
+              render: (value) => value
             },
           ]}
           dataSource={orders}

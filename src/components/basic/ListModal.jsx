@@ -65,6 +65,7 @@ const EditableCell = ({
 
 const ListModal = ({
   title,
+  pageSize,
   columns,
   source,
   open,
@@ -277,6 +278,7 @@ const ListModal = ({
             </Button>
           ) : null}
           <Table
+            rowKey="id"
             columns={mergedColumns}
             dataSource={data}
             components={{ body: { cell: EditableCell } }}
@@ -284,6 +286,7 @@ const ListModal = ({
             rowClassName={"editable-row"}
             pagination={{
               onChange: cancelEdit,
+              defaultPageSize: pageSize ? pageSize : 10,
             }}
           />
         </Form>

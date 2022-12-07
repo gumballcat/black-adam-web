@@ -2,6 +2,7 @@ import { Form, Input } from "antd";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import AccountAction from "redux/actions/AccountAction";
 import CartAction from "redux/actions/CartAction";
 import AuthenticationService from "services/AuthenticationService";
@@ -13,6 +14,7 @@ const LoginModal = ({ signal, setSignal }) => {
   const [isShown, setIsShown] = useState(signal);
   const [message, setMessage] = useState({});
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
 
   let messageStyle;
@@ -88,6 +90,8 @@ const LoginModal = ({ signal, setSignal }) => {
         console.log(error);
         setMessage({ type: "error", text: error.errorMessage });
       });
+
+      navigate("/");
   };
 
   const onSignUpSubmit = (e) => {

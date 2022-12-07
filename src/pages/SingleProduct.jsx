@@ -73,7 +73,7 @@ function SingleProduct({ isAdmin, token, cartItems, totalPrice, totalItems }) {
     }
 
     iTotalItems += stateQuantity;
-    iTotalPrice += newItem.price;
+    iTotalPrice += quantity * newItem.price;
 
     dispatch(
       CartAction.set({

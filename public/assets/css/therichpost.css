@@ -621,19 +621,19 @@ banner
   padding-bottom: 30px;
 }
 
-.main-banner .left-content .thumb img {
+.main-banner .left-content .thumb img, .main-banner .right-half-content .thumb img {
   width: 100%;
   overflow: hidden;
 }
 
-.main-banner .left-content .inner-content {
+.main-banner .left-content .inner-content, .main-banner .right-half-content .inner-content {
   position: absolute;
   left: 100px;
   top: 50%;
   transform: translateY(-50%);
 }
 
-.main-banner .left-content .inner-content h2 {
+.main-banner .left-content .inner-content h2, .main-banner .right-half-content .inner-content h2 {
   color: #fff;
   margin-top: -10px;
   font-size: 52px;
@@ -641,7 +641,7 @@ banner
   margin-bottom: 20px;
 }
 
-.main-banner .left-content .inner-content span {
+.main-banner .left-content .inner-content span, .main-banner .right-half-content .inner-content span {
   font-size: 16px;
   color: #fff;
   font-weight: 400;
@@ -1741,10 +1741,6 @@ Single Product Page
 .quantity-content .left-content {
   float: left;
   margin-right: 30px;
-}
-
-.quantity-content .right-content {
-  text-align: right;
 }
 
 .quantity-content .left-content h6 {

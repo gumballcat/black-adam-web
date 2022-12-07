@@ -11,7 +11,7 @@ import {
   Input,
   Button,
 } from "antd";
-import {  Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import CartAction from "redux/actions/CartAction";
@@ -27,7 +27,10 @@ const Checkout = ({ isLoggedIn, token, cartItems, totalItems, totalPrice }) => {
   const account = useSelector((state) => state.account);
   const [form] = Form.useForm();
   const [data, setData] = useState(cartItems);
-  const [isModalShow, setIsModalShow] = useState(false);
+  const [showShippingDetailsModal, setShowShippingDetailsModal] =
+    useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onSubmit = () => {
     const phone = form.getFieldValue("phone");
@@ -46,14 +49,19 @@ const Checkout = ({ isLoggedIn, token, cartItems, totalItems, totalPrice }) => {
           }),
           address: { city, district, province, street, zipCode },
           phone,
-          status: "PENDING"
+          status: "PENDING",
         },
+      }).then((response) => {
+        dispatch(CartAction.set({ items: [], totalPrice: 0, totalItems: 0 }));
+        form.resetFields();
+        setShowShippingDetailsModal(false);
+      })
+      .catch((error) => {
+        setShowErrorModal(true);
+        setShowShippingDetailsModal(false);
+        setErrorMessage(error.errorMessage);
       });
     }
-
-    dispatch(CartAction.set({items: [], totalPrice: 0, totalItems: 0}))
-    form.resetFields();
-    setIsModalShow(false);
   };
 
   const handleDelete = (removedItem) => {
@@ -180,7 +188,7 @@ const Checkout = ({ isLoggedIn, token, cartItems, totalItems, totalPrice }) => {
                   precision={2}
                 />
                 <Button
-                  onClick={() => setIsModalShow(true)}
+                  onClick={() => setShowShippingDetailsModal(true)}
                   style={{ marginTop: 16 }}
                   type="primary"
                 >
@@ -194,9 +202,21 @@ const Checkout = ({ isLoggedIn, token, cartItems, totalItems, totalPrice }) => {
 
       <Modal
         centered
-        show={isModalShow}
-        onHide={() => setIsModalShow(false)}
-        onCancel={() => setIsModalShow(false)}
+        show={showErrorModal}
+        onHide={() => setShowErrorModal(false)}
+        onCancel={() => setShowErrorModal(false)}
+      >
+        <Modal.Header>
+          <Modal.Title>Failed to submit order</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{errorMessage}</Modal.Body>
+      </Modal>
+
+      <Modal
+        centered
+        show={showShippingDetailsModal}
+        onHide={() => setShowShippingDetailsModal(false)}
+        onCancel={() => setShowShippingDetailsModal(false)}
       >
         <Modal.Header>
           <Modal.Title>Shipping Details</Modal.Title>
@@ -237,7 +257,9 @@ const Checkout = ({ isLoggedIn, token, cartItems, totalItems, totalPrice }) => {
           </Form>
         </Modal.Body>
         <Modal.Footer style={{ justifyContent: "space-between" }}>
-          <Button onClick={onSubmit} type="primary">Submit</Button>
+          <Button onClick={onSubmit} type="primary">
+            Submit
+          </Button>
         </Modal.Footer>
       </Modal>
     </>
