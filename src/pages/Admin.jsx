@@ -30,10 +30,14 @@ const Admin = ({ isAdmin }) => {
     });
   };
 
-  const onSaveEdit = (record) => {
+  const onSaveEditProduct = (record) => {
     HELPER.HTTP.executePut(ENDPOINTS.UPDATE_PRODUCT(record.id), {
       body: record,
     });
+  };
+
+  const onSaveEditOrder = (record) => {
+    HELPER.HTTP.executePut(ENDPOINTS.UPDATE_ORDER(record.id, record.status));
   };
 
   const onAdd = (record) => {
@@ -63,6 +67,14 @@ const Admin = ({ isAdmin }) => {
       value: ENUMS.CATEGORY[key].id,
       label: ENUMS.CATEGORY[key].title,
     });
+  }
+
+  const orderStatusSelectOptions = [];
+  for(const key in ENUMS.ORDER_STATUS){
+    orderStatusSelectOptions.push({
+      value: ENUMS.ORDER_STATUS[key].id,
+      label: ENUMS.ORDER_STATUS[key].title
+    })
   }
 
   const productListingColumns = [
@@ -100,6 +112,7 @@ const Admin = ({ isAdmin }) => {
       key: "categoryIDs",
       editable: true,
       dataType: "select",
+      selectMode: "multiple",
       options: categorySelectOptions,
       styles: { width: 240 },
       currentOption: (record, options) => {
@@ -121,6 +134,84 @@ const Admin = ({ isAdmin }) => {
     },
   ];
   const productListingActions = ["add", "edit", "delete"];
+
+  const orderListingColumns = [
+    {
+      title: "User",
+      dataIndex: "user",
+      key: "user",
+      render: (value) => {
+        return (
+          <>
+            {value.id}
+            <br />
+            {value.name}
+          </>
+        );
+      },
+    },
+    {
+      title: "Products",
+      dataIndex: "orderItems",
+      key: "products",
+      render: (value) => {
+        return value.map((item) => (
+          <>
+            {`${item.product.title}: ${item.quantity} ($${
+              item.quantity * item.product.price
+            })`}
+            <br />
+          </>
+        ));
+      },
+    },
+    {
+      title: "Shipping Details",
+      dataIndex: "address",
+      key: "shippingDetails",
+      render: (value, record) => {
+        return (
+          <>
+            {record.phone}
+            <br />
+            {value.street}
+            <br />
+            {value.district}
+            <br />
+            {value.province}
+            <br />
+            {value.city}
+            <br />
+            {value.zipCode}
+            <br />
+          </>
+        );
+      },
+    },
+    {
+      title: "Total",
+      dataIndex: "totalCost",
+      key: "total",
+      render: (value) => `$${value}`,
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      editable: true,
+      dataType: "select",
+      selectMode: "single",
+      options: orderStatusSelectOptions,
+      styles: { width: 240 },
+      currentOption: (record, options) => {
+        const currentOption = options
+          .filter((option) => record.status === option.value)
+          .map((option) => option.label);
+        return currentOption;
+      },
+    },
+  ];
+  const orderListingActions = ["edit"];
 
   return (
     <>
@@ -196,84 +287,34 @@ const Admin = ({ isAdmin }) => {
           },
         }}
         actions={productListingActions}
-        onSaveEdit={onSaveEdit}
+        onSaveEdit={onSaveEditProduct}
         onAdd={onAdd}
         onDelete={onDelete}
       />
-      <Modal
+
+      <ListModal
         open={showOrderListingModal}
-        title="Your Orders"
-        onOk={() => setShowOrderListingModal(false)}
-        onCancel={() => setShowOrderListingModal(false)}
-        width={1500}
-        mask={false}
-        centered
-      >
-        <Table
-          columns={[
-            {
-              title: "User",
-              dataIndex: "user",
-              key: "user",
-              render: (value) => {
-                return (
-                  <>
-                    {value.id}
-                    <br />
-                    {value.name}
-                  </>
-                );
-              },
-            },
-            {
-              title: "Products",
-              dataIndex: "orderItems",
-              key: "products",
-              render: (value) => {
-                return value.map((item) => (
-                  <>
-                    {`${item.product.title}: ${item.quantity} ($${
-                      item.quantity * item.product.price
-                    })`}
-                    <br />
-                  </>
-                ));
-              },
-            },
-            {
-              title: "Shipping Details",
-              dataIndex: "address",
-              key: "shippingDetails",
-              render: (value, record) => {
-                return (
-                  <>
-                    {record.phone}
-                    <br />
-                    {value.street}
-                    <br />
-                    {value.district}
-                    <br />
-                    {value.province}
-                    <br />
-                    {value.city}
-                    <br />
-                    {value.zipCode}
-                    <br />
-                  </>
-                );
-              },
-            },
-            {
-              title: "Total",
-              dataIndex: "totalCost",
-              key: "total",
-              render: (value) => `$${value}`,
-            },
-          ]}
-          dataSource={orders}
-          bordered
-        />
-      </Modal>
+        setOpen={setShowOrderListingModal}
+        title="Order Listing"
+        columns={orderListingColumns}
+        source={{
+          endpoint: ENDPOINTS.GET_ORDERS,
+          dataTransform: (item) => {
+            return {
+              key: item.id,
+              id: item.id,
+              address: item.address,
+              orderItems: item.orderItems,
+              phone: item.phone,
+              status: item.status,
+              totalCost: item.totalCost,
+              user: item.user,
+            };
+          },
+        }}
+        actions={orderListingActions}
+        onSaveEdit={onSaveEditOrder}
+      />
     </>
   );
 };

@@ -12,6 +12,13 @@ const CATEGORY = {
   KIDS: { id: "636d6dc6-2798-4a3f-a593-04e792296ffc", title: "Kids" },
 };
 
-const ENUMS = { HOME_SECTION_TYPE, CATEGORY };
+const ORDER_STATUS = {
+  PENDING: { id: "PENDING", title: "Pending" },
+  DELIVERING: { id: "DELIVERING", title: "Delivering" },
+  SUCCESS: { id: "SUCCESS", title: "Success" },
+  FAILED: { id: "FAILED", title: "Failed" },
+};
+
+const ENUMS = { HOME_SECTION_TYPE, CATEGORY, ORDER_STATUS };
 
 export default ENUMS;

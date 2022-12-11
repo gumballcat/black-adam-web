@@ -18,6 +18,7 @@ const ENDPOINTS = {
   GET_ORDERS: `${BASE_ENDPOINT}order`,
   GET_USER_ORDERS: (userID) => `${BASE_ENDPOINT}users/${userID}/get-orders`,
   ADD_ORDER: `${BASE_ENDPOINT}order`,
+  UPDATE_ORDER: (orderID, orderStatus) => `${BASE_ENDPOINT}order/${orderID}/${orderStatus}`,
   GET_PROFILE: `${BASE_ENDPOINT}users/current-login-user`,
   ADD_CART_ITEM: `${BASE_ENDPOINT}cart`,
   REMOVE_CART_ITEM: `${BASE_ENDPOINT}cart`,

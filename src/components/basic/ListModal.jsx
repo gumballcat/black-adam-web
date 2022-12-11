@@ -36,7 +36,7 @@ const EditableCell = ({
     inputNode = (
       <Select
         options={column.options}
-        mode={"multiple"}
+        mode={column.selectMode}
         styles={{ ...column.styles }}
       />
     );
@@ -261,7 +261,7 @@ const ListModal = ({
         title={title}
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
-        width={1000}
+        width={1500}
         mask={false}
         centered
       >

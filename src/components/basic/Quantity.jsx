@@ -30,7 +30,7 @@ const Quantity = ({ callbackWithValue }) => {
           value={value}
           readOnly
         />
-        <input type="button" value="+" class="plus" onClick={increment} />
+        <input type="button" value="+" className="plus" onClick={increment} />
       </div>
     </div>
   );

@@ -1,10 +1,24 @@
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, connect } from "react-redux";
 import { Link } from "react-router-dom";
 import CartService from "services/CartService";
 import CartAction from "../../redux/actions/CartAction";
 
 const ProductButtonRow = ({ data, token, isAdmin, cartItems, totalPrice, totalItems }) => {
   const dispatch = useDispatch();
+  const [allowsAddToCart, setAllowsAddToCart] = useState(true);
+
+  useEffect(() => {
+    for(const cartItem of cartItems){
+      if(cartItem.id === data.id){
+        if(cartItem.quantity >= data.stock){
+          setAllowsAddToCart(false);
+          break;
+        }
+      }
+    }
+  }, [cartItems, data])
 
   const handleAddItem = () => {
     const itemsInCart = [...cartItems];
@@ -44,6 +58,7 @@ const ProductButtonRow = ({ data, token, isAdmin, cartItems, totalPrice, totalIt
     );
 
     CartService.setItem(token, newItem.id, quantity);
+    console.log(allowsAddToCart);
   };
 
   return (
@@ -53,7 +68,7 @@ const ProductButtonRow = ({ data, token, isAdmin, cartItems, totalPrice, totalIt
           <i className="fa fa-eye"></i>
         </Link>
       </li>
-      {!isAdmin ? (
+      {!isAdmin && allowsAddToCart ? (
         <li>
           <Link
             onClick={(e) => {

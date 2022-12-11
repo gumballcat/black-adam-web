@@ -2,16 +2,19 @@ import ENDPOINTS from "common/ENDPOINTS";
 import HELPER from "common/HELPER";
 import Preloader from "components/basic/Preloader";
 import { useEffect, useRef, useState } from "react";
-import { connect } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { connect, useDispatch } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import CartAction from "redux/actions/CartAction";
+import CartService from "services/CartService";
 import Quantity from "../components/basic/Quantity";
-import RatingStars from "../components/basic/RatingStars";
 import PageHeading from "../components/composite/PageHeading";
 
-function SingleProduct({ isAdmin }) {
+function SingleProduct({ isAdmin, token, cartItems, totalPrice, totalItems }) {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
-  const [quantity, setQuantity] = useState(1);
+  const [stateQuantity, setStateQuantity] = useState(1);
+  const [allowsAddToCart, setAllowsAddToCart] = useState(true);
+  const dispatch = useDispatch();
   const location = useLocation();
   const ref = useRef(null);
 
@@ -19,7 +22,6 @@ function SingleProduct({ isAdmin }) {
     let id = location.state.id;
     if (id) {
       HELPER.HTTP.executeGet(ENDPOINTS.GET_PRODUCT(id)).then((response) => {
-        console.log(response.content);
         setData(response.content);
         setIsLoading(false);
       });
@@ -27,6 +29,62 @@ function SingleProduct({ isAdmin }) {
 
     ref.current?.scrollIntoView({ behavior: "smooth" });
   }, [location]);
+
+  useEffect(() => {
+    let thisItemInCart = null;
+    for(const cartItem of cartItems){
+      if(cartItem.id === data.id){
+        thisItemInCart = cartItem;
+        break;
+      }
+    }
+
+    if(thisItemInCart){
+      setAllowsAddToCart(thisItemInCart.quantity + stateQuantity <= data.stock);
+    } else {
+      setAllowsAddToCart(stateQuantity <= data.stock);
+    }
+  }, [stateQuantity, data, cartItems])
+
+  const handleAddItem = () => {
+    const itemsInCart = [...cartItems];
+    let iTotalPrice = totalPrice;
+    let iTotalItems = totalItems;
+    const newItem = { id: data.id, title: data.title, price: data.price };
+
+    let quantity = stateQuantity;
+    let newItemIsInCart = false;
+    let itemInCart;
+
+    for (const item of itemsInCart) {
+      if (item.id === newItem.id) {
+        quantity += item.quantity;
+        newItemIsInCart = true;
+        itemInCart = item;
+
+        break;
+      }
+    }
+
+    if (newItemIsInCart) {
+      itemInCart.quantity = quantity;
+    } else {
+      itemsInCart.push({ ...newItem, quantity: quantity });
+    }
+
+    iTotalItems += stateQuantity;
+    iTotalPrice += newItem.price;
+
+    dispatch(
+      CartAction.set({
+        items: itemsInCart,
+        totalPrice: iTotalPrice,
+        totalItems: iTotalItems,
+      })
+    );
+
+    CartService.setItem(token, newItem.id, quantity);
+  };
 
   return (
     <div className="single-product-main" ref={ref}>
@@ -51,17 +109,20 @@ function SingleProduct({ isAdmin }) {
                     <span>{data.description}</span>
                     <div className="quantity-content">
                       <div className="left-content">
-                        <h6>No. of Orders</h6>
+                        <h6>{`Quantity (${data.stock} in stock)`}</h6>
                       </div>
                       <div className="right-content">
-                        <Quantity callbackWithValue={setQuantity} />
+                        <Quantity callbackWithValue={setStateQuantity} />
                       </div>
                     </div>
                     <div className="total">
-                      <h4>{`Total: $ ${quantity * data.price}`}</h4>
+                      <h4>{`Total: $ ${stateQuantity * data.price}`}</h4>
                       {!isAdmin ? (
-                        <div className="main-border-button">
-                          <button>Add To Cart</button>
+                        <div className={`main-border-button ${allowsAddToCart ? "" : "disabled-button"}`}>
+                          <Link onClick={(e) => {
+                            e.preventDefault();
+                            handleAddItem();
+                          }}>{allowsAddToCart ? "Add To Cart" : "Out of Stock"}</Link>
                         </div>
                       ) : (
                         <></>
@@ -80,7 +141,11 @@ function SingleProduct({ isAdmin }) {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    token: state.account.token,
     isAdmin: state.account.profile && state.account.profile.name === "Admin",
+    cartItems: state.cart.items,
+    totalPrice: state.cart.totalPrice,
+    totalItems: state.cart.totalItems,
   };
 };
 

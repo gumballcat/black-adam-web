@@ -1763,8 +1763,18 @@ Single Product Page
   color: #aaa !important;
 }
 
-.total .main-border-button {
+.total .main-border-button, .total .main-border-button .disabled-button {
   text-align: right;
+}
+
+.total .main-border-button.disabled-button a {
+  background-color: grey;
+  pointer-events: none;
+}
+
+.total .main-border-button button, .total .main-border-button a {
+  border-color: #2a2a2a;
+  color: #2a2a2a;
 }
 
 .total .main-border-button button, .total .main-border-button a {

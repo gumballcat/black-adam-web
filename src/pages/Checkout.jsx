@@ -46,6 +46,7 @@ const Checkout = ({ isLoggedIn, token, cartItems, totalItems, totalPrice }) => {
           }),
           address: { city, district, province, street, zipCode },
           phone,
+          status: "PENDING"
         },
       });
     }
