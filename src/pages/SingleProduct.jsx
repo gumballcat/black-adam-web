@@ -19,6 +19,7 @@ function SingleProduct({ isAdmin }) {
     let id = location.state.id;
     if (id) {
       HELPER.HTTP.executeGet(ENDPOINTS.GET_PRODUCT(id)).then((response) => {
+        console.log(response.content);
         setData(response.content);
         setIsLoading(false);
       });
@@ -40,7 +41,7 @@ function SingleProduct({ isAdmin }) {
               <div className="row">
                 <div className="col-lg-8">
                   <div className="left-images">
-                    <img src={data.imageURL} alt="" />
+                    <img src={data.thumbnailUrl} alt="" />
                   </div>
                 </div>
                 <div className="col-lg-4">
