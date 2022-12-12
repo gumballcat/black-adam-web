@@ -1,3 +1,4 @@
+import { Modal } from "antd";
 import ENDPOINTS from "common/ENDPOINTS";
 import ENUMS from "common/ENUMS";
 import HELPER from "common/HELPER";
@@ -12,6 +13,7 @@ import { connect } from "react-redux";
 const Admin = ({ isAdmin }) => {
   const [showProductListingModal, setShowProductListingModal] = useState(false);
   const [showOrderListingModal, setShowOrderListingModal] = useState(false);
+  const [signal, setSignal] = useState({});
 
   if (!isAdmin) {
     return <FourOhFour />;
@@ -34,7 +36,14 @@ const Admin = ({ isAdmin }) => {
   };
 
   const onSaveEditOrder = (record) => {
-    HELPER.HTTP.executePut(ENDPOINTS.UPDATE_ORDER(record.id, record.status));
+    HELPER.HTTP.executePut(ENDPOINTS.UPDATE_ORDER(record.id, record.status))
+    .catch((error) => {
+      Modal.error({
+        title: "Failed to update order",
+        content: "Out of stock"
+      })
+      setSignal({});
+    });
   };
 
   const onAdd = (record) => {
@@ -273,6 +282,7 @@ const Admin = ({ isAdmin }) => {
       <ListModal
         open={showOrderListingModal}
         setOpen={setShowOrderListingModal}
+        signal={signal}
         title="Order Listing"
         columns={orderListingColumns}
         pageSize={4}
